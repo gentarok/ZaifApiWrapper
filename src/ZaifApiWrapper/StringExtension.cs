@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace ZaifApiWrapper
 {
@@ -24,5 +25,33 @@ namespace ZaifApiWrapper
         /// <returns>APIのメソッド名</returns>
         internal static string ToApiMethodName(this string value) =>
             value.Replace("Async", "").ToSnakeCase();
+
+        // 引数チェック用
+
+        /// <summary>
+        /// nullもしくは空文字の場合に<see cref="ArgumentException"/>を発生させます。
+        /// </summary>
+        /// <param name="value">文字列</param>
+        /// <param name="paramName"><see cref="ArgumentException"/>のパラメータ名</param>
+        /// <param name="messageParamName">例外メッセージのパラメータ名文字列</param>
+        /// <exception cref="ArgumentException"></exception>
+        internal static void ThrowArgumentExceptionIfNullOrWhiteSpace(this string value, string paramName, string messageParamName = null) {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException($"'{messageParamName ?? paramName}'を指定してください。", paramName);
+        }
+
+        /// <summary>
+        /// <paramref name="allowedValue"/>に含まれる文字列以外の場合に<see cref="ArgumentException"/>を発生させます。
+        /// </summary>
+        /// <param name="value">文字列</param>
+        /// <param name="allowedValue">allowedValue</param>
+        /// <param name="paramName"><see cref="ArgumentException"/>のパラメータ名</param>
+        /// <param name="messageParamName">例外メッセージのパラメータ名文字列</param>
+        /// <exception cref="ArgumentException"></exception>
+        internal static void ThrowArgumentExcepitonIfNotContains(this string value, string[] allowedValue, string paramName, string messageParamName = null)
+        {
+            if (!allowedValue.Contains(value))
+                throw new ArgumentException($"'{messageParamName ?? paramName}'は$'{string.Join(", ", allowedValue)}'のいずれかを指定してください。", paramName);
+        }
     }
 }

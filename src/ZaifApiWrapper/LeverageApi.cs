@@ -50,36 +50,14 @@ namespace ZaifApiWrapper
         /// <param name="since">since</param>
         /// <param name="end">end</param>
         /// <param name="currencyPair">currency_pair</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, GetPositionsResponse>> GetPositionsAsync(
+        public Task<IDictionary<int, GetPositionsResponse>> GetPositionsAsync(
             string type, int? groupId = null, int? from = null, int? count = null, int? fromId = null, int? endId = null,
-            string order = null, long? since = null, long? end = null, string currencyPair = null) =>
-            GetPositionsAsync(type, groupId, from, count, fromId, endId, order, since, end, currencyPair, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引のユーザー自身の取引履歴を取得します。
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="groupId">group_id</param>
-        /// <param name="from">from</param>
-        /// <param name="count">count</param>
-        /// <param name="fromId">from_id</param>
-        /// <param name="endId">endId</param>
-        /// <param name="order">order</param>
-        /// <param name="since">since</param>
-        /// <param name="end">end</param>
-        /// <param name="currencyPair">currency_pair</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, GetPositionsResponse>> GetPositionsAsync(
-            string type, int? groupId, int? from, int? count, int? fromId, int? endId,
-            string order, long? since, long? end, string currencyPair, CancellationToken token)
+            string order = null, long? since = null, long? end = null, string currencyPair = null, CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
@@ -106,39 +84,23 @@ namespace ZaifApiWrapper
         /// レバレッジ取引のユーザー自身の取引履歴を取得します。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, GetPositionsResponse>> GetPositionsAsync(IDictionary<string, string> parameters) =>
-            GetPositionsAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引のユーザー自身の取引履歴を取得します。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, GetPositionsResponse>> GetPositionsAsync(IDictionary<string, string> parameters, CancellationToken token)
+        public Task<IDictionary<int, GetPositionsResponse>> GetPositionsAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, GetPositionsResponse>>(
+            return _client.PostAsync<IDictionary<int, GetPositionsResponse>>(
                 nameof(GetPositionsAsync).ToApiMethodName(), parameters, token);
         }
 
@@ -148,25 +110,13 @@ namespace ZaifApiWrapper
         /// <param name="type">type</param>
         /// <param name="leverageId">leverage_id</param>
         /// <param name="groupId">group_id</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, PositionHistoryResponse>> PositionHistoryAsync(string type, int leverageId, int? groupId = null) =>
-            PositionHistoryAsync(type, leverageId, groupId, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引のユーザー自身の取引履歴の明細を取得します。
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="leverageId">leverage_id</param>
-        /// <param name="groupId">group_id</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, PositionHistoryResponse>> PositionHistoryAsync(string type, int leverageId, int? groupId, CancellationToken token)
+        public Task<IDictionary<int, PositionHistoryResponse>> PositionHistoryAsync(
+            string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
@@ -186,76 +136,43 @@ namespace ZaifApiWrapper
         /// レバレッジ取引のユーザー自身の取引履歴の明細を取得します。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'leverage_id'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, PositionHistoryResponse>> PositionHistoryAsync(IDictionary<string, string> parameters) =>
-            PositionHistoryAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引のユーザー自身の取引履歴の明細を取得します。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'leverage_id'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, PositionHistoryResponse>> PositionHistoryAsync(
-            IDictionary<string, string> parameters, CancellationToken token)
+        public Task<IDictionary<int, PositionHistoryResponse>> PositionHistoryAsync(
+            IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("leverage_id"))
-                throw new ArgumentException("パラメータ'leverage_id'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+
+            parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, PositionHistoryResponse>>(
+            return _client.PostAsync<IDictionary<int, PositionHistoryResponse>>(
                 nameof(PositionHistoryAsync).ToApiMethodName(), parameters, token);
         }
-
+        
         /// <summary>
         /// レバレッジ取引の現在有効な注文一覧を取得します（未約定注文一覧）。
         /// </summary>
         /// <param name="type">type</param>
         /// <param name="groupId">group_id</param>
         /// <param name="currencyPair">currency_pair</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, ActivePositionsResponse>> ActivePositionsAsync(
-            string type, int? groupId = null, string currencyPair = null) =>
-            ActivePositionsAsync(type, groupId, currencyPair, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の現在有効な注文一覧を取得します（未約定注文一覧）。
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="groupId">group_id</param>
-        /// <param name="currencyPair">currency_pair</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, ActivePositionsResponse>> ActivePositionsAsync(
-            string type, int? groupId, string currencyPair, CancellationToken token)
+        public Task<IDictionary<int, ActivePositionsResponse>> ActivePositionsAsync(
+            string type, int? groupId = null, string currencyPair = null, CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
 
@@ -274,39 +191,24 @@ namespace ZaifApiWrapper
         /// レバレッジ取引の現在有効な注文一覧を取得します（未約定注文一覧）。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, ActivePositionsResponse>> ActivePositionsAsync(IDictionary<string, string> parameters) =>
-            ActivePositionsAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の現在有効な注文一覧を取得します（未約定注文一覧）。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, ActivePositionsResponse>> ActivePositionsAsync(IDictionary<string, string> parameters, CancellationToken token)
+        public Task<IDictionary<int, ActivePositionsResponse>> ActivePositionsAsync(
+            IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
-
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, ActivePositionsResponse>>(
+            return _client.PostAsync<IDictionary<int, ActivePositionsResponse>>(
                 nameof(ActivePositionsAsync).ToApiMethodName(), parameters, token);
         }
 
@@ -322,35 +224,16 @@ namespace ZaifApiWrapper
         /// <param name="groupId">groupId</param>
         /// <param name="limit">limit</param>
         /// <param name="stop">stop</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, CreatePositionResponse>> CreatePositionAsync(
+        public Task<IDictionary<int, CreatePositionResponse>> CreatePositionAsync(
             string type, string currencyPair, string action, decimal amount, decimal price, decimal leverage,
-            int? groupId = null, decimal? limit = null, decimal? stop = null) =>
-            CreatePositionAsync(type, currencyPair, action, amount, price, leverage, groupId, limit, stop, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の注文を行います。
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="currencyPair">currency_pair</param>
-        /// <param name="action">action</param>
-        /// <param name="amount">amount</param>
-        /// <param name="price">price</param>
-        /// <param name="leverage">leverage</param>
-        /// <param name="groupId">groupId</param>
-        /// <param name="limit">limit</param>
-        /// <param name="stop">stop</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, CreatePositionResponse>> CreatePositionAsync(
-            string type, string currencyPair, string action, decimal amount, decimal price, decimal leverage,
-            int? groupId, decimal? limit, decimal? stop, CancellationToken token)
+            int? groupId = null, decimal? limit = null, decimal? stop = null, CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            action.ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(action));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
@@ -371,48 +254,42 @@ namespace ZaifApiWrapper
 
             return CreatePositionAsync(parameters, token);
         }
-
+        
         /// <summary>
         /// レバレッジ取引の注文を行います。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, CreatePositionResponse>> CreatePositionAsync(IDictionary<string, string> parameters) =>
-            CreatePositionAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の注文を行います。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, CreatePositionResponse>> CreatePositionAsync(IDictionary<string, string> parameters,
-            CancellationToken token)
+        public Task<IDictionary<int, CreatePositionResponse>> CreatePositionAsync(IDictionary<string, string> parameters,
+            CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+
+            parameters.ThrowIfNotContainsKey("currency_pair", nameof(parameters));
+            parameters["currencyPair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currencyPair");
+
+            parameters.ThrowIfNotContainsKey("action", nameof(parameters));
+            parameters["action"].ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(parameters), "action");
+
+            parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("price", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("leverage", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, CreatePositionResponse>>(
+            return _client.PostAsync<IDictionary<int, CreatePositionResponse>>(
                 nameof(CreatePositionAsync).ToApiMethodName(), parameters, token);
         }
-
+        
         /// <summary>
         /// レバレッジ取引の注文の変更を行います。
         /// </summary>
@@ -422,30 +299,14 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="limit">limit</param>
         /// <param name="stop">stop</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, ChangePositionResponse>> ChangePositionAsync(
-            string type, int leverageId, decimal price, int? groupId = null, decimal? limit = null, decimal? stop = null) =>
-            ChangePositionAsync(type, leverageId, price, groupId, limit, stop, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の注文の変更を行います。
-        /// </summary>
-        /// <param name="type">type</param>
-        /// <param name="leverageId">leverage_id</param>
-        /// <param name="price">price</param>
-        /// <param name="groupId">group_id</param>
-        /// <param name="limit">limit</param>
-        /// <param name="stop">stop</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, ChangePositionResponse>> ChangePositionAsync(
-           string type, int leverageId, decimal price, int? groupId, decimal? limit, decimal? stop, CancellationToken token)
+        public Task<IDictionary<int, ChangePositionResponse>> ChangePositionAsync(
+            string type, int leverageId, decimal price, int? groupId = null, decimal? limit = null, decimal? stop = null,
+            CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
@@ -463,45 +324,32 @@ namespace ZaifApiWrapper
 
             return ChangePositionAsync(parameters, token);
         }
-
+        
         /// <summary>
         /// レバレッジ取引の注文の変更を行います。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, ChangePositionResponse>> ChangePositionAsync(IDictionary<string, string> parameters) =>
-            ChangePositionAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の注文の変更を行います。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, ChangePositionResponse>> ChangePositionAsync(IDictionary<string, string> parameters,
-            CancellationToken token)
+        public Task<IDictionary<int, ChangePositionResponse>> ChangePositionAsync(IDictionary<string, string> parameters,
+            CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+
+            parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("price", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, ChangePositionResponse>>(
+            return _client.PostAsync<IDictionary<int, ChangePositionResponse>>(
                 nameof(ChangePositionAsync).ToApiMethodName(), parameters, token);
         }
 
@@ -511,13 +359,13 @@ namespace ZaifApiWrapper
         /// <param name="type">type</param>
         /// <param name="leverageId">leverage_id</param>
         /// <param name="groupId">group_id</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CancelPositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">type</exception>
         /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
-        public Task<IDictionary<string, CancelPositionResponse>> CancelPositionAsync(
-            string type, int leverageId, int? groupId = null)
+        public Task<IDictionary<int, CancelPositionResponse>> CancelPositionAsync(
+            string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
@@ -530,47 +378,33 @@ namespace ZaifApiWrapper
 
             if (groupId.HasValue) parameters.Add(nameof(groupId).ToSnakeCase(), groupId.ToString());
 
-            return CancelPositionAsync(parameters);
+            return CancelPositionAsync(parameters, token);
         }
 
         /// <summary>
         /// レバレッジ取引の注文の取消しを行います。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CancelPositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
         /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
         /// </exception>
-        public Task<IDictionary<string, CancelPositionResponse>> CancelPositionAsync(IDictionary<string, string> parameters) =>
-            CancelPositionAsync(parameters, CancellationToken.None);
-
-        /// <summary>
-        /// レバレッジ取引の注文の取消しを行います。
-        /// </summary>
-        /// <param name="parameters">パラメータ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
-        /// <returns><see cref="CancelPositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'type'が指定されていません。 - parameters
-        /// or
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
-        /// </exception>
-        public Task<IDictionary<string, CancelPositionResponse>> CancelPositionAsync(IDictionary<string, string> parameters,
-            CancellationToken token)
+        public Task<IDictionary<int, CancelPositionResponse>> CancelPositionAsync(IDictionary<string, string> parameters,
+            CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("type"))
-                throw new ArgumentException("パラメータ'type'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("type", nameof(parameters));
+            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+
+            parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
 
-            return _client.PostAsync<IDictionary<string, CancelPositionResponse>>(
+            return _client.PostAsync<IDictionary<int, CancelPositionResponse>>(
                 nameof(CancelPositionAsync).ToApiMethodName(), parameters, token);
         }
     }

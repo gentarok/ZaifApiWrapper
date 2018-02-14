@@ -7,11 +7,12 @@ namespace ZaifApiWrapper.FutureData
     /// </summary>
     public class LastPriceResponse
     {
-        /// <summary>
-        /// グループID
-        /// </summary>
-        [JsonProperty("group_id")]
-        public int? GroupId { get; set; }
+        //TODO: last_priceのドキュメントには'all'または'active'を指定するとgroup_id付きのデータのコレクションが取得できると書いてあるが、実際にやってみるとエラーになったため保留。
+        ///// <summary>
+        ///// グループID
+        ///// </summary>
+        //[JsonProperty("group_id")]
+        //public int? GroupId { get; set; }
         /// <summary>
         /// 現在の終値
         /// </summary>
