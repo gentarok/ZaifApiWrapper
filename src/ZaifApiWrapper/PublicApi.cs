@@ -43,11 +43,9 @@ namespace ZaifApiWrapper
         /// <returns>
         /// <see cref="CurrenciesResponse"/>のコレクション
         /// </returns>
-        /// <exception cref="ArgumentException">'currency'を指定してください。</exception>
         public Task<IEnumerable<CurrenciesResponse>> CurrenciesAsync(string currency = "all", CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currency))
-                throw new ArgumentException("'currency'を指定してください。", nameof(currency));
+            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
 
             return _client.GetAsync<IEnumerable<CurrenciesResponse>>(
                 nameof(CurrenciesAsync).ToApiMethodName(), new[] { currency }, token);
@@ -61,11 +59,9 @@ namespace ZaifApiWrapper
         /// <returns>
         /// <see cref="CurrencyPairsResponse"/>のコレクション
         /// </returns>
-        /// <exception cref="ArgumentException">'currencyPair'を指定してください。</exception>
         public Task<IEnumerable<CurrencyPairsResponse>> CurrencyPairsAsync(string currencyPair = "all", CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currencyPair))
-                throw new ArgumentException("'currencyPair'を指定してください。", nameof(currencyPair));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<IEnumerable<CurrencyPairsResponse>>(
                 nameof(CurrencyPairsAsync).ToApiMethodName(), new[] { currencyPair }, token);
@@ -77,11 +73,9 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="LastPriceResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentException">'currencyPair'を指定してください。</exception>
         public Task<LastPriceResponse> LastPriceAsync(string currencyPair, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currencyPair))
-                throw new ArgumentException("'currencyPair'を指定してください。", nameof(currencyPair));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<LastPriceResponse>(
                 nameof(LastPriceAsync).ToApiMethodName(), new[] { currencyPair }, token);
@@ -93,11 +87,9 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="TickerResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentException">'currencyPair'を指定してください。</exception>
         public Task<TickerResponse> TickerAsync(string currencyPair, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currencyPair))
-                throw new ArgumentException("'currencyPair'を指定してください。", nameof(currencyPair));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<TickerResponse>(
                 nameof(TickerAsync).ToApiMethodName(), new[] { currencyPair }, token);
@@ -111,11 +103,9 @@ namespace ZaifApiWrapper
         /// <returns>
         /// <see cref="TradesResponse"/>のコレクション
         /// </returns>
-        /// <exception cref="ArgumentException">'currencyPair'を指定してください。</exception>
         public Task<IEnumerable<TradesResponse>> TradesAsync(string currencyPair, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currencyPair))
-                throw new ArgumentException("'currencyPair'を指定してください。", nameof(currencyPair));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<IEnumerable<TradesResponse>>(
                 nameof(TradesAsync).ToApiMethodName(), new[] { currencyPair }, token);
@@ -127,11 +117,9 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="DepthResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentException">'currencyPair'を指定してください。</exception>
         public Task<DepthResponse> DepthAsync(string currencyPair, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(currencyPair))
-                throw new ArgumentException("'currencyPair'を指定してください。", nameof(currencyPair));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<DepthResponse>(
                 nameof(DepthAsync).ToApiMethodName(), new[] { currencyPair }, token);

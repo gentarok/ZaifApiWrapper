@@ -156,7 +156,7 @@ namespace ZaifApiWrapper
 
             return _client.PostAsync<IDictionary<int, ActiveOrdersResponse>>(
                 nameof(ActiveOrdersAsync).ToApiMethodName(), parameters, token);
-        }        
+        }
 
         /// <summary>
         /// 取引注文を行います。
@@ -169,17 +169,12 @@ namespace ZaifApiWrapper
         /// <param name="comment">comment</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="TradeResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentNullException">
-        /// currencyPair
-        /// or
-        /// action
-        /// </exception>
         public Task<TradeResponse> TradeAsync(
             string currencyPair, string action, decimal price, decimal amount, decimal? limit = null, 
             string comment = null, CancellationToken token = default)
         {
-            if (currencyPair == null) throw new ArgumentNullException(nameof(currencyPair));
-            if (action == null) throw new ArgumentNullException(nameof(action));
+            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            action.ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(action));
 
             var parameters = new Dictionary<string, string>
             {
@@ -202,27 +197,18 @@ namespace ZaifApiWrapper
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="TradeResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">
-        /// パラメータ'currency_pair'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'action'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'price'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'amount'が指定されていません。 - parameters
-        /// </exception>
         public Task<TradeResponse> TradeAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("currency_pair"))
-                throw new ArgumentException("パラメータ'currency_pair'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("action"))
-                throw new ArgumentException("パラメータ'action'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("price"))
-                throw new ArgumentException("パラメータ'price'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("amount"))
-                throw new ArgumentException("パラメータ'amount'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("currency_pair", nameof(parameters));
+            parameters["currency_pair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currency_pair");
+
+            parameters.ThrowIfNotContainsKey("action", nameof(parameters));
+            parameters["action"].ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(parameters), "action");
+
+            parameters.ThrowIfNotContainsKey("price", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
 
             return _client.PostAsync<TradeResponse>(
                 nameof(TradeAsync).ToApiMethodName(), parameters, token);
@@ -236,15 +222,12 @@ namespace ZaifApiWrapper
         /// <param name="isToken">is_token</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CancelOrderResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentNullException">orderId</exception>
         public Task<CancelOrderResponse> CancelOrderAsync(
-            string orderId, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
+            int orderId, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
         {
-            if (orderId == null) throw new ArgumentNullException(nameof(orderId));
-
             var parameters = new Dictionary<string, string>
             {
-                { nameof(orderId).ToSnakeCase(), orderId },
+                { nameof(orderId).ToSnakeCase(), orderId.ToString() },
             };
 
             if (currencyPair != null) parameters.Add(nameof(currencyPair).ToSnakeCase(), currencyPair);
@@ -260,13 +243,11 @@ namespace ZaifApiWrapper
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CancelOrderResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">パラメータ'order_id'が指定されていません。 - parameters</exception>
         public Task<CancelOrderResponse> CancelOrderAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("order_id"))
-                throw new ArgumentException("パラメータ'order_id'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("order_id", nameof(parameters));
 
             return _client.PostAsync<CancelOrderResponse>(
                 nameof(CancelOrderAsync).ToApiMethodName(), parameters, token);
@@ -284,17 +265,12 @@ namespace ZaifApiWrapper
         /// <param name="optFee">opt_fee</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentNullException">
-        /// currency
-        /// or
-        /// address
-        /// </exception>
         /// <exception cref="ArgumentException">'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。 - optFee</exception>
         public Task<WithdrawResponse> WithdrawAsync(
             string currency, string address, decimal amount, string message = null, decimal? optFee = null, CancellationToken token = default)
         {
-            if (currency == null) throw new ArgumentNullException(nameof(currency));
-            if (address == null) throw new ArgumentNullException(nameof(address));
+            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
+            address.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(address));
 
             if (!OptFeeAcceptableCurrencies.Contains("currency") && optFee != null)
                 throw new ArgumentException("'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。", nameof(optFee));
@@ -320,24 +296,15 @@ namespace ZaifApiWrapper
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// パラメータ'currency'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'address'が指定されていません。 - parameters
-        /// or
-        /// パラメータ'amount'が指定されていません。 - parameters
-        /// or
         /// 'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。 - parameters
         /// </exception>
         public Task<WithdrawResponse> WithdrawAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("currency"))
-                throw new ArgumentException("パラメータ'currency'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("address"))
-                throw new ArgumentException("パラメータ'address'が指定されていません。", nameof(parameters));
-            if (!parameters.ContainsKey("amount"))
-                throw new ArgumentException("パラメータ'amount'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("address", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
 
             if (!OptFeeAcceptableCurrencies.Contains(parameters["currency"]) && parameters.ContainsKey("opt_fee"))
                 throw new ArgumentException("'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。", nameof(parameters));
@@ -359,12 +326,11 @@ namespace ZaifApiWrapper
         /// <param name="end">end</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="DepositHistoryResponse"/>のディクショナリ（キーは入金履歴id?ドキュメントに記載なし）</returns>
-        /// <exception cref="ArgumentNullException">currency</exception>
         public Task<IDictionary<int, DepositHistoryResponse>> DepositHistoryAsync(
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
-            if (currency == null) throw new ArgumentNullException(nameof(currency));
+            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
 
             var parameters = new Dictionary<string, string>
             {
@@ -389,14 +355,12 @@ namespace ZaifApiWrapper
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="DepositHistoryResponse"/>のディクショナリ（キーは入金履歴id?ドキュメントに記載なし）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">パラメータ'currency'が指定されていません。 - parameters</exception>
         public Task<IDictionary<int, DepositHistoryResponse>> DepositHistoryAsync(
             IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("currency"))
-                throw new ArgumentException("パラメータ'currency'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, DepositHistoryResponse>>(
                 nameof(DepositHistoryAsync).ToApiMethodName(), parameters, token);
@@ -415,12 +379,11 @@ namespace ZaifApiWrapper
         /// <param name="end">end</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="WithdrawHistoryResponse"/>のディクショナリ（キーは出金履歴id?ドキュメントに記載なし）</returns>
-        /// <exception cref="ArgumentNullException">currency</exception>
         public Task<IDictionary<int, WithdrawHistoryResponse>> WithdrawHistoryAsync(
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
-            if (currency == null) throw new ArgumentNullException(nameof(currency));
+            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
 
             var parameters = new Dictionary<string, string>
             {
@@ -445,14 +408,12 @@ namespace ZaifApiWrapper
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="WithdrawHistoryResponse"/>のディクショナリ（キーは出金履歴id?ドキュメントに記載なし）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        /// <exception cref="ArgumentException">パラメータ'currency'が指定されていません。 - parameters</exception>
         public Task<IDictionary<int, WithdrawHistoryResponse>> WithdrawHistoryAsync(
             IDictionary<string, string> parameters, CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            if (!parameters.ContainsKey("currency"))
-                throw new ArgumentException("パラメータ'currency'が指定されていません。", nameof(parameters));
+            parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, WithdrawHistoryResponse>>(
                 nameof(WithdrawHistoryAsync).ToApiMethodName(), parameters, token);
