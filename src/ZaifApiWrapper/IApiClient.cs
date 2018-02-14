@@ -15,7 +15,7 @@ namespace ZaifApiWrapper
         /// <typeparam name="T">JSONで取得したデータをマップする型</typeparam>
         /// <param name="method">APIメソッド名</param>
         /// <param name="arguments">APIメソッド引数の配列</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns>APIで取得したデータ</returns>
         Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token);
 
@@ -25,7 +25,7 @@ namespace ZaifApiWrapper
         /// <typeparam name="T">JSONで取得したデータをマップする型</typeparam>
         /// <param name="method">APIメソッド名</param>
         /// <param name="parameters">APIパラメータのディクショナリ</param>
-        /// <param name="token"><see cref="CancellationToken"/>オブジェクト。</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns>APIで取得したデータ</returns>
         Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token);
     }
