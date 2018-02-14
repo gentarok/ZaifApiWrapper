@@ -96,7 +96,7 @@ namespace ZaifApiWrapper
                     {
                         interval = _httpErrorRetryInterval;
                         count++;
-                        Debug.WriteLine($"Retry:{count}");
+                        Debug.WriteLine($"Retry(HttpError):{count}");
                         continue;
                     }
                     // 上記のケース以外でステータス異常なら例外とする
@@ -106,7 +106,32 @@ namespace ZaifApiWrapper
                     Debug.WriteLine($"jsonString:{ jsonString}");
                 }
 
-                return JsonConvert.DeserializeObject<T>(jsonString, SerializerSettings);
+                // 成功・失敗で型が変わるためチェックしてから処理を行う
+                var tmp = JsonConvert.DeserializeObject(jsonString, SerializerSettings);
+
+                if (tmp is JObject)
+                {
+                    var obj = (JObject)tmp;
+                    // API処理結果の確認
+                    // 失敗の場合は {"error": "(message)"} の形で返ってくる
+                    //（APIリファレンスには書いてないので注意）
+                    if (obj["error"] != null)
+                    {
+                        var error = obj["error"].ToString();
+                        if (Regex.IsMatch(error, "please try later", RegexOptions.IgnoreCase))
+                        {
+                            interval = _apiTimeoutRetryInterval;
+                            count++;
+                            Debug.WriteLine($"Retry(ApiTimeout):{count}");
+                            continue;
+                        }
+                        throw new ZaifApiException(error);
+                    }
+
+                    return obj.ToObject<T>();
+                }
+
+                return ((JArray)tmp).ToObject<T>();
             }
         }
 
