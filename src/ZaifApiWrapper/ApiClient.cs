@@ -76,7 +76,6 @@ namespace ZaifApiWrapper
             var uri = new Uri($"{_endpoint.TrimEnd('/')}/{method}/{args}");
             Debug.WriteLine($"Uri:{uri}");
 
-
             int? interval = null;
             int count = 0;
 
@@ -99,6 +98,7 @@ namespace ZaifApiWrapper
                         Debug.WriteLine($"Retry(HttpError):{count}");
                         continue;
                     }
+
                     // 上記のケース以外でステータス異常なら例外とする
                     res.EnsureSuccessStatusCode();
 
@@ -135,6 +135,8 @@ namespace ZaifApiWrapper
             }
         }
 
+        const string PATTERN = "[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}";
+
         /// <summary>
         /// HTTP Postメソッドでデータを取得します
         /// </summary>
@@ -145,8 +147,9 @@ namespace ZaifApiWrapper
         /// <returns>APIで取得したデータ</returns>
         public async Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token)
         {
-            if (_apiKey == null) throw new ZaifApiException("API Keyがセットされていません。");
-            if (_apiSecret == null) throw new ZaifApiException("API Secretがセットされていません。");
+            var regex = new Regex(PATTERN);
+            if (!regex.IsMatch(_apiKey)) throw new ZaifApiException("API Keyの形式が正しくありません。");
+            if (!regex.IsMatch(_apiSecret)) throw new ZaifApiException("API Secretの形式が正しくありません。");
 
             parameters = parameters ?? new Dictionary<string, string>();
             parameters.Add("method", method);
@@ -191,6 +194,7 @@ namespace ZaifApiWrapper
                         Debug.WriteLine($"Retry(HttpError):{count}");
                         continue;
                     }
+
                     // 上記のケース以外でステータス異常なら例外とする
                     res.EnsureSuccessStatusCode();
 
@@ -214,6 +218,7 @@ namespace ZaifApiWrapper
                         Debug.WriteLine($"Retry(ApiTimeout):{count}");
                         continue;
                     }
+
                     throw new ZaifApiException(error);
                 }
 
