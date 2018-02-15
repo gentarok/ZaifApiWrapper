@@ -47,7 +47,7 @@ namespace ZaifApiWrapper
             _client.PostAsync<GetInfoResponse>(nameof(GetInfoAsync).ToApiMethodName(), null, token);
 
         /// <summary>
-        /// <see cref="GetIdInfoAsync(CancellationToken)"/>の軽量版で、過去のトレード数を除く項目を返します。
+        /// <see cref="GetInfoAsync(CancellationToken)"/>の軽量版で、過去のトレード数を除く項目を返します。
         /// </summary>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="GetInfo2Response"/>オブジェクト。</returns>

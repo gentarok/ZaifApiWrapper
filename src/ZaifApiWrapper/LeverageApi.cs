@@ -221,7 +221,7 @@ namespace ZaifApiWrapper
         /// <param name="amount">amount</param>
         /// <param name="price">price</param>
         /// <param name="leverage">leverage</param>
-        /// <param name="groupId">groupId</param>
+        /// <param name="groupId">group_id</param>
         /// <param name="limit">limit</param>
         /// <param name="stop">stop</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>

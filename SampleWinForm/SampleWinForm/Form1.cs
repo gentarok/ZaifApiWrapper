@@ -153,7 +153,7 @@ namespace SampleWinForm
             e.Cancel = false;
         }
 
-        const string PATTERN = "[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}";
+        const string PATTERN = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
 
         private void textBoxKey_Validating(object sender, CancelEventArgs e)
         {

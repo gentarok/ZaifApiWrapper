@@ -3,15 +3,15 @@
 namespace ZaifApiWrapper
 {
     /// <summary>
-    /// API呼び出し例外
+    /// 資格情報の形式例外
     /// </summary>
     /// <seealso cref="System.Exception" />
-    public class ZaifApiException : Exception
+    public class CredentialFormatException : Exception
     {
         /// <summary>
         /// 初期化
         /// </summary>
         /// <param name="message">例外メッセージ</param>
-        public ZaifApiException(string message) : base(message) { }
+        public CredentialFormatException(string message) : base(message) { }
     }
 }
