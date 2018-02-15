@@ -6,8 +6,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.2-alpha</Version>
     <Company />
-    <Authors>gentarok</Authors>
+    <Authors>gentaro</Authors>
     <Description>Zaif API (v1.1.1) Wrapper Library.</Description>
+    <Copyright>gentaro</Copyright>
+    <PackageLicenseUrl>https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/gentarok/ZaifApiWrapper</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
