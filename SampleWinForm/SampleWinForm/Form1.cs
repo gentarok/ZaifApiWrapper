@@ -88,7 +88,6 @@ namespace SampleWinForm
         private void bindingSourceClass_CurrentChanged(object sender, EventArgs e)
         {
             var source = from m in ((Type)bindingSourceClass.Current).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                         //where m.GetParameters().All(x => x.ParameterType != typeof(CancellationToken) && x.ParameterType != typeof(IDictionary<string, string>))
                          where m.GetParameters().All(x => x.ParameterType != typeof(IDictionary<string, string>))
                          select m;
 
@@ -110,9 +109,7 @@ namespace SampleWinForm
             var method = (MethodInfo)bindingSourceMethod.Current;
 
             DataTable dt;
-            var props = from m in typeof(ParameterInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        select m;
-            
+        
             //メソッド毎に一意なら良い
             var tableName = method.ToString();
             if (_ds.Tables.Contains(tableName))
@@ -200,7 +197,8 @@ namespace SampleWinForm
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if (cts != null) cts.Cancel();
+            if (cts != null)
+                cts.Cancel();
         }
     }
 }
