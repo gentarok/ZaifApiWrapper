@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 using ZaifApiWrapper.Test.TestDouble;
 
@@ -45,7 +44,7 @@ namespace ZaifApiWrapper.Test
         }
 
         [Fact]
-        public void PostAsync_should_throw_exception_if_api_error()
+        public async void PostAsync_should_throw_exception_if_api_error()
         {
             // arrange
             var jsonString = @"{ ""success"": 0 , ""error"": ""api errer raised."" }";
@@ -58,18 +57,57 @@ namespace ZaifApiWrapper.Test
                     Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
                 });
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler));
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler)) {
+                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "00000000-0000-0000-0000-000000000000",
+                MaxRetry = 5,
+                ApiTimeoutRetryInterval = 0 };
+
             var client = new ApiClient("http://localhost/", option);
 
             // act 
-            var func = new Func<Task>(async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
-
             // assert
-            Assert.ThrowsAsync<ZaifApiException>(func);
+            await Assert.ThrowsAsync<ZaifApiException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+ 
+            Assert.Equal(1, handler.SendCount);
         }
 
         [Fact]
-        public void PostAsync_should_throw_exception_if_http_error_without_timeout()
+        public async void PostAsync_should_throw_exception_if_api_error_after_retry()
+        {
+            // arrange
+            var jsonString = @"{ ""success"": 0 , ""error"": ""please try later."" }";
+
+            var handler = new FakeResponseHandler();
+            handler.AddFakeResponse(new Uri("http://localhost"),
+                new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
+                });
+
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
+            {
+                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "00000000-0000-0000-0000-000000000000",
+                MaxRetry = 5,
+                ApiTimeoutRetryInterval = 0
+            };
+
+            var client = new ApiClient("http://localhost/", option);
+
+            // act 
+            // assert
+            await Assert.ThrowsAsync<ZaifApiException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+
+            Assert.Equal(5, handler.SendCount);
+        }
+
+
+        [Fact]
+        public async void PostAsync_should_throw_exception_if_http_error_except_timeout()
         {
             // arrange
             var jsonString = @"{ ""Name"": ""test"" }";
@@ -82,14 +120,54 @@ namespace ZaifApiWrapper.Test
                     Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
                 });
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler));
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
+            {
+                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "00000000-0000-0000-0000-000000000000",
+                MaxRetry = 5,
+                HttpErrorRetryInterval = 0
+            };
             var client = new ApiClient("http://localhost/", option);
 
             // act 
-            var func = new Func<Task>(async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
-
             // assert
-            Assert.ThrowsAsync<HttpRequestException>(func);
+            await Assert.ThrowsAsync<HttpRequestException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+
+            Assert.Equal(1, handler.SendCount);
+            
+        }
+
+        [Fact]
+        public async void PostAsync_should_throw_exception_if_http_timeout_after_retry()
+        {
+            // arrange
+            var jsonString = @"{ ""Name"": ""test"" }";
+
+            var handler = new FakeResponseHandler();
+            handler.AddFakeResponse(new Uri("http://localhost"),
+                new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadGateway,
+                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
+                });
+
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
+            {
+                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "00000000-0000-0000-0000-000000000000",
+                MaxRetry = 10,
+                HttpErrorRetryInterval = 0
+            };
+
+            var client = new ApiClient("http://localhost/", option);
+
+            // act
+            // assert
+            await Assert.ThrowsAsync<ZaifApiException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+
+            Assert.Equal(10, handler.SendCount);
         }
     }
 }

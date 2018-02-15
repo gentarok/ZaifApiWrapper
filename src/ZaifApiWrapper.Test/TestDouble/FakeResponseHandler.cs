@@ -17,9 +17,14 @@ namespace ZaifApiWrapper.Test.TestDouble
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (FakeResponses.ContainsKey(request.RequestUri))
+            {
+                SendCount++;
                 return Task.FromResult(FakeResponses[request.RequestUri]);
+            }
 
             return Task.FromResult(new HttpResponseMessage(HttpStatusCode.NotFound) { RequestMessage = request });
         }
+
+        public int SendCount { get; private set; } = 0;
     }
 }

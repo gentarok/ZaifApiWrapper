@@ -88,23 +88,22 @@ namespace ZaifApiWrapper
 
                 string jsonString;
 
-                using (var res = await _accessor.Client.GetAsync(uri, token).ConfigureAwait(false))
+                var res = await _accessor.Client.GetAsync(uri, token).ConfigureAwait(false);
+
+                Debug.WriteLine($"StatusCode:{res.StatusCode}");
+                if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
                 {
-                    Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                    if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
-                    {
-                        interval = _httpErrorRetryInterval;
-                        count++;
-                        Debug.WriteLine($"Retry(HttpError):{count}");
-                        continue;
-                    }
-
-                    // 上記のケース以外でステータス異常なら例外とする
-                    res.EnsureSuccessStatusCode();
-
-                    jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    Debug.WriteLine($"jsonString:{ jsonString}");
+                    interval = _httpErrorRetryInterval;
+                    count++;
+                    Debug.WriteLine($"Retry(HttpError):{count}");
+                    continue;
                 }
+
+                // 上記のケース以外でステータス異常なら例外とする
+                res.EnsureSuccessStatusCode();
+
+                jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Debug.WriteLine($"jsonString:{ jsonString}");
 
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var tmp = JsonConvert.DeserializeObject(jsonString, SerializerSettings);
@@ -183,23 +182,23 @@ namespace ZaifApiWrapper
 
                 string jsonString;
 
-                using (var res = await _accessor.Client.PostAsync(uri, content, token).ConfigureAwait(false))
+                var res = await _accessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
+                
+                Debug.WriteLine($"StatusCode:{res.StatusCode}");
+                if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
                 {
-                    Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                    if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
-                    {
-                        interval = _httpErrorRetryInterval;
-                        count++;
-                        Debug.WriteLine($"Retry(HttpError):{count}");
-                        continue;
-                    }
-
-                    // 上記のケース以外でステータス異常なら例外とする
-                    res.EnsureSuccessStatusCode();
-
-                    jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    Debug.WriteLine($"jsonString:{ jsonString}");
+                    interval = _httpErrorRetryInterval;
+                    count++;
+                    Debug.WriteLine($"Retry(HttpError):{count}");
+                    continue;
                 }
+
+                // 上記のケース以外でステータス異常なら例外とする
+                res.EnsureSuccessStatusCode();
+
+                jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Debug.WriteLine($"jsonString:{ jsonString}");
+                
 
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var obj = JsonConvert.DeserializeObject<JObject>(jsonString, SerializerSettings);
