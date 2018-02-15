@@ -152,7 +152,7 @@ namespace ZaifApiWrapper
 
             // is_token_bothは削除予定、かつ指定された場合に戻り値の型が変わってしまうためサポートしない
             if (parameters != null && parameters.ContainsKey("is_token_both"))
-                throw new NotSupportedException("is_token_bothパラメータはサポートしていません。");
+                throw new NotSupportedException("'is_token_both' パラメータはサポートしていません。");
 
             return _client.PostAsync<IDictionary<int, ActiveOrdersResponse>>(
                 nameof(ActiveOrdersAsync).ToApiMethodName(), parameters, token);
@@ -265,7 +265,7 @@ namespace ZaifApiWrapper
         /// <param name="optFee">opt_fee</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
-        /// <exception cref="ArgumentException">'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。 - optFee</exception>
+        /// <exception cref="ArgumentException">'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。 - optFee</exception>
         public Task<WithdrawResponse> WithdrawAsync(
             string currency, string address, decimal amount, string message = null, decimal? optFee = null, CancellationToken token = default)
         {
@@ -273,7 +273,7 @@ namespace ZaifApiWrapper
             address.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(address));
 
             if (!OptFeeAcceptableCurrencies.Contains("currency") && optFee != null)
-                throw new ArgumentException("'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。", nameof(optFee));
+                throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(optFee));
 
             var parameters = new Dictionary<string, string>
             {
@@ -296,7 +296,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。 - parameters
+        /// 'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。 - parameters
         /// </exception>
         public Task<WithdrawResponse> WithdrawAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
@@ -307,7 +307,7 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
 
             if (!OptFeeAcceptableCurrencies.Contains(parameters["currency"]) && parameters.ContainsKey("opt_fee"))
-                throw new ArgumentException("'currency'が'btc', 'mona'以外の場合は'opt_fee'は指定できません。", nameof(parameters));
+                throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(parameters));
 
             return _client.PostAsync<WithdrawResponse>(
                 nameof(WithdrawAsync).ToApiMethodName(), parameters, token);

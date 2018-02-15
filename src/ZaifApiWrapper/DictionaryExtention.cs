@@ -20,7 +20,7 @@ namespace ZaifApiWrapper
         internal static void ThrowIfNotContainsKey(this IDictionary<string, string> dictionary, string key, string paramName)
         {
             if (!dictionary.ContainsKey(key))
-                throw new ArgumentException($"パラメータ'{key}'が指定されていません。", paramName);
+                throw new ArgumentException($"パラメータ '{key}' が指定されていません。", paramName);
         }
     }
 }

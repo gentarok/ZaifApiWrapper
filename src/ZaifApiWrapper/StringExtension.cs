@@ -37,7 +37,7 @@ namespace ZaifApiWrapper
         /// <exception cref="ArgumentException"></exception>
         internal static void ThrowArgumentExceptionIfNullOrWhiteSpace(this string value, string paramName, string messageParamName = null) {
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException($"'{messageParamName ?? paramName}'を指定してください。", paramName);
+                throw new ArgumentException($"'{messageParamName ?? paramName}' を指定してください。", paramName);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ZaifApiWrapper
         internal static void ThrowArgumentExcepitonIfNotContains(this string value, string[] allowedValue, string paramName, string messageParamName = null)
         {
             if (!allowedValue.Contains(value))
-                throw new ArgumentException($"'{messageParamName ?? paramName}'は$'{string.Join(", ", allowedValue)}'のいずれかを指定してください。", paramName);
+                throw new ArgumentException($"'{messageParamName ?? paramName}' は '{string.Join(", ", allowedValue)}' のいずれかを指定してください。", paramName);
         }
     }
 }

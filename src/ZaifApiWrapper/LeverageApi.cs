@@ -52,7 +52,7 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, GetPositionsResponse>> GetPositionsAsync(
             string type, int? groupId = null, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, string currencyPair = null, CancellationToken token = default)
@@ -60,7 +60,7 @@ namespace ZaifApiWrapper
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -88,7 +88,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="GetPositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, GetPositionsResponse>> GetPositionsAsync(IDictionary<string, string> parameters, CancellationToken token = default)
         {
@@ -98,7 +98,7 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, GetPositionsResponse>>(
                 nameof(GetPositionsAsync).ToApiMethodName(), parameters, token);
@@ -112,14 +112,14 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, PositionHistoryResponse>> PositionHistoryAsync(
             string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -140,7 +140,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="PositionHistoryResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, PositionHistoryResponse>> PositionHistoryAsync(
             IDictionary<string, string> parameters, CancellationToken token = default)
@@ -153,7 +153,7 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, PositionHistoryResponse>>(
                 nameof(PositionHistoryAsync).ToApiMethodName(), parameters, token);
@@ -167,14 +167,14 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, ActivePositionsResponse>> ActivePositionsAsync(
             string type, int? groupId = null, string currencyPair = null, CancellationToken token = default)
         {
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -195,7 +195,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="ActivePositionsResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, ActivePositionsResponse>> ActivePositionsAsync(
             IDictionary<string, string> parameters, CancellationToken token = default)
@@ -206,7 +206,7 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
             
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, ActivePositionsResponse>>(
                 nameof(ActivePositionsAsync).ToApiMethodName(), parameters, token);
@@ -226,7 +226,7 @@ namespace ZaifApiWrapper
         /// <param name="stop">stop</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, CreatePositionResponse>> CreatePositionAsync(
             string type, string currencyPair, string action, decimal amount, decimal price, decimal leverage,
             int? groupId = null, decimal? limit = null, decimal? stop = null, CancellationToken token = default)
@@ -236,7 +236,7 @@ namespace ZaifApiWrapper
             action.ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(action));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -263,7 +263,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="CreatePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, CreatePositionResponse>> CreatePositionAsync(IDictionary<string, string> parameters,
             CancellationToken token = default)
@@ -284,7 +284,7 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("leverage", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, CreatePositionResponse>>(
                 nameof(CreatePositionAsync).ToApiMethodName(), parameters, token);
@@ -301,7 +301,7 @@ namespace ZaifApiWrapper
         /// <param name="stop">stop</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, ChangePositionResponse>> ChangePositionAsync(
             string type, int leverageId, decimal price, int? groupId = null, decimal? limit = null, decimal? stop = null,
             CancellationToken token = default)
@@ -309,7 +309,7 @@ namespace ZaifApiWrapper
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -333,7 +333,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="ChangePositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, ChangePositionResponse>> ChangePositionAsync(IDictionary<string, string> parameters,
             CancellationToken token = default)
@@ -347,7 +347,7 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, ChangePositionResponse>>(
                 nameof(ChangePositionAsync).ToApiMethodName(), parameters, token);
@@ -361,14 +361,14 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns><see cref="CancelPositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
-        /// <exception cref="ArgumentException">'type'が'futures'の場合、パラメータ'group_id'は必須です。 - groupId</exception>
+        /// <exception cref="ArgumentException">'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - groupId</exception>
         public Task<IDictionary<int, CancelPositionResponse>> CancelPositionAsync(
             string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(groupId));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
 
             var parameters = new Dictionary<string, string>
             {
@@ -389,7 +389,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="CancelPositionResponse"/>のディクショナリ（キーはレバレッジ注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
-        /// 'type'が'futures'の場合、パラメータ'group_id'は必須です。 - parameters
+        /// 'type' が 'futures'の場合、パラメータ 'group_id' は必須です。 - parameters
         /// </exception>
         public Task<IDictionary<int, CancelPositionResponse>> CancelPositionAsync(IDictionary<string, string> parameters,
             CancellationToken token = default)
@@ -402,7 +402,7 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
-                throw new ArgumentException("'type'が'futures'の場合、パラメータ'group_id'は必須です。", nameof(parameters));
+                throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
 
             return _client.PostAsync<IDictionary<int, CancelPositionResponse>>(
                 nameof(CancelPositionAsync).ToApiMethodName(), parameters, token);
