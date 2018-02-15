@@ -73,7 +73,7 @@
             this.buttonClose.Location = new System.Drawing.Point(921, 526);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 13;
+            this.buttonClose.TabIndex = 14;
             this.buttonClose.Text = "閉じる(&X)";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -223,11 +223,12 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.CausesValidation = false;
             this.buttonCancel.Location = new System.Drawing.Point(93, 526);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 14;
+            this.buttonCancel.TabIndex = 13;
             this.buttonCancel.Text = "中断(&C)";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
