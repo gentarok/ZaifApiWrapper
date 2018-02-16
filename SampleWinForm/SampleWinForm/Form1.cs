@@ -14,13 +14,29 @@ namespace SampleWinForm
 {
     public partial class Form1 : Form
     {
+        private static Stateprinter printer = new Stateprinter();
+
+        private CancellationTokenSource cts = null;
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        CancellationTokenSource cts;
-        static Stateprinter printer = new Stateprinter();
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            errorProvider1.SetIconAlignment(textBoxKey, ErrorIconAlignment.MiddleLeft);
+            errorProvider1.SetIconAlignment(textBoxSecret, ErrorIconAlignment.MiddleLeft);
+        }
+
+        private Type[] _apiTypes = new[] { typeof(PublicApi), typeof(TradeApi), typeof(FutureApi), typeof(LeverageApi) };
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            bindingSourceClass.DataSource = _apiTypes;
+            comboBoxClass.DataSource = bindingSourceClass;
+            comboBoxClass.DisplayMember = "Name";
+        }
 
         private async void buttonExecute_Click(object sender, EventArgs e)
         {
@@ -32,16 +48,10 @@ namespace SampleWinForm
 
                 textBoxOutput.Clear();
 
-                var type = (Type)bindingSourceClass.Current;
-                var option = new ApiClientOption(textBoxKey.Text, textBoxSecret.Text);
-                var api = Activator.CreateInstance(type, new[] { option });
-
+                var api = GetApiInstance();
                 var method = (MethodInfo)bindingSourceMethod.Current;
+                var args = GetArguments();
 
-                var dt = (DataTable)bindingSourceParameter.DataSource;
-                var row =((DataRowView)bindingSourceParameter.Current).Row;
-
-                var args = row.ItemArray.Select(x => x == DBNull.Value ? null : x).ToList();
                 cts = new CancellationTokenSource();
                 args.Add(cts.Token);
 
@@ -62,10 +72,24 @@ namespace SampleWinForm
             }
         }
 
-        static object ChangeType(string value, Type type)
+        private object GetApiInstance()
         {
-            var t = Nullable.GetUnderlyingType(type) ?? type;
-            return string.IsNullOrEmpty(value) ? null : Convert.ChangeType(value, t);
+            var type = (Type)bindingSourceClass.Current;
+            var option = new ApiClientOption(textBoxKey.Text, textBoxSecret.Text);
+            return Activator.CreateInstance(type, new[] { option });
+        }
+
+        private IList<object> GetArguments()
+        {
+            var dt = (DataTable)bindingSourceParameter.DataSource;
+            var row = ((DataRowView)bindingSourceParameter.Current).Row;
+            return row.ItemArray.Select(x => x == DBNull.Value ? null : x).ToList();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            if (cts != null)
+                cts.Cancel();
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -73,17 +97,7 @@ namespace SampleWinForm
             Close();
         }
 
-        Type[] _apiTypes = new[] { typeof(PublicApi), typeof(TradeApi), typeof(FutureApi), typeof(LeverageApi) };
-
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            bindingSourceClass.DataSource = _apiTypes;
-
-            comboBoxClass.DataSource = bindingSourceClass;
-            comboBoxClass.DisplayMember = "Name";
-        }
-
-        Type[] _keyRequireTypes = { typeof(TradeApi), typeof(LeverageApi) };
+        private Type[] _keyRequireTypes = { typeof(TradeApi), typeof(LeverageApi) };
 
         private void bindingSourceClass_CurrentChanged(object sender, EventArgs e)
         {
@@ -102,14 +116,14 @@ namespace SampleWinForm
             errorProvider1.SetError(textBoxSecret, null);
         }
 
-        DataSet _ds = new DataSet();
+        private DataSet _ds = new DataSet();
 
         private void bindingSourceMethod_CurrentChanged(object sender, EventArgs e)
         {
             var method = (MethodInfo)bindingSourceMethod.Current;
 
             DataTable dt;
-        
+
             //メソッド毎に一意なら良い
             var tableName = method.ToString();
             if (_ds.Tables.Contains(tableName))
@@ -126,7 +140,7 @@ namespace SampleWinForm
 
                 dt.Columns.AddRange(
                     parameters.Select(x => new DataColumn(x.Name, Nullable.GetUnderlyingType(x.ParameterType) ?? x.ParameterType)).ToArray());
-                
+
                 dt.Rows.Add(parameters.Select(x => x.HasDefaultValue ? x.DefaultValue : GetDefault(x.ParameterType)).ToArray());
 
                 _ds.Tables.Add(dt);
@@ -139,21 +153,9 @@ namespace SampleWinForm
                 col.SortMode = DataGridViewColumnSortMode.NotSortable;
         }
 
-        static object GetDefault(Type type)
-        {
-            if (type.IsValueType)
-            {
-                return Activator.CreateInstance(type);
-            }
-            return null;
-        }
+        private static object GetDefault(Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = false;
-        }
-
-        const string PATTERN = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
+        private const string PATTERN = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
 
         private void textBoxKey_Validating(object sender, CancelEventArgs e)
         {
@@ -189,16 +191,9 @@ namespace SampleWinForm
             errorProvider1.SetError(textBoxSecret, null);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            errorProvider1.SetIconAlignment(textBoxKey, ErrorIconAlignment.MiddleLeft);
-            errorProvider1.SetIconAlignment(textBoxSecret, ErrorIconAlignment.MiddleLeft);
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            if (cts != null)
-                cts.Cancel();
+            e.Cancel = false;
         }
     }
 }
