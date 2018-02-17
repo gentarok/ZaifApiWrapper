@@ -100,5 +100,26 @@ namespace ConsoleApp1
 }
 ```
 
+## Appendix
+
+### APIクラスに指定可能なオプション
+
+各APIクラスの初期化時に`ApiClientOption`オブジェクトを渡すことで、以下のパラメータが指定できます。
+
+|オプション|既定値|説明|
+|:---||:---|:---|
+|MaxRetry|10|API実行でエラーが発生した場合の再試行回数|
+|HttpErrorRetryInterval|1000|`HttpStatusCodesToRetry`で指定されたエラーが発生した場合の再試行までのインターバル(ms)|
+|HttpStatusCodesToRetry|`HttpStatusCode.BadGateway`<br/>`HttpStatusCode.ServiceUnavailable`<br>`HttpStatusCode.GatewayTimeout`|再試行対象のHTTPステータスコード|
+|ApiTimeoutRetryInterval|5000|[API呼び出し回数の規制によるタイムアウト](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)時に再試行を行う場合のインターバル(ms)|
+
+
+### API呼び出しのキャンセル
+
+各メソッドは`CancellationToken`を指定できます。
+
+`CancellationToken`の使い方については[こちら](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks)を参照してください。
+
+
 ## Licence
 [MIT Licence](https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE)
