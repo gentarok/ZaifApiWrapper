@@ -4,6 +4,8 @@ Zaif API (v1.1.1) .NET Wrapper Library
 
 [Zaif](https://zaif.jp/)のAPIを.NETから利用するためのラッパーライブラリです。
 
+[![Build status](https://ci.appveyor.com/api/projects/status/lwx98gen2fa09jhh?svg=true)](https://ci.appveyor.com/project/gentarok/zaifapiwrapper)
+
 ## Target Framework
 .NET Standard 2.0
 
@@ -107,7 +109,7 @@ namespace ConsoleApp1
 各APIクラスの初期化時に`ApiClientOption`オブジェクトを渡すことで、以下のパラメータが指定できます。
 
 |オプション|既定値|説明|
-|:---||:---|:---|
+|:---|:---|:---|
 |MaxRetry|10|API実行でエラーが発生した場合の再試行回数|
 |HttpErrorRetryInterval|1000|`HttpStatusCodesToRetry`で指定されたエラーが発生した場合の再試行までのインターバル(ms)|
 |HttpStatusCodesToRetry|`HttpStatusCode.BadGateway`<br/>`HttpStatusCode.ServiceUnavailable`<br>`HttpStatusCode.GatewayTimeout`|再試行対象のHTTPステータスコード|
