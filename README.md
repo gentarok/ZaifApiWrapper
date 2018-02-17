@@ -114,12 +114,22 @@ namespace ConsoleApp1
 |ApiTimeoutRetryInterval|5000|[API呼び出し回数の規制によるタイムアウト](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)時に再試行を行う場合のインターバル(ms)|
 
 
-### API呼び出しのキャンセル
+### APIメソッドの引数
+
+#### 引数の型
+
+`TradeApi`,`LeverageApi`はプリミティブデータ型以外に`IDictionary<string, string>`でも引数をとれます。
+使いやすい方を使ってください。
+
+引数は簡単なチェックはしていますが、公式ドキュメントを参照して正しい値をセットしてください。
+
+また、`"bid"`, `"ask"`等の文字列で指定する引数のうち、変更の可能性が低いものについては、将来的には列挙型を追加することを予定していますが、現在は文字列のみの指定しか対応していません。
+
+#### 呼び出しのキャンセル
 
 各メソッドは`CancellationToken`を指定できます。
 
 `CancellationToken`の使い方については[こちら](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks)を参照してください。
-
 
 ## Licence
 [MIT Licence](https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE)
