@@ -4,6 +4,8 @@ Zaif API (v1.1.1) .NET Wrapper Library
 
 [Zaif](https://zaif.jp/)のAPIを.NETから利用するためのラッパーライブラリです。
 
+[![Build status](https://ci.appveyor.com/api/projects/status/lwx98gen2fa09jhh?svg=true)](https://ci.appveyor.com/project/gentarok/zaifapiwrapper)
+
 ## Target Framework
 .NET Standard 2.0
 
