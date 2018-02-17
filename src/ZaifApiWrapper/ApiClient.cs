@@ -34,6 +34,7 @@ namespace ZaifApiWrapper
         private readonly string _endpoint;
         private readonly int _maxRetry;
         private readonly int _httpErrorRetryInterval;
+        private readonly HttpStatusCode[] _httpStatusCodeToRetry;
         private readonly int _apiTimeoutRetryInterval;
 
         private static long _nonce = DateTime.Now.ToUnixTimeStamp();
@@ -52,15 +53,9 @@ namespace ZaifApiWrapper
             _accessor = option.HttpClientAcessor;
             _maxRetry = option.MaxRetry;
             _httpErrorRetryInterval = option.HttpErrorRetryInterval;
+            _httpStatusCodeToRetry = option.HttpStatusCodesToRetry;
             _apiTimeoutRetryInterval = option.ApiTimeoutRetryInterval;
         }
-
-        // 再試行対象のHTTPステータスコード
-        private static readonly HttpStatusCode[] StatusToRetry = new[] {
-            HttpStatusCode.BadGateway,
-            HttpStatusCode.ServiceUnavailable,
-            HttpStatusCode.GatewayTimeout,
-        };
 
         /// <summary>
         /// HTTP Getメソッドでデータを取得します
@@ -91,7 +86,7 @@ namespace ZaifApiWrapper
                 var res = await _accessor.Client.GetAsync(uri, token).ConfigureAwait(false);
 
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
+                if (!res.IsSuccessStatusCode && _httpStatusCodeToRetry.Contains(res.StatusCode))
                 {
                     interval = _httpErrorRetryInterval;
                     count++;
@@ -187,7 +182,7 @@ namespace ZaifApiWrapper
                 var res = await _accessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
                 
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                if (!res.IsSuccessStatusCode && StatusToRetry.Contains(res.StatusCode))
+                if (!res.IsSuccessStatusCode && _httpStatusCodeToRetry.Contains(res.StatusCode))
                 {
                     interval = _httpErrorRetryInterval;
                     count++;

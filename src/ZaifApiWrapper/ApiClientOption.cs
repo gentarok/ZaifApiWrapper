@@ -1,10 +1,19 @@
-﻿namespace ZaifApiWrapper
+﻿using System;
+using System.Net;
+
+namespace ZaifApiWrapper
 {
     /// <summary>
     /// API実行時に指定できるオプション
     /// </summary>
     public class ApiClientOption
     {
+        private HttpStatusCode[] _httpStatusCodesToRetry = new[] {
+            HttpStatusCode.BadGateway,
+            HttpStatusCode.ServiceUnavailable,
+            HttpStatusCode.GatewayTimeout,
+        };
+
         /// <summary>
         /// APIキー
         /// </summary>
@@ -21,6 +30,13 @@
         /// HTTPエラーが発生した場合の再試行までのインターバル（ms）（既定値:1000ms）
         /// </summary>
         public int HttpErrorRetryInterval { get; set; } = 1000;
+        /// <summary>
+        /// 再試行対象のHTTPステータスコード（既定値:502,503,504）
+        /// </summary>
+        public HttpStatusCode[] HttpStatusCodesToRetry {
+            get => _httpStatusCodesToRetry;
+            set => _httpStatusCodesToRetry = value ?? throw new ArgumentNullException();
+        }
         /// <summary>
         /// APIエラーが発生した場合な再試行までのインターバル（ms）（既定値:5000ms）
         /// </summary>
