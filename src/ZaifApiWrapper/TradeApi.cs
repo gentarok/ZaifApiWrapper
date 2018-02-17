@@ -88,6 +88,9 @@ namespace ZaifApiWrapper
             int? from = null, int? count = null, int? fromId = null, int? endId = null, string order = null,
             long? since = null, long? end = null, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
         {
+            if (order != null)
+                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
+
             var parameters = new Dictionary<string, string>();
 
             if (from.HasValue) parameters.Add(nameof(from).ToSnakeCase(), from.ToString());
@@ -114,6 +117,9 @@ namespace ZaifApiWrapper
             CancellationToken token = default)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            if (parameters.ContainsKey("order"))
+                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, TradeHistoryResponse>>(
                 nameof(TradeHistoryAsync).ToApiMethodName(), parameters, token);
@@ -331,6 +337,8 @@ namespace ZaifApiWrapper
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
             currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
+            if (order != null)
+                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
 
             var parameters = new Dictionary<string, string>
             {
@@ -361,6 +369,8 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
+            if (parameters.ContainsKey("order"))
+                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, DepositHistoryResponse>>(
                 nameof(DepositHistoryAsync).ToApiMethodName(), parameters, token);
@@ -384,6 +394,8 @@ namespace ZaifApiWrapper
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
             currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
+            if (order != null)
+                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
 
             var parameters = new Dictionary<string, string>
             {
@@ -414,6 +426,8 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
+            if (parameters.ContainsKey("order"))
+                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, WithdrawHistoryResponse>>(
                 nameof(WithdrawHistoryAsync).ToApiMethodName(), parameters, token);

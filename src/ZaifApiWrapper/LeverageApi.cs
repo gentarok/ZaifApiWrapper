@@ -58,6 +58,8 @@ namespace ZaifApiWrapper
             string order = null, long? since = null, long? end = null, string currencyPair = null, CancellationToken token = default)
         {
             type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            if (order != null)
+                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -99,6 +101,8 @@ namespace ZaifApiWrapper
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
+            if (parameters.ContainsKey("order"))
+                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, GetPositionsResponse>>(
                 nameof(GetPositionsAsync).ToApiMethodName(), parameters, token);
