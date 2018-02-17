@@ -44,6 +44,48 @@ namespace ZaifApiWrapper.Test
         }
 
         [Fact]
+        public async void PostAsync_should_throw_exception_if_api_key_invalid()
+        {
+            // arrange
+            var handler = new FakeResponseHandler();
+            handler.AddFakeResponse(new Uri("http://localhost"), new HttpResponseMessage());
+
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
+            {
+                ApiKey = "000000000-0000-0000-0000-000000000000", // 0が多い
+                ApiSecret = "00000000-0000-0000-0000-000000000000",
+            };
+
+            var client = new ApiClient("http://localhost/", option);
+
+            // act 
+            // assert
+            await Assert.ThrowsAsync<CredentialFormatException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+        }
+
+        [Fact]
+        public async void PostAsync_should_throw_exception_if_api_secret_invalid()
+        {
+            // arrange
+            var handler = new FakeResponseHandler();
+            handler.AddFakeResponse(new Uri("http://localhost"), new HttpResponseMessage());
+
+            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
+            {
+                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", //大文字 
+            };
+
+            var client = new ApiClient("http://localhost/", option);
+
+            // act 
+            // assert
+            await Assert.ThrowsAsync<CredentialFormatException>(
+                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+        }
+
+        [Fact]
         public async void PostAsync_should_throw_exception_if_api_error()
         {
             // arrange
@@ -59,7 +101,7 @@ namespace ZaifApiWrapper.Test
 
             var option = new ApiClientOption(new FakeHttpClientAccessor(handler)) {
                 ApiKey = "00000000-0000-0000-0000-000000000000",
-                ApiSecret = "00000000-0000-0000-0000-000000000000",
+                ApiSecret = "ffffffff-ffff-ffff-ffff-ffffffffffff",
                 MaxRetry = 5,
                 ApiTimeoutRetryInterval = 0 };
 
@@ -89,7 +131,7 @@ namespace ZaifApiWrapper.Test
 
             var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
             {
-                ApiKey = "00000000-0000-0000-0000-000000000000",
+                ApiKey = "12345678-9abc-def0-0000-000000000000",
                 ApiSecret = "00000000-0000-0000-0000-000000000000",
                 MaxRetry = 5,
                 ApiTimeoutRetryInterval = 0

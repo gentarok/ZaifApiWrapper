@@ -19,6 +19,10 @@ namespace ZaifApiWrapper
         /// </summary>
         internal static readonly string[] Actions = { "bid", "ask" };
         /// <summary>
+        /// 並び順
+        /// </summary>
+        internal static readonly string[] Orders = { "ASC", "DESC" };
+        /// <summary>
         /// レバレッジ取引の種類
         /// </summary>
         internal static readonly string[] LeverageTypes = { "margin", "futures" };
