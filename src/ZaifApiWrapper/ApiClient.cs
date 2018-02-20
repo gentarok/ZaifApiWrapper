@@ -130,7 +130,7 @@ namespace ZaifApiWrapper
             }
         }
 
-        const string CREDENTIAL_PATTERN = "^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}$";
+        const string CREDENTIAL_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
         private static readonly Regex CredentialMatcher = new Regex(CREDENTIAL_PATTERN);
 
         /// <summary>
