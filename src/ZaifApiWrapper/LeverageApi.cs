@@ -278,7 +278,7 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("currency_pair", nameof(parameters));
-            parameters["currencyPair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currencyPair");
+            parameters["currency_pair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currencyPair");
 
             parameters.ThrowIfNotContainsKey("action", nameof(parameters));
             parameters["action"].ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(parameters), "action");
