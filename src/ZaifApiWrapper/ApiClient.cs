@@ -65,6 +65,8 @@ namespace ZaifApiWrapper
         /// <param name="arguments">APIメソッド引数の配列</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns>APIで取得したデータ</returns>
+        /// <exception cref="RetryCountOverException">最大試行回数を超えました。</exception>
+        /// <exception cref="ZaifApiException">error.</exception>
         public async Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token)
         {
             var args = string.Join("/", arguments);
@@ -78,7 +80,7 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _maxRetry) throw new ZaifApiException("最大試行回数を超えました。");
+                if (count >= _maxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
                 if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 string jsonString;
@@ -139,6 +141,13 @@ namespace ZaifApiWrapper
         /// <param name="parameters">APIパラメータのディクショナリ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
         /// <returns>APIで取得したデータ</returns>
+        /// <exception cref="CredentialFormatException">
+        /// API Keyの形式が正しくありません。
+        /// or
+        /// API Secretの形式が正しくありません。
+        /// </exception>
+        /// <exception cref="RetryCountOverException">最大試行回数を超えました。</exception>
+        /// <exception cref="ZaifApiException">error.</exception>
         public async Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token)
         {
             if (!CredentialMatcher.IsMatch(_apiKey))
@@ -159,7 +168,7 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _maxRetry) throw new ZaifApiException("最大試行回数を超えました。");
+                if (count >= _maxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
                 if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 // マルチスレッドで利用されてもnonceが重複しないようにする
