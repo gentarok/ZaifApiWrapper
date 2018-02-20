@@ -8,12 +8,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <OutputPath>bin\Any CPU\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <OutputPath>bin\Any CPU\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

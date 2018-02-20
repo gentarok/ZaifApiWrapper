@@ -18,17 +18,15 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
-    <DocumentationFile>bin\Any CPU\Debug\netstandard2.0\ZaifApiWrapper.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\ZaifApiWrapper.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Any CPU\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Any CPU\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
