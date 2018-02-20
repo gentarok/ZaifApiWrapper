@@ -35,11 +35,11 @@ namespace ZaifApiWrapper.Test
             return new ApiClient("http://localhost", option);
         }
 
-        //public static object[][] GetAsyncSuccessDana = new object[][]
-        //{
-        //    new object[] { @"{ ""key"": ""value"" }", },
-        //    new object[] { @"{ { ""key"": ""value1"" }, { ""key"": ""value2"" }, }", },
-        //};
+        public static object[][] GetAsyncSuccessDana = new object[][]
+        {
+            new object[] { @"{ ""key"": ""value"" }", },
+            new object[] { @"[ { ""key"": 1 }, { ""key"": 2 }, ]", },
+        };
 
         // GetAsync, PostAsyncがリトライになるケースのデータ
         public static object[][] RetryData = new object[][]
@@ -105,12 +105,11 @@ namespace ZaifApiWrapper.Test
             Assert.IsType<ApiClient>(obj);
         }
 
-        [Fact]
-        public async void GetAsync_should_success_if_return_an_object()
+        [Theory]
+        [MemberData(nameof(GetAsyncSuccessDana))]
+        public async void GetAsync_should_success(string jsonString)
         {
             //arrange
-            var jsonString = @"{ ""key"": ""value"" }";
-
             var response = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
@@ -121,27 +120,6 @@ namespace ZaifApiWrapper.Test
 
             //act
             var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None);
-
-            //assert
-            Assert.NotNull(actual);
-        }
-
-        [Fact]
-        public async void GetAsync_should_success_if_return_objects()
-        {
-            //arrange
-            var jsonString = @"[{ ""key"": 1 }, { ""key"": 2 }]";
-
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
-
-            var obj = Create(response);
-
-            //act
-            var actual = await obj.GetAsync<IEnumerable<object>>("_", new[] { "_" }, CancellationToken.None);
 
             //assert
             Assert.NotNull(actual);
