@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Moq.Protected;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -33,6 +34,12 @@ namespace ZaifApiWrapper.Test
             };
             return new ApiClient("http://localhost", option);
         }
+
+        //public static object[][] GetAsyncSuccessDana = new object[][]
+        //{
+        //    new object[] { @"{ ""key"": ""value"" }", },
+        //    new object[] { @"{ { ""key"": ""value1"" }, { ""key"": ""value2"" }, }", },
+        //};
 
         // GetAsync, PostAsyncがリトライになるケースのデータ
         public static object[][] RetryData = new object[][]
@@ -99,7 +106,7 @@ namespace ZaifApiWrapper.Test
         }
 
         [Fact]
-        public async void GetAsync_should_success()
+        public async void GetAsync_should_success_if_return_an_object()
         {
             //arrange
             var jsonString = @"{ ""key"": ""value"" }";
@@ -114,6 +121,27 @@ namespace ZaifApiWrapper.Test
 
             //act
             var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None);
+
+            //assert
+            Assert.NotNull(actual);
+        }
+
+        [Fact]
+        public async void GetAsync_should_success_if_return_objects()
+        {
+            //arrange
+            var jsonString = @"[{ ""key"": 1 }, { ""key"": 2 }]";
+
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
+            };
+
+            var obj = Create(response);
+
+            //act
+            var actual = await obj.GetAsync<IEnumerable<object>>("_", new[] { "_" }, CancellationToken.None);
 
             //assert
             Assert.NotNull(actual);
@@ -137,6 +165,27 @@ namespace ZaifApiWrapper.Test
 
             //assert
             Assert.IsType<RetryCountOverException>(actual.Result);
+        }
+
+        [Fact]
+        public void GetAsync_should_throw_ZaifApiException()
+        {
+            //arrange
+            var jsonString = @"{ ""error"": ""api errer raised."" }";
+
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
+            };
+
+            var obj = Create(response);
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
+
+            //assert
+            Assert.IsType<ZaifApiException>(actual.Result);
         }
 
         [Fact]
