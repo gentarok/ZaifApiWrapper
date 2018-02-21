@@ -12,12 +12,12 @@ namespace ZaifApiWrapper.TradeData
         /// 今回の注文で約定した取引量
         /// </summary>
         [JsonProperty("received")]
-        public double Received { get; set; }
+        public decimal Received { get; set; }
         /// <summary>
         /// 今回の注文で約定せず、板に残った取引量
         /// </summary>
         [JsonProperty("remains")]
-        public double Remains{ get; set; }
+        public decimal Remains{ get; set; }
         /// <summary>
         /// 今回の注文がすべて成立した場合は0、一部、もしくはすべて約定しなかった場合は板に残った注文のID。
         /// </summary>
