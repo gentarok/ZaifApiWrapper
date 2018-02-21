@@ -28,15 +28,13 @@ PM> Install-Package ZaifApiWrapper
 |先物公開API|ZaifApiWrapper.FutureApi||
 |レバレッジ取引API|ZaifApiWrapper.LeverageApi||
 
-メソッド名は、**(APIのメソッド名のPascalCase)+Async**です。
-
-(例)```currency_pairs```→```CurrencyPairsAsync()```
+メソッド名は **(APIのメソッド名のPascalCase)+Async** です。(例:```currency_pairs```→```CurrencyPairsAsync()```)
 
 ## Example
 
 ### 現物公開API、先物公開API
 
-C# 7.1 or higher
+C# 7.1 or greater
 
 ```CSharp
 using System;
@@ -71,7 +69,7 @@ namespace ConsoleApp1
 
 ### 現物取引API、レバレッジ取引API
 
-C# 7.1 or higher
+C# 7.1 or greater
 
 ```CSharp
 using System;
@@ -121,18 +119,18 @@ namespace ConsoleApp1
 
 #### 引数の型
 
-`TradeApi`,`LeverageApi`はプリミティブデータ型以外に`IDictionary<string, string>`でも引数をとれます。
+`TradeApi`, `LeverageApi`はプリミティブデータ型以外に`IDictionary<string, string>`でも引数をとれます。
 使いやすい方を使ってください。
 
 引数は簡単なチェックはしていますが、公式ドキュメントを参照して正しい値をセットしてください。
 
-また、`"bid"`, `"ask"`等の文字列で指定する引数のうち、変更の可能性が低いものについては、将来的には列挙型を追加することを予定していますが、現在は文字列のみの指定しか対応していません。
+また、`"bid"`, `"ask"`等の文字列で指定する引数のうち、変更の可能性が低いものについては、将来的には列挙型を追加することを検討しますが、現在は文字列のみの指定しか対応していません。
 
 #### 呼び出しのキャンセル
 
-各メソッドは`CancellationToken`を指定できます。
+各メソッドは`CancellationToken`を指定できます。（使い方については[こちら](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks)を参照してください）
 
-`CancellationToken`の使い方については[こちら](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks)を参照してください。
+ただし、サーバー側の処理完了後、レスポンスを受け取る前にキャンセルした場合などの対応は、必要に応じてプログラム側で行ってください。
 
 ## Licence
 [MIT Licence](https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE)
