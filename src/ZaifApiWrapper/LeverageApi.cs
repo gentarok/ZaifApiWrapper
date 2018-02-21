@@ -57,9 +57,9 @@ namespace ZaifApiWrapper
             string type, int? groupId = null, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, string currencyPair = null, CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
             if (order != null)
-                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
+                order.ThrowIfValueInvalid(Definitions.Orders, nameof(order));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -97,12 +97,12 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
             if (parameters.ContainsKey("order"))
-                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
+                parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, GetPositionsResponse>>(
                 nameof(GetPositionsAsync).ToApiMethodName(), parameters, token);
@@ -120,7 +120,7 @@ namespace ZaifApiWrapper
         public Task<IDictionary<int, PositionHistoryResponse>> PositionHistoryAsync(
             string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -152,7 +152,7 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 
@@ -175,7 +175,7 @@ namespace ZaifApiWrapper
         public Task<IDictionary<int, ActivePositionsResponse>> ActivePositionsAsync(
             string type, int? groupId = null, string currencyPair = null, CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -207,7 +207,7 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
             
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
@@ -235,9 +235,9 @@ namespace ZaifApiWrapper
             string type, string currencyPair, string action, decimal amount, decimal price, decimal leverage,
             int? groupId = null, decimal? limit = null, decimal? stop = null, CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
-            action.ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(action));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
+            action.ThrowIfValueInvalid(Definitions.Actions, nameof(action));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -275,13 +275,13 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("currency_pair", nameof(parameters));
-            parameters["currency_pair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currencyPair");
+            parameters["currency_pair"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "currencyPair");
 
             parameters.ThrowIfNotContainsKey("action", nameof(parameters));
-            parameters["action"].ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(parameters), "action");
+            parameters["action"].ThrowIfValueInvalid(Definitions.Actions, nameof(parameters), "action");
 
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
@@ -310,7 +310,7 @@ namespace ZaifApiWrapper
             string type, int leverageId, decimal price, int? groupId = null, decimal? limit = null, decimal? stop = null,
             CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -345,7 +345,7 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
@@ -369,7 +369,7 @@ namespace ZaifApiWrapper
         public Task<CancelPositionResponse> CancelPositionAsync(
             string type, int leverageId, int? groupId = null, CancellationToken token = default)
         {
-            type.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(type));
+            type.ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(type));
 
             if (type == "futures" && groupId == null)
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(groupId));
@@ -401,7 +401,7 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("type", nameof(parameters));
-            parameters["type"].ThrowArgumentExcepitonIfNotContains(Definitions.LeverageTypes, nameof(parameters), "type");
+            parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
 

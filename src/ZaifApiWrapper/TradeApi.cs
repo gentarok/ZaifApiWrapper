@@ -89,7 +89,7 @@ namespace ZaifApiWrapper
             long? since = null, long? end = null, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
         {
             if (order != null)
-                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
+                order.ThrowIfValueInvalid(Definitions.Orders, nameof(order));
 
             var parameters = new Dictionary<string, string>();
 
@@ -119,7 +119,7 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             if (parameters.ContainsKey("order"))
-                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
+                parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, TradeHistoryResponse>>(
                 nameof(TradeHistoryAsync).ToApiMethodName(), parameters, token);
@@ -179,8 +179,8 @@ namespace ZaifApiWrapper
             string currencyPair, string action, decimal price, decimal amount, decimal? limit = null, 
             string comment = null, CancellationToken token = default)
         {
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
-            action.ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(action));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
+            action.ThrowIfValueInvalid(Definitions.Actions, nameof(action));
 
             var parameters = new Dictionary<string, string>
             {
@@ -208,10 +208,10 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("currency_pair", nameof(parameters));
-            parameters["currency_pair"].ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(parameters), "currency_pair");
+            parameters["currency_pair"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "currency_pair");
 
             parameters.ThrowIfNotContainsKey("action", nameof(parameters));
-            parameters["action"].ThrowArgumentExcepitonIfNotContains(Definitions.Actions, nameof(parameters), "action");
+            parameters["action"].ThrowIfValueInvalid(Definitions.Actions, nameof(parameters), "action");
 
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
@@ -275,8 +275,8 @@ namespace ZaifApiWrapper
         public Task<WithdrawResponse> WithdrawAsync(
             string currency, string address, decimal amount, string message = null, decimal? optFee = null, CancellationToken token = default)
         {
-            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
-            address.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(address));
+            currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
+            address.ThrowIfIsNullOrWhiteSpace(nameof(address));
 
             if (!OptFeeAcceptableCurrencies.Contains(currency) && optFee != null)
                 throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(optFee));
@@ -336,9 +336,9 @@ namespace ZaifApiWrapper
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
-            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
+            currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
             if (order != null)
-                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
+                order.ThrowIfValueInvalid(Definitions.Orders, nameof(order));
 
             var parameters = new Dictionary<string, string>
             {
@@ -370,7 +370,7 @@ namespace ZaifApiWrapper
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
             if (parameters.ContainsKey("order"))
-                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
+                parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, DepositHistoryResponse>>(
                 nameof(DepositHistoryAsync).ToApiMethodName(), parameters, token);
@@ -393,9 +393,9 @@ namespace ZaifApiWrapper
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
             string order = null, long? since = null, long? end = null, CancellationToken token = default)
         {
-            currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
+            currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
             if (order != null)
-                order.ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(order));
+                order.ThrowIfValueInvalid(Definitions.Orders, nameof(order));
 
             var parameters = new Dictionary<string, string>
             {
@@ -427,7 +427,7 @@ namespace ZaifApiWrapper
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
             if (parameters.ContainsKey("order"))
-                parameters["order"].ThrowArgumentExcepitonIfNotContains(Definitions.Orders, nameof(parameters), "order");
+                parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, WithdrawHistoryResponse>>(
                 nameof(WithdrawHistoryAsync).ToApiMethodName(), parameters, token);
