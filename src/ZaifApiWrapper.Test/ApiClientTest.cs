@@ -1,215 +1,209 @@
-﻿using System;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using Xunit;
-using ZaifApiWrapper.Test.TestDouble;
 
 namespace ZaifApiWrapper.Test
 {
     public class ApiClientTest
     {
+        #region Test data
 
-        class Test
+        public static object[][] GetAsyncSuccessDana = new object[][]
         {
-            public string Name { get; set; }
-        }
+            new object[] { @"{ ""key"": ""value"" }", },
+            new object[] { @"[ { ""key"": 1 }, { ""key"": 2 }, ]", },
+        };
+
+        // GetAsync, PostAsyncがリトライになるケースのデータ
+        public static object[][] RetryData = new object[][]
+        {
+           new object[]
+           {
+               HttpStatusCode.BadGateway, string.Empty,
+           },
+           new object[]
+           {
+               HttpStatusCode.ServiceUnavailable, string.Empty,
+           },
+           new object[]
+           {
+               HttpStatusCode.GatewayTimeout, string.Empty,
+           },
+           new object[]
+           {
+               HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""time wait restriction, please try later."" }",
+           },
+        };
+
+        // GetAsync, PostAsyncがリトライになるケースのデータ
+        public static object[][] InvalidCredentialData = new object[][]
+        {
+           new object[]
+           {
+               "00000000-0000-0000-0000-0000000000000", //桁が多い
+               TestHelper.VALID_CREDENTIAL,
+           },
+           new object[]
+           {
+               TestHelper.VALID_CREDENTIAL,
+               "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", //大文字
+           },
+           new object[]
+           {
+               "00000000-0000-0000-0000-00000000000g", //範囲外
+               TestHelper.VALID_CREDENTIAL,
+           },
+           new object[]
+           {
+               TestHelper.VALID_CREDENTIAL,
+               "000000000-000-0000-0000-000000000000", //形式異常
+           },
+        };
+
+        #endregion
 
         [Fact]
-        public async void GetAsync_should_return_specific_object()
+        public void Costructor_should_return_instance()
         {
-            // arrange
-            var jsonString = @"{ ""Name"": ""test"" }";
+            //arrange
 
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost/test/1"),
-                new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-                });
+            //act
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor();
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler));
-            var client = new ApiClient("http://localhost/", option);
-
-            // act 
-            var obj = await client.GetAsync<Test>("test", new[] { "1" }, CancellationToken.None);
-
-            // assert
+            //assert
             Assert.NotNull(obj);
-            Assert.IsType<Test>(obj);
-            Assert.Equal("test", obj.Name);
+            Assert.IsType<ApiClient>(obj);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetAsyncSuccessDana))]
+        public async void GetAsync_should_success(string jsonString)
+        {
+            //arrange
+            var response = TestHelper.CreateJsonResponse(jsonString);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            //act
+            var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None);
+
+            //assert
+            Assert.NotNull(actual);
+        }
+
+        [Theory]
+        [MemberData(nameof(RetryData))]
+        public void GetAsync_should_throw_RetryCountOverException(HttpStatusCode statusCode, string jsonString)
+        {
+            //arrange
+            var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
+
+            //assert
+            Assert.IsType<RetryCountOverException>(actual.Result);
         }
 
         [Fact]
-        public async void PostAsync_should_throw_exception_if_api_key_invalid()
+        public void GetAsync_should_throw_ZaifApiException()
         {
-            // arrange
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"), new HttpResponseMessage());
+            //arrange
+            var jsonString = @"{ ""error"": ""api errer raised."" }";
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
-            {
-                ApiKey = "000000000-0000-0000-0000-000000000000", // 0が多い
-                ApiSecret = "00000000-0000-0000-0000-000000000000",
-            };
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var client = new ApiClient("http://localhost/", option);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
-            // act 
-            // assert
-            await Assert.ThrowsAsync<CredentialFormatException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
+
+            //assert
+            Assert.IsType<ZaifApiException>(actual.Result);
         }
 
         [Fact]
-        public async void PostAsync_should_throw_exception_if_api_secret_invalid()
+        public async void PostAsync_should_success()
+        {
+            //arrange
+            var jsonString = @"{ ""success"": 1, ""return"": { ""key"": ""value"" } }";
+
+            var response = TestHelper.CreateJsonResponse(jsonString);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            //act
+            var actual = await obj.PostAsync<object>("_", null, CancellationToken.None);
+
+            //assert
+            Assert.NotNull(actual);
+        }
+
+        [Theory]
+        [MemberData(nameof(InvalidCredentialData))]
+        public void PostAsync_should_throw_CredentialFormatException(string apiKey, string apiSecret)
         {
             // arrange
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"), new HttpResponseMessage());
+            var response = TestHelper.CreateJsonResponse(HttpStatusCode.OK, string.Empty);
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
-            {
-                ApiKey = "00000000-0000-0000-0000-000000000000",
-                ApiSecret = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", //大文字 
-            };
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(apiKey, apiSecret, response);
 
-            var client = new ApiClient("http://localhost/", option);
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
 
-            // act 
-            // assert
-            await Assert.ThrowsAsync<CredentialFormatException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
+            //assert
+            Assert.IsType<CredentialFormatException>(actual.Result);
+        }
+
+        [Theory]
+        [MemberData(nameof(RetryData))]
+        public void PostAsync_should_throw_RetryCountOverException(HttpStatusCode statusCode, string jsonString)
+        {
+            //arrange
+            var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+
+            //assert
+            Assert.IsType<RetryCountOverException>(actual.Result);
         }
 
         [Fact]
-        public async void PostAsync_should_throw_exception_if_api_error()
+        public void PostAsync_should_throw_ZaifApiException()
         {
-            // arrange
+            //arrange
             var jsonString = @"{ ""success"": 0 , ""error"": ""api errer raised."" }";
 
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"),
-                new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-                });
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler)) {
-                ApiKey = "00000000-0000-0000-0000-000000000000",
-                ApiSecret = "ffffffff-ffff-ffff-ffff-ffffffffffff",
-                MaxRetry = 5,
-                ApiTimeoutRetryInterval = 0 };
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
-            var client = new ApiClient("http://localhost/", option);
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
 
-            // act 
-            // assert
-            await Assert.ThrowsAsync<ZaifApiException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
- 
-            Assert.Equal(1, handler.SendCount);
+            //assert
+            Assert.IsType<ZaifApiException>(actual.Result);
         }
 
         [Fact]
-        public async void PostAsync_should_throw_exception_if_api_error_after_retry()
+        public void PostAsync_should_throw_HttpRequestException()
         {
             // arrange
-            var jsonString = @"{ ""success"": 0 , ""error"": ""please try later."" }";
+            var response = TestHelper.CreateJsonResponse(HttpStatusCode.InternalServerError, string.Empty);
 
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"),
-                new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-                });
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
-            {
-                ApiKey = "12345678-9abc-def0-0000-000000000000",
-                ApiSecret = "00000000-0000-0000-0000-000000000000",
-                MaxRetry = 5,
-                ApiTimeoutRetryInterval = 0
-            };
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
 
-            var client = new ApiClient("http://localhost/", option);
-
-            // act 
-            // assert
-            await Assert.ThrowsAsync<ZaifApiException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
-
-            Assert.Equal(5, handler.SendCount);
-        }
-
-
-        [Fact]
-        public async void PostAsync_should_throw_exception_if_http_error_except_timeout()
-        {
-            // arrange
-            var jsonString = @"{ ""Name"": ""test"" }";
-
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"),
-                new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-                });
-
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
-            {
-                ApiKey = "00000000-0000-0000-0000-000000000000",
-                ApiSecret = "00000000-0000-0000-0000-000000000000",
-                MaxRetry = 5,
-                HttpErrorRetryInterval = 0
-            };
-            var client = new ApiClient("http://localhost/", option);
-
-            // act 
-            // assert
-            await Assert.ThrowsAsync<HttpRequestException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
-
-            Assert.Equal(1, handler.SendCount);
-            
-        }
-
-        [Fact]
-        public async void PostAsync_should_throw_exception_if_http_timeout_after_retry()
-        {
-            // arrange
-            var jsonString = @"{ ""Name"": ""test"" }";
-
-            var handler = new FakeResponseHandler();
-            handler.AddFakeResponse(new Uri("http://localhost"),
-                new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.BadGateway,
-                    Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-                });
-
-            var option = new ApiClientOption(new FakeHttpClientAccessor(handler))
-            {
-                ApiKey = "00000000-0000-0000-0000-000000000000",
-                ApiSecret = "00000000-0000-0000-0000-000000000000",
-                MaxRetry = 10,
-                HttpErrorRetryInterval = 0
-            };
-
-            var client = new ApiClient("http://localhost/", option);
-
-            // act
-            // assert
-            await Assert.ThrowsAsync<ZaifApiException>(
-                async () => await client.PostAsync<Test>("test", null, CancellationToken.None));
-
-            Assert.Equal(10, handler.SendCount);
+            //assert
+            Assert.IsType<HttpRequestException>(actual.Result);
         }
     }
 }

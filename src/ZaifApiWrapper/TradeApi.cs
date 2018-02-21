@@ -278,7 +278,7 @@ namespace ZaifApiWrapper
             currency.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currency));
             address.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(address));
 
-            if (!OptFeeAcceptableCurrencies.Contains("currency") && optFee != null)
+            if (!OptFeeAcceptableCurrencies.Contains(currency) && optFee != null)
                 throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(optFee));
 
             var parameters = new Dictionary<string, string>
