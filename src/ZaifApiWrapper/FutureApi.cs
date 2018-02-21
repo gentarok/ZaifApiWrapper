@@ -47,7 +47,7 @@ namespace ZaifApiWrapper
         /// </returns>
         public Task<IEnumerable<GroupsResponse>> GroupsAsync(string group = "all", CancellationToken token = default)
         {
-            group.ThrowArgumentExcepitonIfNotContains(Definitions.LeverageGroups, nameof(group));
+            group.ThrowIfValueInvalid(Definitions.LeverageGroups, nameof(group));
 
             return _client.GetAsync<IEnumerable<GroupsResponse>>(
                 nameof(GroupsAsync).ToApiMethodName(), new[] { group }, token);
@@ -76,7 +76,7 @@ namespace ZaifApiWrapper
         /// </returns>
         public Task<LastPriceResponse> LastPriceAsync(int groupId, string currencyPair, CancellationToken token = default)
         {
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<LastPriceResponse>(
                 nameof(LastPriceAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
@@ -91,7 +91,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="TickerResponse"/>オブジェクト。</returns>
         public Task<TickerResponse> TickerAsync(int groupId, string currencyPair, CancellationToken token = default)
         {
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<TickerResponse>(
                 nameof(TickerAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
@@ -108,7 +108,7 @@ namespace ZaifApiWrapper
         /// </returns>
         public Task<IEnumerable<TradesResponse>> TradesAsync(int groupId, string currencyPair, CancellationToken token = default)
         {
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<IEnumerable<TradesResponse>>(
                 nameof(TradesAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
@@ -123,7 +123,7 @@ namespace ZaifApiWrapper
         /// <returns><see cref="DepthResponse"/>オブジェクト。</returns>
         public Task<DepthResponse> DepthAsync(int groupId, string currencyPair, CancellationToken token = default)
         {
-            currencyPair.ThrowArgumentExceptionIfNullOrWhiteSpace(nameof(currencyPair));
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<DepthResponse>(
                 nameof(DepthAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
