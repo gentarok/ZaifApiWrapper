@@ -66,7 +66,7 @@ namespace ZaifApiWrapper.LeverageData
         /// クローズ日時(UNIX_TIMESTAMP)
         /// </summary>
         [JsonProperty("timestamp_closed")]
-        public long timestamp_closed { get; set; }
+        public long TimestampClosed { get; set; }
         /// <summary>
         /// 建玉平均価格
         /// </summary>
