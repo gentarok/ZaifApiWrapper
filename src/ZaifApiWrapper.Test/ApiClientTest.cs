@@ -1,39 +1,13 @@
-﻿using Moq;
-using Moq.Protected;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ZaifApiWrapper.Test
 {
     public class ApiClientTest
     {
-        #region Test helper
-
-        // Test target factory
-        private ApiClient Create(HttpResponseMessage httpRequestMessage = null, string apiKey = null, string apiSecret = null)
-        {
-            var handler = new Mock<DelegatingHandler>();
-            handler.Protected().Setup<Task<HttpResponseMessage>>(
-                "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .Returns(() => Task.FromResult(httpRequestMessage));
-
-            var accessor = new Mock<IHttpClientAccessor>();
-            accessor.SetupGet((x) => x.Client).Returns(new HttpClient(handler.Object));
-
-            var option = new ApiClientOption(accessor.Object)
-            {
-                ApiKey = apiKey,
-                ApiSecret = apiSecret,
-                HttpErrorRetryInterval = 0,
-                ApiTimeoutRetryInterval = 0,
-            };
-            return new ApiClient("http://localhost", option);
-        }
+        #region Test data
 
         public static object[][] GetAsyncSuccessDana = new object[][]
         {
@@ -62,30 +36,27 @@ namespace ZaifApiWrapper.Test
            },
         };
 
-        // 正しい形式のAPI key, API secret
-        private const string VALID_CREDENTIAL = "00000000-0000-0000-0000-000000000000";
-
         // GetAsync, PostAsyncがリトライになるケースのデータ
         public static object[][] InvalidCredentialData = new object[][]
         {
            new object[]
            {
                "00000000-0000-0000-0000-0000000000000", //桁が多い
-               VALID_CREDENTIAL,
+               TestHelper.VALID_CREDENTIAL,
            },
            new object[]
            {
-               VALID_CREDENTIAL,
+               TestHelper.VALID_CREDENTIAL,
                "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", //大文字
            },
            new object[]
            {
                "00000000-0000-0000-0000-00000000000g", //範囲外
-               VALID_CREDENTIAL,
+               TestHelper.VALID_CREDENTIAL,
            },
            new object[]
            {
-               VALID_CREDENTIAL,
+               TestHelper.VALID_CREDENTIAL,
                "000000000-000-0000-0000-000000000000", //形式異常
            },
         };
@@ -98,7 +69,7 @@ namespace ZaifApiWrapper.Test
             //arrange
 
             //act
-            var obj = Create();
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor();
 
             //assert
             Assert.NotNull(obj);
@@ -110,13 +81,9 @@ namespace ZaifApiWrapper.Test
         public async void GetAsync_should_success(string jsonString)
         {
             //arrange
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var obj = Create(response);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None);
@@ -130,13 +97,9 @@ namespace ZaifApiWrapper.Test
         public void GetAsync_should_throw_RetryCountOverException(HttpStatusCode statusCode, string jsonString)
         {
             //arrange
-            var response = new HttpResponseMessage
-            {
-                StatusCode = statusCode,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
 
-            var obj = Create(response);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
@@ -151,13 +114,9 @@ namespace ZaifApiWrapper.Test
             //arrange
             var jsonString = @"{ ""error"": ""api errer raised."" }";
 
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var obj = Create(response);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
@@ -172,13 +131,9 @@ namespace ZaifApiWrapper.Test
             //arrange
             var jsonString = @"{ ""success"": 1, ""return"": { ""key"": ""value"" } }";
 
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var obj = Create(response, VALID_CREDENTIAL, VALID_CREDENTIAL);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = await obj.PostAsync<object>("_", null, CancellationToken.None);
@@ -192,12 +147,9 @@ namespace ZaifApiWrapper.Test
         public void PostAsync_should_throw_CredentialFormatException(string apiKey, string apiSecret)
         {
             // arrange
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-            };
+            var response = TestHelper.CreateJsonResponse(HttpStatusCode.OK, string.Empty);
 
-            var obj = Create(response, apiKey, apiSecret);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(apiKey, apiSecret, response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
@@ -211,13 +163,9 @@ namespace ZaifApiWrapper.Test
         public void PostAsync_should_throw_RetryCountOverException(HttpStatusCode statusCode, string jsonString)
         {
             //arrange
-            var response = new HttpResponseMessage
-            {
-                StatusCode = statusCode,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
 
-            var obj = Create(response, VALID_CREDENTIAL, VALID_CREDENTIAL);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
@@ -232,13 +180,9 @@ namespace ZaifApiWrapper.Test
             //arrange
             var jsonString = @"{ ""success"": 0 , ""error"": ""api errer raised."" }";
 
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
-            };
+            var response = TestHelper.CreateJsonResponse(jsonString);
 
-            var obj = Create(response, VALID_CREDENTIAL, VALID_CREDENTIAL);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
@@ -251,12 +195,9 @@ namespace ZaifApiWrapper.Test
         public void PostAsync_should_throw_HttpRequestException()
         {
             // arrange
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.InternalServerError,
-            };
+            var response = TestHelper.CreateJsonResponse(HttpStatusCode.InternalServerError, string.Empty);
 
-            var obj = Create(response, VALID_CREDENTIAL, VALID_CREDENTIAL);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
