@@ -35,23 +35,23 @@ namespace ZaifApiWrapper
         /// <param name="paramName"><see cref="ArgumentException"/>のパラメータ名</param>
         /// <param name="messageParamName">例外メッセージのパラメータ名文字列</param>
         /// <exception cref="ArgumentException"></exception>
-        internal static void ThrowArgumentExceptionIfNullOrWhiteSpace(this string value, string paramName, string messageParamName = null) {
+        internal static void ThrowIfIsNullOrWhiteSpace(this string value, string paramName, string messageParamName = null) {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException($"'{messageParamName ?? paramName}' を指定してください。", paramName);
         }
 
         /// <summary>
-        /// <paramref name="allowedValue"/>に含まれる文字列以外の場合に<see cref="ArgumentException"/>を発生させます。
+        /// <paramref name="validValues"/>に含まれる文字列以外の場合に<see cref="ArgumentException"/>を発生させます。
         /// </summary>
         /// <param name="value">文字列</param>
-        /// <param name="allowedValue">allowedValue</param>
+        /// <param name="validValues">allowedValue</param>
         /// <param name="paramName"><see cref="ArgumentException"/>のパラメータ名</param>
         /// <param name="messageParamName">例外メッセージのパラメータ名文字列</param>
         /// <exception cref="ArgumentException"></exception>
-        internal static void ThrowArgumentExcepitonIfNotContains(this string value, string[] allowedValue, string paramName, string messageParamName = null)
+        internal static void ThrowIfValueInvalid(this string value, string[] validValues, string paramName, string messageParamName = null)
         {
-            if (!allowedValue.Contains(value))
-                throw new ArgumentException($"'{messageParamName ?? paramName}' は '{string.Join(", ", allowedValue)}' のいずれかを指定してください。", paramName);
+            if (!validValues.Contains(value))
+                throw new ArgumentException($"'{messageParamName ?? paramName}' は '{string.Join(", ", validValues)}' のいずれかを指定してください。", paramName);
         }
     }
 }
