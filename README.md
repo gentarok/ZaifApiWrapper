@@ -112,7 +112,8 @@ namespace ConsoleApp1
 |MaxRetry|10|API実行でエラーが発生した場合の再試行回数|
 |HttpErrorRetryInterval|1000|`HttpStatusCodesToRetry`で指定されたエラーが発生した場合の再試行までのインターバル(ms)|
 |HttpStatusCodesToRetry|`HttpStatusCode.BadGateway`<br/>`HttpStatusCode.ServiceUnavailable`<br>`HttpStatusCode.GatewayTimeout`|再試行対象のHTTPステータスコード|
-|ApiTimeoutRetryInterval|5000|[API呼び出し回数の規制によるタイムアウト](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)時に再試行を行う場合のインターバル(ms)|
+|ApiErrorRetryInterval|5000|APIから`ApiErrorMessagePatternToRetry`にマッチするメッセージを受け取った場合の再試行までのインターバル(ms)|
+|ApiErrorMessagePatternToRetry|"please try later"<br/>（[API呼出し回数制限時のメッセージ](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)）|再試行対象のメッセージに含まれる文字列（正規表現で指定可）|
 
 
 ### APIメソッドの引数
