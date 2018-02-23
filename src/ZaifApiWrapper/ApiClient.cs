@@ -120,6 +120,7 @@ namespace ZaifApiWrapper
                             Debug.WriteLine($"Retry(ApiTimeout):{count}");
                             continue;
                         }
+
                         throw new ZaifApiException(error);
                     }
 
@@ -205,7 +206,6 @@ namespace ZaifApiWrapper
                 jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
                 Debug.WriteLine($"jsonString:{ jsonString}");
                 
-
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var obj = JsonConvert.DeserializeObject<JObject>(jsonString, SerializerSettings);
 
