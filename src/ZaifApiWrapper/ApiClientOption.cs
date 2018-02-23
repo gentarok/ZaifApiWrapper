@@ -40,7 +40,11 @@ namespace ZaifApiWrapper
         /// <summary>
         /// APIエラーが発生した場合な再試行までのインターバル（ms）（既定値:5000ms）
         /// </summary>
-        public int ApiTimeoutRetryInterval { get; set; } = 5000;
+        public int ApiErrorRetryInterval { get; set; } = 5000;
+        /// <summary>
+        /// 再試行対象のAPIエラーメッセージ（正規表現指定可）（既定値:"please try later"）
+        /// </summary>
+        public string ApiErrorMessagePatternToRetry { get; set; } = "please try later";
         /// <summary>
         /// HttpClientのアクセサ
         /// </summary>

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -26,16 +25,8 @@ namespace ZaifApiWrapper
             FloatParseHandling = FloatParseHandling.Decimal,
         };
 
-        // HttpClientはテスト時に差し替えられるようにアクセサ経由で使う
-        private readonly IHttpClientAccessor _accessor;
-
-        private readonly string _apiKey;
-        private readonly string _apiSecret;
         private readonly string _endpoint;
-        private readonly int _maxRetry;
-        private readonly int _httpErrorRetryInterval;
-        private readonly HttpStatusCode[] _httpStatusCodeToRetry;
-        private readonly int _apiTimeoutRetryInterval;
+        private readonly ApiClientOption _option;
 
         private static long _nonce = DateTime.Now.ToUnixTimeStamp();
 
@@ -47,14 +38,7 @@ namespace ZaifApiWrapper
         internal ApiClient(string endpoint, ApiClientOption option)
         {
             _endpoint = endpoint;
-
-            _apiKey = option.ApiKey;
-            _apiSecret = option.ApiSecret;
-            _accessor = option.HttpClientAcessor;
-            _maxRetry = option.MaxRetry;
-            _httpErrorRetryInterval = option.HttpErrorRetryInterval;
-            _httpStatusCodeToRetry = option.HttpStatusCodesToRetry;
-            _apiTimeoutRetryInterval = option.ApiTimeoutRetryInterval;
+            _option = option;
         }
 
         /// <summary>
@@ -80,17 +64,17 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _maxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
+                if (count >= _option.MaxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
                 if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 string jsonString;
 
-                var res = await _accessor.Client.GetAsync(uri, token).ConfigureAwait(false);
+                var res = await _option.HttpClientAcessor.Client.GetAsync(uri, token).ConfigureAwait(false);
 
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                if (!res.IsSuccessStatusCode && _httpStatusCodeToRetry.Contains(res.StatusCode))
+                if (!res.IsSuccessStatusCode && _option.HttpStatusCodesToRetry.Contains(res.StatusCode))
                 {
-                    interval = _httpErrorRetryInterval;
+                    interval = _option.HttpErrorRetryInterval;
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
                     continue;
@@ -113,13 +97,14 @@ namespace ZaifApiWrapper
                     if (obj["error"] != null)
                     {
                         var error = obj["error"].ToString();
-                        if (Regex.IsMatch(error, "please try later", RegexOptions.IgnoreCase))
+                        if (Regex.IsMatch(error, _option.ApiErrorMessagePatternToRetry))
                         {
-                            interval = _apiTimeoutRetryInterval;
+                            interval = _option.ApiErrorRetryInterval;
                             count++;
-                            Debug.WriteLine($"Retry(ApiTimeout):{count}");
+                            Debug.WriteLine($"Retry(ApiError):{count}");
                             continue;
                         }
+
                         throw new ZaifApiException(error);
                     }
 
@@ -150,9 +135,9 @@ namespace ZaifApiWrapper
         /// <exception cref="ZaifApiException">error.</exception>
         public async Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token)
         {
-            if (!CredentialMatcher.IsMatch(_apiKey))
+            if (!CredentialMatcher.IsMatch(_option.ApiKey))
                 throw new CredentialFormatException("API Keyの形式が正しくありません。");
-            if (!CredentialMatcher.IsMatch(_apiSecret))
+            if (!CredentialMatcher.IsMatch(_option.ApiSecret))
                 throw new CredentialFormatException("API Secretの形式が正しくありません。");
 
             parameters = parameters ?? new Dictionary<string, string>();
@@ -168,7 +153,7 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _maxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
+                if (count >= _option.MaxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
                 if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 // マルチスレッドで利用されてもnonceが重複しないようにする
@@ -183,17 +168,17 @@ namespace ZaifApiWrapper
 
                 var sign = await GenerateSignature(content).ConfigureAwait(false);
 
-                content.Headers.Add("key", _apiKey);
+                content.Headers.Add("key", _option.ApiKey);
                 content.Headers.Add("sign", sign);
 
                 string jsonString;
 
-                var res = await _accessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
+                var res = await _option.HttpClientAcessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
                 
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
-                if (!res.IsSuccessStatusCode && _httpStatusCodeToRetry.Contains(res.StatusCode))
+                if (!res.IsSuccessStatusCode && _option.HttpStatusCodesToRetry.Contains(res.StatusCode))
                 {
-                    interval = _httpErrorRetryInterval;
+                    interval = _option.HttpErrorRetryInterval;
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
                     continue;
@@ -204,7 +189,6 @@ namespace ZaifApiWrapper
 
                 jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
                 Debug.WriteLine($"jsonString:{ jsonString}");
-                
 
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var obj = JsonConvert.DeserializeObject<JObject>(jsonString, SerializerSettings);
@@ -215,11 +199,11 @@ namespace ZaifApiWrapper
                     // 失敗の場合は"return"ではなく"error"に値が入る
                     //（APIリファレンスには嘘が書いてあるので注意）
                     var error = obj["error"].ToString();
-                    if (Regex.IsMatch(error, "please try later", RegexOptions.IgnoreCase))
+                    if (Regex.IsMatch(error, _option.ApiErrorMessagePatternToRetry))
                     {
-                        interval = _apiTimeoutRetryInterval;
+                        interval = _option.ApiErrorRetryInterval;
                         count++;
-                        Debug.WriteLine($"Retry(ApiTimeout):{count}");
+                        Debug.WriteLine($"Retry(ApiError):{count}");
                         continue;
                     }
 
@@ -234,7 +218,7 @@ namespace ZaifApiWrapper
         {
             var req = await content.ReadAsStringAsync().ConfigureAwait(false);
             var buffer = Encoding.UTF8.GetBytes(req);
-            var key = Encoding.UTF8.GetBytes(_apiSecret);
+            var key = Encoding.UTF8.GetBytes(_option.ApiSecret);
             var hash = new HMACSHA512(key).ComputeHash(buffer);
             return BitConverter.ToString(hash).ToLower().Replace("-", "");
         }
