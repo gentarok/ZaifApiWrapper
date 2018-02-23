@@ -34,7 +34,7 @@ namespace ZaifApiWrapper.Test
                 ApiKey = apiKey,
                 ApiSecret = apiSecret,
                 HttpErrorRetryInterval = 0,
-                ApiTimeoutRetryInterval = 0,
+                ApiErrorRetryInterval = 0,
             };
 
             return new ApiClient("http://localhost", option);
