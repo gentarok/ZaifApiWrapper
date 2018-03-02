@@ -17,11 +17,11 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    $ErrorActionPreference = "Stop"
+    $ErrorActionPreference = 'Stop'
 
-    OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test .\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build -filter:"+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*" -output:".\coverage.xml"
+    OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:'test .\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:'.\coverage.xml'
 
-    codecov.exe -f "coverage.xml" -t "32a9b2e4-a2b8-432e-8aab-29d12ad21d2f"
+    codecov.exe -f 'coverage.xml' -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
 artifacts:
 - path: '**/Release/*.nupkg'
   name: NuGet Package
