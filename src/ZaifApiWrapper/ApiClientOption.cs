@@ -49,6 +49,10 @@ namespace ZaifApiWrapper
         /// HttpClientのアクセサ
         /// </summary>
         internal IHttpClientAccessor HttpClientAcessor { get; }
+        /// <summary>
+        /// POSTリクエストの呼び出し前に待機するインターバル（500ms）
+        /// </summary>
+        internal int PostRequestInterval { get; set; } = 500;
 
         /// <summary>
         /// 初期化

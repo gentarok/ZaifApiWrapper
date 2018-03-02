@@ -183,8 +183,8 @@ namespace ZaifApiWrapper
                 await _semaphore.WaitAsync(token).ConfigureAwait(false);
                 try
                 {
+                    await Task.Delay(_option.PostRequestInterval, token).ConfigureAwait(false);
                     res = await _option.HttpClientAcessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
-                    await Task.Delay(500, token).ConfigureAwait(false);
                 }
                 finally
                 {
