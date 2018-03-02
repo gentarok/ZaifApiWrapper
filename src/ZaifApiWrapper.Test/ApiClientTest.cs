@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using Xunit;
 
@@ -208,6 +209,48 @@ namespace ZaifApiWrapper.Test
 
             //assert
             Assert.IsType<HttpRequestException>(actual.Result);
+        }
+
+        [Fact]
+        public void PostAsync_should_increment_nonce_after_HttpException()
+        {
+            // arrange
+            var response = TestHelper.CreateJsonResponse(HttpStatusCode.InternalServerError, string.Empty);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            var ex = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var nonce = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+            //act
+            Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+            //assert
+            Assert.IsType<HttpRequestException>(ex.Result);
+            Assert.True(nonce < actual);
+        }
+
+        [Fact]
+        public void PostAsync_should_increment_nonce_after_ZaifApiException()
+        {
+            //arrange
+            var jsonString = @"{ ""success"": 0 , ""error"": ""api errer raised."" }";
+
+            var response = TestHelper.CreateJsonResponse(jsonString);
+
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+
+            var ex = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var nonce = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+            //act
+            Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+
+            //assert
+            Assert.IsType<ZaifApiException>(ex.Result);
+            Assert.True(nonce < actual);
         }
     }
 }

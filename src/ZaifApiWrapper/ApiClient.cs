@@ -25,10 +25,15 @@ namespace ZaifApiWrapper
             FloatParseHandling = FloatParseHandling.Decimal,
         };
 
-        private readonly string _endpoint;
-        private readonly ApiClientOption _option;
+        private const string CREDENTIAL_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+
+        private static readonly Regex CredentialMatcher = new Regex(CREDENTIAL_PATTERN);
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
         private static long _nonce = DateTime.Now.ToUnixTimeStamp();
+
+        private readonly string _endpoint;
+        private readonly ApiClientOption _option;
 
         /// <summary>
         /// 初期化
@@ -67,8 +72,6 @@ namespace ZaifApiWrapper
                 if (count >= _option.MaxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
                 if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
-                string jsonString;
-
                 var res = await _option.HttpClientAcessor.Client.GetAsync(uri, token).ConfigureAwait(false);
 
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
@@ -83,8 +86,8 @@ namespace ZaifApiWrapper
                 // 上記のケース以外でステータス異常なら例外とする
                 res.EnsureSuccessStatusCode();
 
-                jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-                Debug.WriteLine($"jsonString:{ jsonString}");
+                var jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Debug.WriteLine($"jsonString:{jsonString}");
 
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var tmp = JsonConvert.DeserializeObject(jsonString, SerializerSettings);
@@ -114,9 +117,6 @@ namespace ZaifApiWrapper
                 return ((JArray)tmp).ToObject<T>();
             }
         }
-
-        const string CREDENTIAL_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
-        private static readonly Regex CredentialMatcher = new Regex(CREDENTIAL_PATTERN);
 
         /// <summary>
         /// HTTP Postメソッドでデータを取得します
@@ -171,10 +171,26 @@ namespace ZaifApiWrapper
                 content.Headers.Add("key", _option.ApiKey);
                 content.Headers.Add("sign", sign);
 
-                string jsonString;
+                //NOTE:「nonce not incremented」対策(issue:#19)
+                //１．同一APIキーからのPOSTリクエスト時、APIサーバー側の処理終了前に次のリクエストを投げると、
+                //　　「nonce not incremented」が返される。そのため、リクエストはスレッド排他的な処理とする必要がある。
+                //２．上記処理を行ってもリクエストの間隔が極端に短いと、前の処理が正常終了しているか否かに関わらず
+                //　　「nonce not incremented」になるため、強制的に500ms(0.5秒)待つ。
+                //　　これにより全てのリクエスト発行後に0.5秒遅延が発生する。
+                //　　理想は、複数スレッドで呼ばれてもいずれかのスレッドの処理が完了した直後の次の処理開始前だけ待つ、
+                //　　というものだが、良い実装方法が思いつかない。（Timer使えば可能だろうが無駄に複雑になりそう）
+                HttpResponseMessage res;
+                await _semaphore.WaitAsync(token).ConfigureAwait(false);
+                try
+                {
+                    res = await _option.HttpClientAcessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
+                    await Task.Delay(500, token).ConfigureAwait(false);
+                }
+                finally
+                {
+                    _semaphore.Release();
+                }
 
-                var res = await _option.HttpClientAcessor.Client.PostAsync(uri, content, token).ConfigureAwait(false);
-                
                 Debug.WriteLine($"StatusCode:{res.StatusCode}");
                 if (!res.IsSuccessStatusCode && _option.HttpStatusCodesToRetry.Contains(res.StatusCode))
                 {
@@ -187,8 +203,8 @@ namespace ZaifApiWrapper
                 // 上記のケース以外でステータス異常なら例外とする
                 res.EnsureSuccessStatusCode();
 
-                jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
-                Debug.WriteLine($"jsonString:{ jsonString}");
+                var jsonString = await res.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Debug.WriteLine($"jsonString:{jsonString}");
 
                 // 成功・失敗で型が変わるためチェックしてから処理を行う
                 var obj = JsonConvert.DeserializeObject<JObject>(jsonString, SerializerSettings);
