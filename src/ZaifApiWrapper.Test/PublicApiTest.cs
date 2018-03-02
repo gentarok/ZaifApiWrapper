@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Moq;
+using System.Collections.Generic;
 using Xunit;
 using ZaifApiWrapper.PublicData;
 
@@ -10,7 +11,7 @@ namespace ZaifApiWrapper.Test
 
         public static object[][] ApiClientOptionData = new object[][]
         {
-            new object[] { new ApiClientOption() }
+            new object[] { new ApiClientOption(new Mock<IHttpClientAccessor>().Object) }
         };
 
         public static object[][] CurrenciesAsyncSuccessData = new object[][]
