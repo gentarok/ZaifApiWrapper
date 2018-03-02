@@ -18,22 +18,26 @@ namespace ZaifApiWrapper.Test
         // GetAsync, PostAsyncがリトライになるケースのデータ
         public static object[][] RetryData = new object[][]
         {
-           new object[]
-           {
-               HttpStatusCode.BadGateway, string.Empty,
-           },
-           new object[]
-           {
-               HttpStatusCode.ServiceUnavailable, string.Empty,
-           },
-           new object[]
-           {
-               HttpStatusCode.GatewayTimeout, string.Empty,
-           },
-           new object[]
-           {
-               HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""time wait restriction, please try later."" }",
-           },
+            new object[]
+            {
+                HttpStatusCode.BadGateway, string.Empty,
+            },
+            new object[]
+            {
+                HttpStatusCode.ServiceUnavailable, string.Empty,
+            },
+            new object[]
+            {
+                HttpStatusCode.GatewayTimeout, string.Empty,
+            },
+            new object[]
+            {
+                HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""time wait restriction, please try later."" }",
+            },
+            new object[]
+            {
+                HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""trade temporarily unavailable."" }",
+            },
         };
 
         // GetAsync, PostAsyncがリトライになるケースのデータ
