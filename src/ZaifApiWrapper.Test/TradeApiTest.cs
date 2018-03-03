@@ -1120,7 +1120,7 @@ namespace ZaifApiWrapper.Test
             var obj = new TradeApi(TestHelper.CreateApiClientWithMockHttpAccessor());
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.WithdrawAsync("xem", "", 0, null, optFee: 1));
+            var actual = Record.ExceptionAsync(async () => await obj.WithdrawAsync("xem", "test", 0, null, optFee: 1));
 
             //assert
             Assert.IsType<ArgumentException>(actual.Result);
@@ -1134,7 +1134,7 @@ namespace ZaifApiWrapper.Test
             var parameters = new Dictionary<string, string>
             {
                 { "currency", "xem" },
-                { "address", "" },
+                { "address", "test" },
                 { "amount", "0" },
                 { "opt_fee", "1" }
             };

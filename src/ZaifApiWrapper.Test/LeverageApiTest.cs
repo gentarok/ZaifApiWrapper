@@ -865,7 +865,8 @@ namespace ZaifApiWrapper.Test
             var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
             var parameters = new Dictionary<string, string>
             {
-                { "type", "futures" }
+                { "type", "futures" },
+                { "leverage_id", "1" }
             };
 
             //act
@@ -963,7 +964,7 @@ namespace ZaifApiWrapper.Test
                 { "type", "futures" },
                 { "price", "0" },
                 { "amount", "0" },
-                { "leverage", "0" }
+                { "leverage_id", "0" }
             };
 
             //act
@@ -994,7 +995,7 @@ namespace ZaifApiWrapper.Test
             var parameters = new Dictionary<string, string>
             {
                 { "type", "futures" },
-                { "leverage", "0" }
+                { "leverage_id", "0" }
             };
 
             //act
