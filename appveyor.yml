@@ -19,7 +19,7 @@ test_script:
 - ps: >-
     $ErrorActionPreference = 'Stop'
 
-    OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:"test $($PWD)\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build" -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:"$($PWD)\coverage.xml"
+    OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:"test $($PWD)\src\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build" -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:"$($PWD)\coverage.xml"
 
     codecov.exe -f "$($PWD)\coverage.xml" -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
 artifacts:
