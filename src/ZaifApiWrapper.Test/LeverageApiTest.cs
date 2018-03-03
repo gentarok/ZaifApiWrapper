@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using ZaifApiWrapper.LeverageData;
 
@@ -813,5 +814,195 @@ namespace ZaifApiWrapper.Test
             Assert.NotNull(actual);
             Assert.IsAssignableFrom<CancelPositionResponse>(actual);
         }
+
+        [Fact]
+        public void GetPositionsAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.GetPositionsAsync("futures", groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void GetPositionsAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.GetPositionsAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void PositionHistoryAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PositionHistoryAsync("futures", 1, groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void PositionHistoryAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.PositionHistoryAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void ActivePositionsAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.ActivePositionsAsync("futures", groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void ActivePositionsAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.ActivePositionsAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void CreatePositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.CreatePositionAsync("futures", "btc_jpy", "bid", 0, 0, 0, groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void CreatePositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" },
+                { "currency_pair", "btc_jpy" },
+                { "action", "bid" },
+                { "price", "0" },
+                { "amount", "0" },
+                { "leverage", "0" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.CreatePositionAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void ChangePositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.ChangePositionAsync("futures", 0, 0, groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void ChangePositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" },
+                { "price", "0" },
+                { "amount", "0" },
+                { "leverage", "0" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.ChangePositionAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void CancelPositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_1()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.CancelPositionAsync("futures", 1, groupId: null));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void CancelPositionAsync_should_throw_ArgumentException_if_futures_group_id_is_null_2()
+        {
+            //arrange
+            var obj = new LeverageApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "type", "futures" },
+                { "leverage", "0" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.CancelPositionAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
     }
 }

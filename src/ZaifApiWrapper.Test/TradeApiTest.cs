@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using ZaifApiWrapper.TradeData;
 
@@ -1093,6 +1094,56 @@ namespace ZaifApiWrapper.Test
             //assert
             Assert.NotNull(actual);
             Assert.IsAssignableFrom<IDictionary<int, WithdrawHistoryResponse>>(actual);
+        }
+
+        [Fact]
+        public void ActiveOrdersAsync_should_throw_NotSupportedException_if_parameters_include_is_token_both()
+        {
+            //arrange
+            var obj = new TradeApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "is_token_both", "true" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.ActiveOrdersAsync(parameters));
+
+            //assert
+            Assert.IsType<NotSupportedException>(actual.Result);
+        }
+
+        [Fact]
+        public void WithdrawAsync_should_throw_ArgumentException_if_parameters_include_opt_fee_when_currency_is_not_btc_or_mona_1()
+        {
+            //arrange
+            var obj = new TradeApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.WithdrawAsync("xem", "", 0, null, optFee: 1));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
+        }
+
+        [Fact]
+        public void WithdrawAsync_should_throw_ArgumentException_if_parameters_include_opt_fee_when_currency_is_not_btc_or_mona_2()
+        {
+            //arrange
+            var obj = new TradeApi(TestHelper.CreateApiClientWithMockHttpAccessor());
+            var parameters = new Dictionary<string, string>
+            {
+                { "currency", "xem" },
+                { "address", "" },
+                { "amount", "0" },
+                { "opt_fee", "1" }
+            };
+
+            //act
+            var actual = Record.ExceptionAsync(async () => await obj.WithdrawAsync(parameters));
+
+            //assert
+            Assert.IsType<ArgumentException>(actual.Result);
         }
     }
 }

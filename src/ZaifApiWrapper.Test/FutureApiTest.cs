@@ -362,9 +362,22 @@ namespace ZaifApiWrapper.Test
 
         #endregion
 
+        [Fact]
+        public void Construtcor_should_return_instance_1()
+        {
+            //arrange
+
+            //act
+            var obj = new FutureApi();
+
+            //assert
+            Assert.NotNull(obj);
+            Assert.IsType<FutureApi>(obj);
+        }
+
         [Theory]
         [MemberData(nameof(ApiClientOptionData))]
-        public void Construtcor_should_return_instance(ApiClientOption option)
+        public void Construtcor_should_return_instance_2(ApiClientOption option)
         {
             //arrange
 
