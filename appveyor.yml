@@ -16,13 +16,12 @@ build:
   project: src/Zaif.sln
   verbosity: minimal
 test_script:
-- cmd: >-
-    cd
-
-    OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\src\ZaifApiWrapper.Test\bin\%CONFIGURATION%\netcoreapp2.0\ZaifApiWrapper.Test.dll -noshadow" -filter:"+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*" -output:".\coverage.xml"
-after_test:
 - ps: >-
-    codecov.exe -f '.\coverage.xml' -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
+    $ErrorActionPreference = 'Stop'
+
+    OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:"test $($PWD)\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build" -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:"$($PWD)\coverage.xml"
+
+    codecov.exe -f "$($PWD)\coverage.xml" -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
 artifacts:
 - path: '**/Release/*.nupkg'
   name: NuGet Package
