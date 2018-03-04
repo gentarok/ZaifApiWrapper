@@ -31,4 +31,4 @@ deploy:
     secure: IDd30vnNAoQxzZjLeBllmb5kTntAlMiNNrfbYf0Vl4BU7npAh0nomnug13hdWgAH
   artifact: NuGet Package
   on:
-    branch: /Release/\.[1-9]\.[0-9]\.[0-9]/
+    branch: /master/
