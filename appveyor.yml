@@ -1,0 +1,34 @@
+version: ci-{branch}-{build}
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+before_build:
+- ps: >-
+    choco install opencover.portable --no-progress
+
+    choco install codecov --no-progress
+
+    nuget restore src/Zaif.sln
+build:
+  project: src/Zaif.sln
+  verbosity: minimal
+test_script:
+- ps: >-
+    $ErrorActionPreference = 'Stop'
+
+    OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:"test $($PWD)\src\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build" -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:"$($PWD)\coverage.xml" -oldStyle
+
+    codecov.exe -f "$($PWD)\coverage.xml" -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
+artifacts:
+- path: '**/Release/*.nupkg'
+  name: NuGet Package
+deploy:
+- provider: NuGet
+  api_key:
+    secure: IDd30vnNAoQxzZjLeBllmb5kTntAlMiNNrfbYf0Vl4BU7npAh0nomnug13hdWgAH
+  artifact: NuGet Package
+  on:
+    branch: /master/

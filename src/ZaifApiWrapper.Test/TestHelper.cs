@@ -35,6 +35,7 @@ namespace ZaifApiWrapper.Test
                 ApiSecret = apiSecret,
                 HttpErrorRetryInterval = 0,
                 ApiErrorRetryInterval = 0,
+                PostRequestInterval = 0, //テストで無駄に待たないように
             };
 
             return new ApiClient("http://localhost", option);

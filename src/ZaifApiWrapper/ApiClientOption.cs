@@ -42,13 +42,17 @@ namespace ZaifApiWrapper
         /// </summary>
         public int ApiErrorRetryInterval { get; set; } = 5000;
         /// <summary>
-        /// 再試行対象のAPIエラーメッセージ（正規表現指定可）（既定値:"please try later"）
+        /// 再試行対象のAPIエラーメッセージ（正規表現指定可）（既定値:"please try later|temporarily unavailable"）
         /// </summary>
-        public string ApiErrorMessagePatternToRetry { get; set; } = "please try later";
+        public string ApiErrorMessagePatternToRetry { get; set; } = "please try later|temporarily unavailable";
         /// <summary>
         /// HttpClientのアクセサ
         /// </summary>
         internal IHttpClientAccessor HttpClientAcessor { get; }
+        /// <summary>
+        /// POSTリクエストの呼び出し前に待機するインターバル（500ms）
+        /// </summary>
+        internal int PostRequestInterval { get; set; } = 500;
 
         /// <summary>
         /// 初期化

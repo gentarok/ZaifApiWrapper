@@ -101,6 +101,7 @@ namespace ZaifApiWrapper
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
+
             if (parameters.ContainsKey("order"))
                 parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
@@ -155,6 +156,7 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
+            parameters["leverage_id"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "leverege_id");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
@@ -284,8 +286,13 @@ namespace ZaifApiWrapper
             parameters["action"].ThrowIfValueInvalid(Definitions.Actions, nameof(parameters), "action");
 
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
+            parameters["amount"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "amount");
+
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
+            parameters["price"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "price");
+
             parameters.ThrowIfNotContainsKey("leverage", nameof(parameters));
+            parameters["leverage"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "leverage");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
@@ -348,7 +355,10 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
+            parameters["leverage_id"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "leverege_id");
+
             parameters.ThrowIfNotContainsKey("price", nameof(parameters));
+            parameters["price"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "price");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));
@@ -404,6 +414,7 @@ namespace ZaifApiWrapper
             parameters["type"].ThrowIfValueInvalid(Definitions.LeverageTypes, nameof(parameters), "type");
 
             parameters.ThrowIfNotContainsKey("leverage_id", nameof(parameters));
+            parameters["leverage_id"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "leverege_id");
 
             if (parameters["type"] == "futures" && !parameters.ContainsKey("group_id"))
                 throw new ArgumentException("'type' が 'futures'の場合、パラメータ 'group_id' は必須です。", nameof(parameters));

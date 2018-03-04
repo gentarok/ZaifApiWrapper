@@ -309,8 +309,13 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
+            parameters["currency"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "currency");
+
             parameters.ThrowIfNotContainsKey("address", nameof(parameters));
+            parameters["address"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "address");
+
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
+            parameters["amount"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "amount");
 
             if (!OptFeeAcceptableCurrencies.Contains(parameters["currency"]) && parameters.ContainsKey("opt_fee"))
                 throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(parameters));
@@ -426,6 +431,8 @@ namespace ZaifApiWrapper
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("currency", nameof(parameters));
+            parameters["currency"].ThrowIfIsNullOrWhiteSpace(nameof(parameters), "currency");
+
             if (parameters.ContainsKey("order"))
                 parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
