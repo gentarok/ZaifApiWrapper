@@ -1,9 +1,16 @@
-version: ci-{branch}-{build}
+version: 1.3.0.{build}
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  package_version: '{version}'
+  informational_version: '{version}'
+  version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
 pull_requests:
   do_not_increment_build_number: true
 image: Visual Studio 2017
 configuration:
-- Debug
 - Release
 before_build:
 - ps: >-
@@ -15,6 +22,7 @@ before_build:
 build:
   project: src/Zaif.sln
   verbosity: minimal
+  publish_nuget: true
 test_script:
 - ps: >-
     $ErrorActionPreference = 'Stop'
@@ -22,13 +30,11 @@ test_script:
     OpenCover.Console.exe -register:user -target:'dotnet.exe' -targetargs:"test $($PWD)\src\ZaifApiWrapper.Test\ZaifApiWrapper.Test.csproj --no-build" -filter:'+[ZaifApiWrapper*]* -[ZaifApiWrapper.Test*]*' -output:"$($PWD)\coverage.xml" -oldStyle
 
     codecov.exe -f "$($PWD)\coverage.xml" -t '32a9b2e4-a2b8-432e-8aab-29d12ad21d2f'
-artifacts:
-- path: '**/Release/*.nupkg'
-  name: NuGet Package
 deploy:
 - provider: NuGet
   api_key:
     secure: IDd30vnNAoQxzZjLeBllmb5kTntAlMiNNrfbYf0Vl4BU7npAh0nomnug13hdWgAH
   artifact: NuGet Package
   on:
+    appveyor_repo_tag: true
     branch: /master/
