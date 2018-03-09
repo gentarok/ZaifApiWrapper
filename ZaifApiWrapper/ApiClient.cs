@@ -85,7 +85,7 @@ namespace ZaifApiWrapper
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
 
-                    progress?.Report(new RetryReport(count));
+                    progress?.Report(new RetryReport(count, ErrorType.HttpError, res.StatusCode, null));
                     continue;
                 }
 
@@ -112,7 +112,7 @@ namespace ZaifApiWrapper
                             count++;
                             Debug.WriteLine($"Retry(ApiError):{count}");
 
-                            progress?.Report(new RetryReport(count));
+                            progress?.Report(new RetryReport(count, ErrorType.ApiError, null, error));
                             continue;
                         }
 
@@ -211,7 +211,7 @@ namespace ZaifApiWrapper
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
 
-                    progress?.Report(new RetryReport(count));
+                    progress?.Report(new RetryReport(count, ErrorType.HttpError, res.StatusCode, null));
                     continue;
                 }
 
@@ -236,7 +236,7 @@ namespace ZaifApiWrapper
                         count++;
                         Debug.WriteLine($"Retry(ApiError):{count}");
 
-                        progress?.Report(new RetryReport(count));
+                        progress?.Report(new RetryReport(count, ErrorType.ApiError, null, error));
                         continue;
                     }
 

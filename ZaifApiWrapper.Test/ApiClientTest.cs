@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -113,15 +114,28 @@ namespace ZaifApiWrapper.Test
             option.ApiErrorRetryInterval = 10;
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(option);
 
-            var list = new List<int>();
-            var retryReport = new Progress<RetryReport>(x => list.Add(x.RetryCount));
+            var counts = new List<int>();
+            var types = new List<ErrorType>();
+            var retryReport = new Progress<RetryReport>(
+                x =>
+                {
+                    counts.Add(x.RetryCount);
+                    types.Add(x.ErrorType);
+                });
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None, retryReport));
 
             //assert
             Assert.IsType<RetryCountOverException>(actual.Result);
-            Assert.Equal(5, list.Count);
+            Assert.Equal(5, counts.Count);
+            Assert.True(types.All(
+                x =>
+                {
+                    return
+                        (x == ErrorType.HttpError && statusCode != HttpStatusCode.OK) ||
+                        (x == ErrorType.ApiError && statusCode == HttpStatusCode.OK);
+                }));
         }
 
         [Fact]
@@ -188,15 +202,28 @@ namespace ZaifApiWrapper.Test
             option.ApiErrorRetryInterval = 10;
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(option);
 
-            var list = new List<int>();
-            var retryReport = new Progress<RetryReport>(x => list.Add(x.RetryCount));
+            var counts = new List<int>();
+            var types = new List<ErrorType>();
+            var retryReport = new Progress<RetryReport>(
+                x =>
+                {
+                    counts.Add(x.RetryCount);
+                    types.Add(x.ErrorType);
+                });
 
             //act
             var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None, retryReport));
 
             //assert
             Assert.IsType<RetryCountOverException>(actual.Result);
-            Assert.Equal(10, list.Count);
+            Assert.Equal(10, counts.Count);
+            Assert.True(types.All(
+                x =>
+                {
+                    return
+                        (x == ErrorType.HttpError && statusCode != HttpStatusCode.OK) ||
+                        (x == ErrorType.ApiError && statusCode == HttpStatusCode.OK);
+                }));
         }
 
         [Fact]
