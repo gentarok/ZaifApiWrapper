@@ -42,33 +42,41 @@ namespace ZaifApiWrapper
         /// 現在の残高（余力および残高・トークン）、APIキーの権限、過去のトレード数、アクティブな注文数、サーバーのタイムスタンプを取得します。
         /// </summary>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="GetInfoResponse"/>オブジェクト。</returns>
-        public Task<GetInfoResponse> GetInfoAsync(CancellationToken token = default) =>
-            _client.PostAsync<GetInfoResponse>(nameof(GetInfoAsync).ToApiMethodName(), null, token);
+        public Task<GetInfoResponse> GetInfoAsync(CancellationToken token = default,
+            IProgress<RetryReport> progress = null) =>
+            _client.PostAsync<GetInfoResponse>(nameof(GetInfoAsync).ToApiMethodName(), null, token, progress);
 
         /// <summary>
-        /// <see cref="GetInfoAsync(CancellationToken)"/>の軽量版で、過去のトレード数を除く項目を返します。
+        /// <see cref="GetInfoAsync(CancellationToken, IProgress{RetryReport})"/>の軽量版で、過去のトレード数を除く項目を返します。=
         /// </summary>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="GetInfo2Response"/>オブジェクト。</returns>
-        public Task<GetInfo2Response> GetInfo2Async(CancellationToken token = default) =>
-            _client.PostAsync<GetInfo2Response>(nameof(GetInfo2Async).ToApiMethodName(), null, token);
+        public Task<GetInfo2Response> GetInfo2Async(CancellationToken token = default, 
+            IProgress<RetryReport> progress = null) =>
+            _client.PostAsync<GetInfo2Response>(nameof(GetInfo2Async).ToApiMethodName(), null, token, progress);
 
         /// <summary>
         /// チャットに使用されるニックネームと画像のパスを返します。
         /// </summary>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="GetPersonalInfoResponse"/>オブジェクト。</returns>
-        public Task<GetPersonalInfoResponse> GetPersonalInfoAsync(CancellationToken token = default) =>
-            _client.PostAsync<GetPersonalInfoResponse>(nameof(GetPersonalInfoAsync).ToApiMethodName(), null, token);
+        public Task<GetPersonalInfoResponse> GetPersonalInfoAsync(CancellationToken token = default,
+            IProgress<RetryReport> progress = null) =>
+            _client.PostAsync<GetPersonalInfoResponse>(nameof(GetPersonalInfoAsync).ToApiMethodName(), null, token, progress);
 
         /// <summary>
         /// ユーザーIDやメールアドレスといった個人情報を取得します
         /// </summary>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="GetIdInfoResponse"/>オブジェクト。</returns>
-        public Task<GetIdInfoResponse> GetIdInfoAsync(CancellationToken token = default) =>
-            _client.PostAsync<GetIdInfoResponse>(nameof(GetIdInfoAsync).ToApiMethodName(), null, token);
+        public Task<GetIdInfoResponse> GetIdInfoAsync(CancellationToken token = default, 
+            IProgress<RetryReport> progress = null) =>
+            _client.PostAsync<GetIdInfoResponse>(nameof(GetIdInfoAsync).ToApiMethodName(), null, token, progress);
 
         /// <summary>
         /// ユーザー自身の取引履歴を取得します。
@@ -83,10 +91,12 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="isToken">is_token</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="TradeHistoryResponse"/>のディクショナリ（キーは注文id）</returns>
         public Task<IDictionary<int, TradeHistoryResponse>> TradeHistoryAsync(
             int? from = null, int? count = null, int? fromId = null, int? endId = null, string order = null,
-            long? since = null, long? end = null, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
+            long? since = null, long? end = null, string currencyPair = null, bool? isToken = null, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (order != null)
                 order.ThrowIfValueInvalid(Definitions.Orders, nameof(order));
@@ -103,7 +113,7 @@ namespace ZaifApiWrapper
             if (currencyPair != null) parameters.Add(nameof(currencyPair).ToSnakeCase(), currencyPair);
             if (isToken.HasValue) parameters.Add(nameof(isToken).ToSnakeCase(), isToken.ToString());
 
-            return TradeHistoryAsync(parameters, token);
+            return TradeHistoryAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -111,10 +121,11 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="TradeHistoryResponse"/>のディクショナリ（キーは注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         public Task<IDictionary<int, TradeHistoryResponse>> TradeHistoryAsync(IDictionary<string, string> parameters,
-            CancellationToken token = default)
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -122,7 +133,7 @@ namespace ZaifApiWrapper
                 parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, TradeHistoryResponse>>(
-                nameof(TradeHistoryAsync).ToApiMethodName(), parameters, token);
+                nameof(TradeHistoryAsync).ToApiMethodName(), parameters, token, progress);
         }
 
         /// <summary>
@@ -131,28 +142,31 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="isToken">is_token</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="ActiveOrdersResponse"/>のディクショナリ（キーは注文id）</returns>
         public Task<IDictionary<int, ActiveOrdersResponse>> ActiveOrdersAsync(
-            string currencyPair = null, bool? isToken = null, CancellationToken token = default)
+            string currencyPair = null, bool? isToken = null, CancellationToken token = default, 
+            IProgress<RetryReport> progress = null)
         {
             var parameters = new Dictionary<string, string>();
 
             if (currencyPair != null) parameters.Add(nameof(currencyPair).ToSnakeCase(), currencyPair);
             if (isToken.HasValue) parameters.Add(nameof(isToken).ToSnakeCase(), isToken.ToString());
 
-            return ActiveOrdersAsync(parameters, token);
-        }        
+            return ActiveOrdersAsync(parameters, token, progress);
+        }
 
         /// <summary>
         /// 現在有効な注文一覧を取得します（未約定注文一覧）。
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="ActiveOrdersResponse"/>のディクショナリ（キーは注文id）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="NotSupportedException">is_token_bothパラメータはサポートしていません。</exception>
         public Task<IDictionary<int, ActiveOrdersResponse>> ActiveOrdersAsync(IDictionary<string, string> parameters,
-            CancellationToken token = default)
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -161,7 +175,7 @@ namespace ZaifApiWrapper
                 throw new NotSupportedException("'is_token_both' パラメータはサポートしていません。");
 
             return _client.PostAsync<IDictionary<int, ActiveOrdersResponse>>(
-                nameof(ActiveOrdersAsync).ToApiMethodName(), parameters, token);
+                nameof(ActiveOrdersAsync).ToApiMethodName(), parameters, token, progress);
         }
 
         /// <summary>
@@ -174,10 +188,11 @@ namespace ZaifApiWrapper
         /// <param name="limit">limit</param>
         /// <param name="comment">comment</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="TradeResponse"/>オブジェクト。</returns>
         public Task<TradeResponse> TradeAsync(
             string currencyPair, string action, decimal price, decimal amount, decimal? limit = null, 
-            string comment = null, CancellationToken token = default)
+            string comment = null, CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
             action.ThrowIfValueInvalid(Definitions.Actions, nameof(action));
@@ -193,7 +208,7 @@ namespace ZaifApiWrapper
             if (limit.HasValue) parameters.Add(nameof(limit).ToSnakeCase(), limit.ToString());
             if (comment != null) parameters.Add(nameof(comment).ToSnakeCase(), comment);
 
-            return TradeAsync(parameters, token);
+            return TradeAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -201,9 +216,11 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="TradeResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        public Task<TradeResponse> TradeAsync(IDictionary<string, string> parameters, CancellationToken token = default)
+        public Task<TradeResponse> TradeAsync(IDictionary<string, string> parameters,
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -217,8 +234,8 @@ namespace ZaifApiWrapper
             parameters.ThrowIfNotContainsKey("amount", nameof(parameters));
 
             return _client.PostAsync<TradeResponse>(
-                nameof(TradeAsync).ToApiMethodName(), parameters, token);
-        }        
+                nameof(TradeAsync).ToApiMethodName(), parameters, token, progress);
+        }
 
         /// <summary>
         /// 注文の取消しを行います。
@@ -227,9 +244,11 @@ namespace ZaifApiWrapper
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="isToken">is_token</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="CancelOrderResponse"/>オブジェクト。</returns>
         public Task<CancelOrderResponse> CancelOrderAsync(
-            int orderId, string currencyPair = null, bool? isToken = null, CancellationToken token = default)
+            int orderId, string currencyPair = null, bool? isToken = null, CancellationToken token = default, 
+            IProgress<RetryReport> progress = null)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -239,7 +258,7 @@ namespace ZaifApiWrapper
             if (currencyPair != null) parameters.Add(nameof(currencyPair).ToSnakeCase(), currencyPair);
             if (isToken.HasValue) parameters.Add(nameof(isToken).ToSnakeCase(), isToken.ToString());
 
-            return CancelOrderAsync(parameters, token);
+            return CancelOrderAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -247,16 +266,18 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="CancelOrderResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
-        public Task<CancelOrderResponse> CancelOrderAsync(IDictionary<string, string> parameters, CancellationToken token = default)
+        public Task<CancelOrderResponse> CancelOrderAsync(IDictionary<string, string> parameters, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
             parameters.ThrowIfNotContainsKey("order_id", nameof(parameters));
 
             return _client.PostAsync<CancelOrderResponse>(
-                nameof(CancelOrderAsync).ToApiMethodName(), parameters, token);
+                nameof(CancelOrderAsync).ToApiMethodName(), parameters, token, progress);
         }        
 
         private static readonly string[] OptFeeAcceptableCurrencies = { "btc", "mona" };
@@ -270,10 +291,12 @@ namespace ZaifApiWrapper
         /// <param name="message">message</param>
         /// <param name="optFee">opt_fee</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentException">'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。 - optFee</exception>
         public Task<WithdrawResponse> WithdrawAsync(
-            string currency, string address, decimal amount, string message = null, decimal? optFee = null, CancellationToken token = default)
+            string currency, string address, decimal amount, string message = null, decimal? optFee = null,
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
             address.ThrowIfIsNullOrWhiteSpace(nameof(address));
@@ -291,7 +314,7 @@ namespace ZaifApiWrapper
             if (message != null) parameters.Add(nameof(message).ToSnakeCase(), message);
             if (optFee.HasValue) parameters.Add(nameof(optFee).ToSnakeCase(), optFee.ToString());
 
-            return WithdrawAsync(parameters, token);
+            return WithdrawAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -299,12 +322,14 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="WithdrawResponse"/>オブジェクト。</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         /// <exception cref="ArgumentException">
         /// 'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。 - parameters
         /// </exception>
-        public Task<WithdrawResponse> WithdrawAsync(IDictionary<string, string> parameters, CancellationToken token = default)
+        public Task<WithdrawResponse> WithdrawAsync(IDictionary<string, string> parameters, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -321,7 +346,7 @@ namespace ZaifApiWrapper
                 throw new ArgumentException("'currency' が 'btc', 'mona' 以外の場合は 'opt_fee' は指定できません。", nameof(parameters));
 
             return _client.PostAsync<WithdrawResponse>(
-                nameof(WithdrawAsync).ToApiMethodName(), parameters, token);
+                nameof(WithdrawAsync).ToApiMethodName(), parameters, token, progress);
         }
 
         /// <summary>
@@ -336,10 +361,12 @@ namespace ZaifApiWrapper
         /// <param name="since">since</param>
         /// <param name="end">end</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="DepositHistoryResponse"/>のディクショナリ（キーは入金履歴id?ドキュメントに記載なし）</returns>
         public Task<IDictionary<int, DepositHistoryResponse>> DepositHistoryAsync(
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
-            string order = null, long? since = null, long? end = null, CancellationToken token = default)
+            string order = null, long? since = null, long? end = null, CancellationToken token = default, 
+            IProgress<RetryReport> progress = null)
         {
             currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
             if (order != null)
@@ -358,7 +385,7 @@ namespace ZaifApiWrapper
             if (since.HasValue) parameters.Add(nameof(since).ToSnakeCase(), since.ToString());
             if (end.HasValue) parameters.Add(nameof(end).ToSnakeCase(), end.ToString());
 
-            return DepositHistoryAsync(parameters, token);
+            return DepositHistoryAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -366,10 +393,12 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="DepositHistoryResponse"/>のディクショナリ（キーは入金履歴id?ドキュメントに記載なし）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         public Task<IDictionary<int, DepositHistoryResponse>> DepositHistoryAsync(
-            IDictionary<string, string> parameters, CancellationToken token = default)
+            IDictionary<string, string> parameters, CancellationToken token = default, 
+            IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -378,7 +407,7 @@ namespace ZaifApiWrapper
                 parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, DepositHistoryResponse>>(
-                nameof(DepositHistoryAsync).ToApiMethodName(), parameters, token);
+                nameof(DepositHistoryAsync).ToApiMethodName(), parameters, token, progress);
         }
 
         /// <summary>
@@ -393,10 +422,12 @@ namespace ZaifApiWrapper
         /// <param name="since">since</param>
         /// <param name="end">end</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="WithdrawHistoryResponse"/>のディクショナリ（キーは出金履歴id?ドキュメントに記載なし）</returns>
         public Task<IDictionary<int, WithdrawHistoryResponse>> WithdrawHistoryAsync(
             string currency, int? from = null, int? count = null, int? fromId = null, int? endId = null,
-            string order = null, long? since = null, long? end = null, CancellationToken token = default)
+            string order = null, long? since = null, long? end = null, CancellationToken token = default, 
+            IProgress<RetryReport> progress = null)
         {
             currency.ThrowIfIsNullOrWhiteSpace(nameof(currency));
             if (order != null)
@@ -415,7 +446,7 @@ namespace ZaifApiWrapper
             if (since.HasValue) parameters.Add(nameof(since).ToSnakeCase(), since.ToString());
             if (end.HasValue) parameters.Add(nameof(end).ToSnakeCase(), end.ToString());
 
-            return WithdrawHistoryAsync(parameters, token);
+            return WithdrawHistoryAsync(parameters, token, progress);
         }
 
         /// <summary>
@@ -423,10 +454,12 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="parameters">パラメータ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="WithdrawHistoryResponse"/>のディクショナリ（キーは出金履歴id?ドキュメントに記載なし）</returns>
         /// <exception cref="ArgumentNullException">parameters</exception>
         public Task<IDictionary<int, WithdrawHistoryResponse>> WithdrawHistoryAsync(
-            IDictionary<string, string> parameters, CancellationToken token = default)
+            IDictionary<string, string> parameters, CancellationToken token = default,
+            IProgress<RetryReport> progress = null)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -437,7 +470,7 @@ namespace ZaifApiWrapper
                 parameters["order"].ThrowIfValueInvalid(Definitions.Orders, nameof(parameters), "order");
 
             return _client.PostAsync<IDictionary<int, WithdrawHistoryResponse>>(
-                nameof(WithdrawHistoryAsync).ToApiMethodName(), parameters, token);
+                nameof(WithdrawHistoryAsync).ToApiMethodName(), parameters, token, progress);
         }
     }
 }

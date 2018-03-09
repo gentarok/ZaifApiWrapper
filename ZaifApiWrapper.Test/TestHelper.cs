@@ -14,22 +14,13 @@ namespace ZaifApiWrapper.Test
         // 正しい形式のAPI key, API secret
         internal const string VALID_CREDENTIAL = "00000000-0000-0000-0000-000000000000";
 
-        // 指定したHttpResponceMessageを返すIApiClientのファクトリ（正しい形式のAPI key, API secretを使用）
-        internal static IApiClient CreateApiClientWithMockHttpAccessor(HttpResponseMessage httpRequestMessage = null)
-            => CreateApiClientWithMockHttpAccessor(VALID_CREDENTIAL, VALID_CREDENTIAL, httpRequestMessage);
+        // ApiClientOptionのファクトリ
+        internal static ApiClientOption CreateApiClientOption(IHttpClientAccessor accessor)
+            => CreateApiClientOption(VALID_CREDENTIAL, VALID_CREDENTIAL, accessor);
 
-        // 指定したHttpResponceMessageを返すIApiClientのファクトリ（API key, API secretを指定可能）
-        internal static IApiClient CreateApiClientWithMockHttpAccessor(string apiKey, string apiSecret, HttpResponseMessage httpRequestMessage = null)
-        {
-            var handler = new Mock<DelegatingHandler>();
-            handler.Protected().Setup<Task<HttpResponseMessage>>(
-                "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .Returns(() => Task.FromResult(httpRequestMessage));
-
-            var accessor = new Mock<IHttpClientAccessor>();
-            accessor.SetupGet((x) => x.Client).Returns(new HttpClient(handler.Object));
-
-            var option = new ApiClientOption(accessor.Object)
+        // ApiClientOptionのファクトリ
+        internal static ApiClientOption CreateApiClientOption(string apiKey, string apiSecret, IHttpClientAccessor accessor)
+            => new ApiClientOption(accessor)
             {
                 ApiKey = apiKey,
                 ApiSecret = apiSecret,
@@ -38,7 +29,30 @@ namespace ZaifApiWrapper.Test
                 PostRequestInterval = 0, //テストで無駄に待たないように
             };
 
-            return new ApiClient("http://localhost", option);
+        // 指定したHttpResponceMessageを返すIApiClientのファクトリ（正しい形式のAPI key, API secretを使用）
+        internal static IApiClient CreateApiClientWithMockHttpAccessor(HttpResponseMessage httpResponseMessage = null)
+        {
+            var accessor = CreateHttpClientAccessor(httpResponseMessage);
+            var option = CreateApiClientOption(VALID_CREDENTIAL, VALID_CREDENTIAL, accessor);
+            return CreateApiClientWithMockHttpAccessor(option);
+        }
+
+        // IApiClientのファクトリ（ApiClientOptionを指定可）
+        internal static IApiClient CreateApiClientWithMockHttpAccessor(ApiClientOption option)
+            => new ApiClient("http://localhost", option);
+
+        // 指定したHttpResponceMessageを返すIHttpClientAccessorのファクトリ
+        internal static IHttpClientAccessor CreateHttpClientAccessor(HttpResponseMessage httpResponseMessage)
+        {
+            var handler = new Mock<DelegatingHandler>();
+            handler.Protected().Setup<Task<HttpResponseMessage>>(
+                "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .Returns(() => Task.FromResult(httpResponseMessage));
+
+            var accessor = new Mock<IHttpClientAccessor>();
+            accessor.SetupGet((x) => x.Client).Returns(new HttpClient(handler.Object));
+
+            return accessor.Object;
         }
 
         // 指定したJSONを返すHttpResponseMessageのファクトリ（HttpStatusCode.OK）

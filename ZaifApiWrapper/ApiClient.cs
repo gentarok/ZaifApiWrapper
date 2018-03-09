@@ -53,10 +53,11 @@ namespace ZaifApiWrapper
         /// <param name="method">APIメソッド名</param>
         /// <param name="arguments">APIメソッド引数の配列</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>APIで取得したデータ</returns>
         /// <exception cref="RetryCountOverException">最大試行回数を超えました。</exception>
         /// <exception cref="ZaifApiException">error.</exception>
-        public async Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token)
+        public async Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token, IProgress<RetryReport> progress)
         {
             var args = string.Join("/", arguments);
             var uri = new Uri($"{_endpoint.TrimEnd('/')}/{method}/{args}");
@@ -69,8 +70,11 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _option.MaxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
-                if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
+                if (count >= _option.MaxRetry)
+                    throw new RetryCountOverException("最大試行回数を超えました。");
+
+                if (interval.HasValue)
+                    await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 var res = await _option.HttpClientAcessor.Client.GetAsync(uri, token).ConfigureAwait(false);
 
@@ -80,6 +84,8 @@ namespace ZaifApiWrapper
                     interval = _option.HttpErrorRetryInterval;
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
+
+                    progress?.Report(new RetryReport(count));
                     continue;
                 }
 
@@ -105,12 +111,14 @@ namespace ZaifApiWrapper
                             interval = _option.ApiErrorRetryInterval;
                             count++;
                             Debug.WriteLine($"Retry(ApiError):{count}");
+
+                            progress?.Report(new RetryReport(count));
                             continue;
                         }
 
                         throw new ZaifApiException(error);
                     }
-
+                    
                     return obj.ToObject<T>();
                 }
 
@@ -125,6 +133,7 @@ namespace ZaifApiWrapper
         /// <param name="method">APIメソッド名</param>
         /// <param name="parameters">APIパラメータのディクショナリ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>APIで取得したデータ</returns>
         /// <exception cref="CredentialFormatException">
         /// API Keyの形式が正しくありません。
@@ -133,10 +142,11 @@ namespace ZaifApiWrapper
         /// </exception>
         /// <exception cref="RetryCountOverException">最大試行回数を超えました。</exception>
         /// <exception cref="ZaifApiException">error.</exception>
-        public async Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token)
+        public async Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token, IProgress<RetryReport> progress)
         {
             if (!CredentialMatcher.IsMatch(_option.ApiKey))
                 throw new CredentialFormatException("API Keyの形式が正しくありません。");
+
             if (!CredentialMatcher.IsMatch(_option.ApiSecret))
                 throw new CredentialFormatException("API Secretの形式が正しくありません。");
 
@@ -153,8 +163,11 @@ namespace ZaifApiWrapper
             {
                 token.ThrowIfCancellationRequested();
 
-                if (count >= _option.MaxRetry) throw new RetryCountOverException("最大試行回数を超えました。");
-                if (interval.HasValue) await Task.Delay(interval.Value, token).ConfigureAwait(false);
+                if (count >= _option.MaxRetry)
+                    throw new RetryCountOverException("最大試行回数を超えました。");
+
+                if (interval.HasValue)
+                    await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
                 // マルチスレッドで利用されてもnonceが重複しないようにする
                 Interlocked.Increment(ref _nonce);
@@ -197,6 +210,8 @@ namespace ZaifApiWrapper
                     interval = _option.HttpErrorRetryInterval;
                     count++;
                     Debug.WriteLine($"Retry(HttpError):{count}");
+
+                    progress?.Report(new RetryReport(count));
                     continue;
                 }
 
@@ -220,6 +235,8 @@ namespace ZaifApiWrapper
                         interval = _option.ApiErrorRetryInterval;
                         count++;
                         Debug.WriteLine($"Retry(ApiError):{count}");
+
+                        progress?.Report(new RetryReport(count));
                         continue;
                     }
 
