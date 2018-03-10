@@ -134,5 +134,53 @@ namespace ConsoleApp1
 
 ただし、サーバー側の処理完了後、レスポンスを受け取る前にキャンセルした場合などの対応は、必要に応じてプログラム側で行ってください。
 
+#### 再試行時のコールバック
+
+各メソッドは`IProgress<RetryReport>`を渡すことで、再試行を行った際のコールバックを指定する事ができます。
+
+C# 7.1 or greater
+
+```CSharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using ZaifApiWrapper;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            var api = new PublicApi();
+            var onRetry = new Progress<RetryReport>(OnRetry);
+            try
+            {
+                var currencies = await api.CurrenciesAsync("all", CancellationToken.None, onRetry);
+                // Do Something...
+            }
+            catch (Exception ex)
+            {
+                // Handle errors...
+            }
+        }
+
+        static void OnRetry(RetryReport report)
+        {
+            Console.WriteLine($"Count:{report.RetryCount}");
+            switch (report.ErrorType)
+            {
+                case ErrorType.HttpError:
+                    Console.WriteLine($"StatusCode:{report.StatusCode}");
+                    break;
+                case ErrorType.ApiError:
+                    Console.WriteLine($"ErrorMessage:{report.ApiErrorMessage}");
+                    break;
+            }
+        }
+    }
+}
+```
+
 ## Licence
 [MIT Licence](https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE)
