@@ -30,8 +30,6 @@ namespace ZaifApiWrapper
         private static readonly Regex CredentialMatcher = new Regex(CREDENTIAL_PATTERN);
         private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-        private static long _nonce = DateTime.Now.ToUnixTimeStamp();
-
         private readonly string _endpoint;
         private readonly ApiClientOption _option;
 
@@ -169,14 +167,15 @@ namespace ZaifApiWrapper
                 if (interval.HasValue)
                     await Task.Delay(interval.Value, token).ConfigureAwait(false);
 
-                // マルチスレッドで利用されてもnonceが重複しないようにする
-                Interlocked.Increment(ref _nonce);
-                Debug.WriteLine($"nonce:{_nonce}");
+                // nonceを実数で毎回取得することで極力重複しないようにする(issue:#26)
+                // 仮に重複した場合はApiClientOption.ApiErrorMessagePatternToRetryの設定に従い（既定では）リトライ
+                var nonce = (DateTime.UtcNow - Definitions.UnixEpoch).TotalSeconds;
+                Debug.WriteLine($"nonce:{nonce}");
 
                 var content = new FormUrlEncodedContent(
                     new Dictionary<string, string>(parameters)
                     {
-                        { "nonce", _nonce.ToString() }
+                        { "nonce", nonce.ToString() }
                     });
 
                 var sign = await GenerateSignature(content).ConfigureAwait(false);

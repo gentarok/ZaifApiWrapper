@@ -42,9 +42,9 @@ namespace ZaifApiWrapper
         /// </summary>
         public int ApiErrorRetryInterval { get; set; } = 5000;
         /// <summary>
-        /// 再試行対象のAPIエラーメッセージ（正規表現指定可）（既定値:"please try later|temporarily unavailable"）
+        /// 再試行対象のAPIエラーメッセージ（正規表現指定可）（既定値:"please try later|temporarily unavailable|not incremented"）
         /// </summary>
-        public string ApiErrorMessagePatternToRetry { get; set; } = "please try later|temporarily unavailable";
+        public string ApiErrorMessagePatternToRetry { get; set; } = "please try later|temporarily unavailable|not incremented";
         /// <summary>
         /// HttpClientのアクセサ
         /// </summary>
