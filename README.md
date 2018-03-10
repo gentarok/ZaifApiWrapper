@@ -114,7 +114,7 @@ namespace ConsoleApp1
 |HttpErrorRetryInterval|1000|`HttpStatusCodesToRetry`で指定されたエラーが発生した場合の再試行までのインターバル(ms)|
 |HttpStatusCodesToRetry|`HttpStatusCode.BadGateway`<br/>`HttpStatusCode.ServiceUnavailable`<br>`HttpStatusCode.GatewayTimeout`|再試行対象のHTTPステータスコード|
 |ApiErrorRetryInterval|5000|APIから`ApiErrorMessagePatternToRetry`にマッチするメッセージを受け取った場合の再試行までのインターバル(ms)|
-|ApiErrorMessagePatternToRetry|"please try later\|temporarily unavailable"<br/>（[API呼出し回数制限時](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)と[取引の一時的な停止](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#trade-temporarily-unavailable)のメッセージ）|再試行対象のメッセージに含まれる文字列（正規表現で指定可）|
+|ApiErrorMessagePatternToRetry|"please try later\|temporarily unavailable\|not incremented"<br/>（[こちら](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html)を参照してください。）|再試行対象のメッセージに含まれる文字列（正規表現で指定可）|
 
 
 ### APIメソッドの引数
