@@ -5,16 +5,17 @@
     <Platforms>AnyCPU</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <Version></Version>
-    <Company />
+    <Company></Company>
     <Authors>gentaro</Authors>
     <Description>Zaif API (v1.1.1) Wrapper Library.</Description>
     <Copyright>gentaro</Copyright>
     <PackageLicenseUrl>https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/gentarok/ZaifApiWrapper</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
+    <Version></Version>
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
+    <InformationalVersion></InformationalVersion>
     <PackageVersion></PackageVersion>
   </PropertyGroup>
 
