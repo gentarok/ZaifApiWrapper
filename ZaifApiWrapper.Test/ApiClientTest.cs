@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading;
 using Xunit;
 
@@ -38,6 +40,10 @@ namespace ZaifApiWrapper.Test
             new object[]
             {
                 HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""trade temporarily unavailable."" }",
+            },
+            new object[]
+            {
+                HttpStatusCode.OK, @"{ ""success"": 0, ""error"": ""nonce not incremented"" }",
             },
         };
 
@@ -91,7 +97,7 @@ namespace ZaifApiWrapper.Test
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
-            var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None);
+            var actual = await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None, null);
 
             //assert
             Assert.NotNull(actual);
@@ -103,14 +109,36 @@ namespace ZaifApiWrapper.Test
         {
             //arrange
             var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
+            var accessor = TestHelper.CreateHttpClientAccessor(response);
+            var option = TestHelper.CreateApiClientOption(accessor);
+            option.MaxRetry = 5;
+            //インターバルを入れてないとprogress?.Report()の終了前にテストが完了してしまうため
+            option.HttpErrorRetryInterval = 10;
+            option.ApiErrorRetryInterval = 10;
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(option);
 
-            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+            var counts = new List<int>();
+            var types = new List<ErrorType>();
+            var retryReport = new Progress<RetryReport>(
+                x =>
+                {
+                    counts.Add(x.RetryCount);
+                    types.Add(x.ErrorType);
+                });
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None, retryReport));
 
             //assert
             Assert.IsType<RetryCountOverException>(actual.Result);
+            Assert.Equal(5, counts.Count);
+            Assert.True(types.All(
+                x =>
+                {
+                    return
+                        (x == ErrorType.HttpError && statusCode != HttpStatusCode.OK) ||
+                        (x == ErrorType.ApiError && statusCode == HttpStatusCode.OK);
+                }));
         }
 
         [Fact]
@@ -124,7 +152,7 @@ namespace ZaifApiWrapper.Test
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.GetAsync<object>("_", new[] { "_" }, CancellationToken.None, null));
 
             //assert
             Assert.IsType<ZaifApiException>(actual.Result);
@@ -141,7 +169,7 @@ namespace ZaifApiWrapper.Test
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
-            var actual = await obj.PostAsync<object>("_", null, CancellationToken.None);
+            var actual = await obj.PostAsync<object>("_", null, CancellationToken.None, null);
 
             //assert
             Assert.NotNull(actual);
@@ -153,11 +181,12 @@ namespace ZaifApiWrapper.Test
         {
             // arrange
             var response = TestHelper.CreateJsonResponse(HttpStatusCode.OK, string.Empty);
-
-            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(apiKey, apiSecret, response);
+            var accessor = TestHelper.CreateHttpClientAccessor(response);
+            var option = TestHelper.CreateApiClientOption(apiKey, apiSecret, accessor);
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(option);
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None, null));
 
             //assert
             Assert.IsType<CredentialFormatException>(actual.Result);
@@ -169,14 +198,35 @@ namespace ZaifApiWrapper.Test
         {
             //arrange
             var response = TestHelper.CreateJsonResponse(statusCode, jsonString);
+            var accessor = TestHelper.CreateHttpClientAccessor(response);
+            var option = TestHelper.CreateApiClientOption(accessor);
+            //インターバルを入れてないとprogress?.Report()の終了前にテストが完了してしまうため
+            option.HttpErrorRetryInterval = 10;
+            option.ApiErrorRetryInterval = 10;
+            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(option);
 
-            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
+            var counts = new List<int>();
+            var types = new List<ErrorType>();
+            var retryReport = new Progress<RetryReport>(
+                x =>
+                {
+                    counts.Add(x.RetryCount);
+                    types.Add(x.ErrorType);
+                });
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None, retryReport));
 
             //assert
             Assert.IsType<RetryCountOverException>(actual.Result);
+            Assert.Equal(10, counts.Count);
+            Assert.True(types.All(
+                x =>
+                {
+                    return
+                        (x == ErrorType.HttpError && statusCode != HttpStatusCode.OK) ||
+                        (x == ErrorType.ApiError && statusCode == HttpStatusCode.OK);
+                }));
         }
 
         [Fact]
@@ -190,7 +240,7 @@ namespace ZaifApiWrapper.Test
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None, null));
 
             //assert
             Assert.IsType<ZaifApiException>(actual.Result);
@@ -205,52 +255,10 @@ namespace ZaifApiWrapper.Test
             var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
 
             //act
-            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
+            var actual = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None, null));
 
             //assert
             Assert.IsType<HttpRequestException>(actual.Result);
-        }
-
-        [Fact]
-        public void PostAsync_should_increment_nonce_after_HttpException()
-        {
-            // arrange
-            var response = TestHelper.CreateJsonResponse(HttpStatusCode.InternalServerError, string.Empty);
-
-            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
-
-            var ex = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
-            var nonce = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-
-            //act
-            Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
-            var actual = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-
-            //assert
-            Assert.IsType<HttpRequestException>(ex.Result);
-            Assert.True(nonce < actual);
-        }
-
-        [Fact]
-        public void PostAsync_should_increment_nonce_after_ZaifApiException()
-        {
-            //arrange
-            var jsonString = @"{ ""success"": 0 , ""error"": ""api errer raised."" }";
-
-            var response = TestHelper.CreateJsonResponse(jsonString);
-
-            var obj = TestHelper.CreateApiClientWithMockHttpAccessor(response);
-
-            var ex = Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
-            var nonce = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-
-            //act
-            Record.ExceptionAsync(async () => await obj.PostAsync<object>("_", null, CancellationToken.None));
-            var actual = (long)typeof(ApiClient).GetField("_nonce", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-
-            //assert
-            Assert.IsType<ZaifApiException>(ex.Result);
-            Assert.True(nonce < actual);
         }
     }
 }

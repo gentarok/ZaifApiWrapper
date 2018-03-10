@@ -42,15 +42,17 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="group">all or active</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>
         /// <see cref="GroupsResponse"/>のコレクション
         /// </returns>
-        public Task<IEnumerable<GroupsResponse>> GroupsAsync(string group = "all", CancellationToken token = default)
+        public Task<IEnumerable<GroupsResponse>> GroupsAsync(string group = "all",
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             group.ThrowIfValueInvalid(Definitions.LeverageGroups, nameof(group));
 
             return _client.GetAsync<IEnumerable<GroupsResponse>>(
-                nameof(GroupsAsync).ToApiMethodName(), new[] { group }, token);
+                nameof(GroupsAsync).ToApiMethodName(), new[] { group }, token, progress);
         }
 
         /// <summary>
@@ -58,12 +60,14 @@ namespace ZaifApiWrapper
         /// </summary>
         /// <param name="groupId">group_id</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>
         /// <see cref="GroupsResponse"/>のコレクション
         /// </returns>
-        public Task<IEnumerable<GroupsResponse>> GroupsAsync(int groupId, CancellationToken token = default) =>
+        public Task<IEnumerable<GroupsResponse>> GroupsAsync(int groupId, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null) =>
             _client.GetAsync<IEnumerable<GroupsResponse>>(
-                nameof(GroupsAsync).ToApiMethodName(), new[] { groupId.ToString() }, token);
+                nameof(GroupsAsync).ToApiMethodName(), new[] { groupId.ToString() }, token, progress);
 
         /// <summary>
         /// 現在の終値を取得します。
@@ -71,15 +75,17 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>
         /// <see cref="LastPriceResponse"/>のコレクション
         /// </returns>
-        public Task<LastPriceResponse> LastPriceAsync(int groupId, string currencyPair, CancellationToken token = default)
+        public Task<LastPriceResponse> LastPriceAsync(int groupId, string currencyPair,
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<LastPriceResponse>(
-                nameof(LastPriceAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
+                nameof(LastPriceAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token, progress);
         }
 
         /// <summary>
@@ -88,13 +94,15 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="TickerResponse"/>オブジェクト。</returns>
-        public Task<TickerResponse> TickerAsync(int groupId, string currencyPair, CancellationToken token = default)
+        public Task<TickerResponse> TickerAsync(int groupId, string currencyPair, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<TickerResponse>(
-                nameof(TickerAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
+                nameof(TickerAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token, progress);
         }
 
         /// <summary>
@@ -103,15 +111,17 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>
         /// <see cref="TradesResponse"/>のコレクション
         /// </returns>
-        public Task<IEnumerable<TradesResponse>> TradesAsync(int groupId, string currencyPair, CancellationToken token = default)
+        public Task<IEnumerable<TradesResponse>> TradesAsync(int groupId, string currencyPair, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<IEnumerable<TradesResponse>>(
-                nameof(TradesAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
+                nameof(TradesAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token, progress);
         }
 
         /// <summary>
@@ -120,13 +130,15 @@ namespace ZaifApiWrapper
         /// <param name="groupId">group_id</param>
         /// <param name="currencyPair">currency_pair</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns><see cref="DepthResponse"/>オブジェクト。</returns>
-        public Task<DepthResponse> DepthAsync(int groupId, string currencyPair, CancellationToken token = default)
+        public Task<DepthResponse> DepthAsync(int groupId, string currencyPair, 
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
         {
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<DepthResponse>(
-                nameof(DepthAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token);
+                nameof(DepthAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token, progress);
         }
     }
 }

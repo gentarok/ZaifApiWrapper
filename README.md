@@ -1,12 +1,12 @@
 # ZaifApiWrapper
 
-Zaif API (v1.1.1) .NET Wrapper Library
-
-[Zaif](https://zaif.jp/)のAPIを.NETから利用するためのラッパーライブラリです。
-
 [![NuGet version](https://badge.fury.io/nu/ZaifApiWrapper.svg)](https://badge.fury.io/nu/ZaifApiWrapper)
 [![Build status](https://ci.appveyor.com/api/projects/status/lwx98gen2fa09jhh?svg=true)](https://ci.appveyor.com/project/gentarok/zaifapiwrapper)
 [![codecov](https://codecov.io/gh/gentarok/ZaifApiWrapper/branch/master/graph/badge.svg)](https://codecov.io/gh/gentarok/ZaifApiWrapper)
+
+Zaif API (v1.1.1) .NET Wrapper Library
+
+[Zaif](https://zaif.jp/)のAPIを.NETから利用するためのラッパーライブラリです。
 
 ## Target Framework
 .NET Standard 2.0
@@ -114,7 +114,7 @@ namespace ConsoleApp1
 |HttpErrorRetryInterval|1000|`HttpStatusCodesToRetry`で指定されたエラーが発生した場合の再試行までのインターバル(ms)|
 |HttpStatusCodesToRetry|`HttpStatusCode.BadGateway`<br/>`HttpStatusCode.ServiceUnavailable`<br>`HttpStatusCode.GatewayTimeout`|再試行対象のHTTPステータスコード|
 |ApiErrorRetryInterval|5000|APIから`ApiErrorMessagePatternToRetry`にマッチするメッセージを受け取った場合の再試行までのインターバル(ms)|
-|ApiErrorMessagePatternToRetry|"please try later\|temporarily unavailable"<br/>（[API呼出し回数制限時](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#time-wait-restriction-please-try-later)と[取引の一時的な停止](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html#trade-temporarily-unavailable)のメッセージ）|再試行対象のメッセージに含まれる文字列（正規表現で指定可）|
+|ApiErrorMessagePatternToRetry|"please try later\|temporarily unavailable\|not incremented"<br/>（[こちら](http://techbureau-api-document.readthedocs.io/ja/latest/faq/2_error_message.html)を参照してください。）|再試行対象のメッセージに含まれる文字列（正規表現で指定可）|
 
 
 ### APIメソッドの引数
@@ -133,6 +133,54 @@ namespace ConsoleApp1
 各メソッドは`CancellationToken`を指定できます。（使い方については[こちら](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/concepts/async/cancel-an-async-task-or-a-list-of-tasks)を参照してください）
 
 ただし、サーバー側の処理完了後、レスポンスを受け取る前にキャンセルした場合などの対応は、必要に応じてプログラム側で行ってください。
+
+#### 再試行時のコールバック
+
+各メソッドは`IProgress<RetryReport>`を渡すことで、再試行を行った際のコールバックを指定する事ができます。
+
+C# 7.1 or greater
+
+```CSharp
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using ZaifApiWrapper;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            var api = new PublicApi();
+            var onRetry = new Progress<RetryReport>(OnRetry);
+            try
+            {
+                var currencies = await api.CurrenciesAsync("all", CancellationToken.None, onRetry);
+                // Do Something...
+            }
+            catch (Exception ex)
+            {
+                // Handle errors...
+            }
+        }
+
+        static void OnRetry(RetryReport report)
+        {
+            Console.WriteLine($"Count:{report.RetryCount}");
+            switch (report.ErrorType)
+            {
+                case ErrorType.HttpError:
+                    Console.WriteLine($"StatusCode:{report.StatusCode}");
+                    break;
+                case ErrorType.ApiError:
+                    Console.WriteLine($"ErrorMessage:{report.ApiErrorMessage}");
+                    break;
+            }
+        }
+    }
+}
+```
 
 ## Licence
 [MIT Licence](https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE)

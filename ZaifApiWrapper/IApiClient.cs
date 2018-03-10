@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,8 +17,9 @@ namespace ZaifApiWrapper
         /// <param name="method">APIメソッド名</param>
         /// <param name="arguments">APIメソッド引数の配列</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>APIで取得したデータ</returns>
-        Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token);
+        Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token, IProgress<RetryReport> progress);
 
         /// <summary>
         /// HTTP Postメソッドでデータを取得します
@@ -26,7 +28,8 @@ namespace ZaifApiWrapper
         /// <param name="method">APIメソッド名</param>
         /// <param name="parameters">APIパラメータのディクショナリ</param>
         /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
         /// <returns>APIで取得したデータ</returns>
-        Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token);
+        Task<T> PostAsync<T>(string method, IDictionary<string, string> parameters, CancellationToken token, IProgress<RetryReport> progress);
     }
 }

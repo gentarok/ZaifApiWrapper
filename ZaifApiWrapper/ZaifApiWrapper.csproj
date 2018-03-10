@@ -4,16 +4,19 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
-    <Company />
+    <IsPackable>true</IsPackable>
+    <Company></Company>
     <Authors>gentaro</Authors>
     <Description>Zaif API (v1.1.1) Wrapper Library.</Description>
     <Copyright>gentaro</Copyright>
     <PackageLicenseUrl>https://github.com/gentarok/ZaifApiWrapper/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/gentarok/ZaifApiWrapper</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <Version></Version>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion></FileVersion>
+    <InformationalVersion></InformationalVersion>
+    <PackageVersion></PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
