@@ -1,8 +1,8 @@
 version: 1.3.0.{build}
 dotnet_csproj:
+  package_version: '1.3.0'
   patch: true
   file: '**\*.csproj'
-  package_version: '{version}'
   informational_version: '{version}'
   version: '{version}'
   assembly_version: '{version}'
