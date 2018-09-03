@@ -3,7 +3,7 @@ using Xunit;
 
 namespace ZaifApiWrapper.Test
 {
-    public class StringExtentionTest
+    public class StringExtensionTest
     {
         private const string ZENKAKE_SPACE = "　";
 
