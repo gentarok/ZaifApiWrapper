@@ -1,12 +1,12 @@
-version: 1.4.0.{build}
+version: 1.4.1.{build}
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '{version}'
   assembly_version: '{version}'
   file_version: '{version}'
-  informational_version: '1.4.0'
-  package_version: '1.4.0'
+  informational_version: '1.4.1'
+  package_version: '1.4.1'
 image: Visual Studio 2017
 configuration:
 - Release
