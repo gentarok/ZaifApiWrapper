@@ -156,7 +156,7 @@ namespace ZaifApiWrapper
             currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
 
             return _client.GetAsync<IEnumerable<SwapHistoryResponse>>(
-                nameof(SwapHistoryResponse).ToApiMethodName(), new[] { groupId.ToString(), currencyPair, page.ToString() }, token, progress);
+                nameof(SwapHistoryAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair, page.ToString() }, token, progress);
         }
     }
 }

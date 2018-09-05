@@ -58,7 +58,9 @@ namespace ZaifApiWrapper
         public async Task<T> GetAsync<T>(string method, string[] arguments, CancellationToken token, IProgress<RetryReport> progress)
         {
             var args = string.Join("/", arguments);
-            var uri = new Uri($"{_endpoint.TrimEnd('/')}/{method}/{args}");
+            
+            // 末尾'/'はサーバー側で解決さず404になってしまうので除去する
+            var uri = new Uri($"{_endpoint.TrimEnd('/')}/{method}/{args.TrimEnd('/')}");
             Debug.WriteLine($"Uri:{uri}");
 
             int? interval = null;
