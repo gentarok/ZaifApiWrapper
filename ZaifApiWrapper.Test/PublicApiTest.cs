@@ -315,7 +315,7 @@ namespace ZaifApiWrapper.Test
         };
 
         public static object[][] DepthAsyncSuccessData = new object[][]
-{
+        {
             //APIドキュメントに記載されているデータを返すパターン（引数は最小限）
             new object[]
             {
@@ -377,11 +377,11 @@ namespace ZaifApiWrapper.Test
                             9999999999.99999999,
                         ],
                     ]
-}",
+                }",
                 //引数
                 "XXXXXXXXXX",
             },
-};
+        };
 
         #endregion
 
