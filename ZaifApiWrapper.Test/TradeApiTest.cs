@@ -21,34 +21,34 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-            ""jpy"":15320,
-            ""btc"":1.389,
-            ""xem"":100.2,
-            ""mona"":2600,
-            ""pepecash"":0.1
-        },
-        ""deposit"":{
-            ""jpy"":20440,
-            ""btc"":1.479,
-            ""xem"":100.2,
-            ""mona"":3200,
-            ""pepecash"":0.1
-        },
-        ""rights"":{
-            ""info"":1,
-            ""trade"":1,
-            ""withdraw"":0,
-            ""personal_info"":0,
-            ""id_info"":0,
-        },
-        ""trade_count"":18,
-        ""open_orders"":3,
-        ""server_time"":1401950833
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                            ""jpy"":15320,
+                            ""btc"":1.389,
+                            ""xem"":100.2,
+                            ""mona"":2600,
+                            ""pepecash"":0.1
+                        },
+                        ""deposit"":{
+                            ""jpy"":20440,
+                            ""btc"":1.479,
+                            ""xem"":100.2,
+                            ""mona"":3200,
+                            ""pepecash"":0.1
+                        },
+                        ""rights"":{
+                            ""info"":1,
+                            ""trade"":1,
+                            ""withdraw"":0,
+                            ""personal_info"":0,
+                            ""id_info"":0,
+                        },
+                        ""trade_count"":18,
+                        ""open_orders"":3,
+                        ""server_time"":1401950833
+                    }
+                }",
                 //引数
             },
             //引数最小値全指定、戻り値最小値（１つ）
@@ -56,19 +56,19 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-        },
-        ""deposit"":{
-        },
-        ""rights"":{
-        },
-        ""trade_count"":0,
-        ""open_orders"":0,
-        ""server_time"":0
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                        },
+                        ""deposit"":{
+                        },
+                        ""rights"":{
+                        },
+                        ""trade_count"":0,
+                        ""open_orders"":0,
+                        ""server_time"":0
+                    }
+                }",
                 //引数
             },
             //引数なるべく最大値で全指定、戻り値なるべく最大値で全指定（複数）
@@ -76,34 +76,34 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-            ""jpy"":9999999999.99999999,
-            ""btc"":9999999999.99999999,
-            ""xem"":9999999999.99999999,
-            ""mona"":9999999999.99999999,
-            ""pepecash"":9999999999.99999999
-        },
-        ""deposit"":{
-            ""jpy"":9999999999.99999999,
-            ""btc"":9999999999.99999999,
-            ""xem"":9999999999.99999999,
-            ""mona"":9999999999.99999999,
-            ""pepecash"":9999999999.99999999
-        },
-        ""rights"":{
-            ""info"":1,
-            ""trade"":1,
-            ""withdraw"":1,
-            ""personal_info"":1,
-            ""id_info"":1,
-        },
-        ""trade_count"":2147483647,
-        ""open_orders"":2147483647,
-        ""server_time"":9223372036854775807
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                            ""jpy"":9999999999.99999999,
+                            ""btc"":9999999999.99999999,
+                            ""xem"":9999999999.99999999,
+                            ""mona"":9999999999.99999999,
+                            ""pepecash"":9999999999.99999999
+                        },
+                        ""deposit"":{
+                            ""jpy"":9999999999.99999999,
+                            ""btc"":9999999999.99999999,
+                            ""xem"":9999999999.99999999,
+                            ""mona"":9999999999.99999999,
+                            ""pepecash"":9999999999.99999999
+                        },
+                        ""rights"":{
+                            ""info"":1,
+                            ""trade"":1,
+                            ""withdraw"":1,
+                            ""personal_info"":1,
+                            ""id_info"":1,
+                        },
+                        ""trade_count"":2147483647,
+                        ""open_orders"":2147483647,
+                        ""server_time"":9223372036854775807
+                    }
+                }",
                 //引数
             },
         };
@@ -115,33 +115,33 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-            ""jpy"":15320,
-            ""btc"":1.389,
-            ""xem"":100.2,
-            ""mona"":2600,
-            ""pepecash"":0.1
-        },
-        ""deposit"":{
-            ""jpy"":20440,
-            ""btc"":1.479,
-            ""xem"":100.2,
-            ""mona"":3200,
-            ""pepecash"":0.1
-        },
-        ""rights"":{
-            ""info"":1,
-            ""trade"":1,
-            ""withdraw"":0,
-            ""personal_info"":0,
-            ""id_info"":0,
-        },
-        ""open_orders"":3,
-        ""server_time"":1401950833
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                            ""jpy"":15320,
+                            ""btc"":1.389,
+                            ""xem"":100.2,
+                            ""mona"":2600,
+                            ""pepecash"":0.1
+                        },
+                        ""deposit"":{
+                            ""jpy"":20440,
+                            ""btc"":1.479,
+                            ""xem"":100.2,
+                            ""mona"":3200,
+                            ""pepecash"":0.1
+                        },
+                        ""rights"":{
+                            ""info"":1,
+                            ""trade"":1,
+                            ""withdraw"":0,
+                            ""personal_info"":0,
+                            ""id_info"":0,
+                        },
+                        ""open_orders"":3,
+                        ""server_time"":1401950833
+                    }
+                }",
                 //引数
             },
             //引数最小値全指定、戻り値最小値（１つ）
@@ -149,18 +149,18 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-        },
-        ""deposit"":{
-        },
-        ""rights"":{
-        },
-        ""open_orders"":0,
-        ""server_time"":0
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                        },
+                        ""deposit"":{
+                        },
+                        ""rights"":{
+                        },
+                        ""open_orders"":0,
+                        ""server_time"":0
+                    }
+                }",
                 //引数
             },
             //引数なるべく最大値で全指定、戻り値なるべく最大値で全指定（複数）
@@ -168,33 +168,33 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""funds"":{
-            ""jpy"":9999999999.99999999,
-            ""btc"":9999999999.99999999,
-            ""xem"":9999999999.99999999,
-            ""mona"":9999999999.99999999,
-            ""pepecash"":9999999999.99999999
-        },
-        ""deposit"":{
-            ""jpy"":9999999999.99999999,
-            ""btc"":9999999999.99999999,
-            ""xem"":9999999999.99999999,
-            ""mona"":9999999999.99999999,
-            ""pepecash"":9999999999.99999999
-        },
-        ""rights"":{
-            ""info"":1,
-            ""trade"":1,
-            ""withdraw"":1,
-            ""personal_info"":1,
-            ""id_info"":1,
-        },
-        ""open_orders"":2147483647,
-        ""server_time"":9223372036854775807
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""funds"":{
+                            ""jpy"":9999999999.99999999,
+                            ""btc"":9999999999.99999999,
+                            ""xem"":9999999999.99999999,
+                            ""mona"":9999999999.99999999,
+                            ""pepecash"":9999999999.99999999
+                        },
+                        ""deposit"":{
+                            ""jpy"":9999999999.99999999,
+                            ""btc"":9999999999.99999999,
+                            ""xem"":9999999999.99999999,
+                            ""mona"":9999999999.99999999,
+                            ""pepecash"":9999999999.99999999
+                        },
+                        ""rights"":{
+                            ""info"":1,
+                            ""trade"":1,
+                            ""withdraw"":1,
+                            ""personal_info"":1,
+                            ""id_info"":1,
+                        },
+                        ""open_orders"":2147483647,
+                        ""server_time"":9223372036854775807
+                    }
+                }",
                 //引数
             },
         };
@@ -206,12 +206,12 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""ranking_nickname"": ""ニックネーム"",
-        ""icon_path"": ""https://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png""
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""ranking_nickname"": ""ニックネーム"",
+                        ""icon_path"": ""https://abs.twimg.com/sticky/default_profile_images/default_profile_0_normal.png""
+                    }
+                }",
                 //引数
             },
             //引数最小値全指定、戻り値最小値（１つ）
@@ -219,12 +219,12 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""ranking_nickname"": """",
-        ""icon_path"": """"
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""ranking_nickname"": """",
+                        ""icon_path"": """"
+                    }
+                }",
                 //引数
             },
             //引数なるべく最大値で全指定、戻り値なるべく最大値で全指定（複数）
@@ -232,12 +232,12 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""ranking_nickname"": ""○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○"",
-        ""icon_path"": ""https://localhost/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx.png""
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""ranking_nickname"": ""○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○"",
+                        ""icon_path"": ""https://localhost/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx/xxxxxxxxxx.png""
+                    }
+                }",
                 //引数
             },
         };
@@ -249,15 +249,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""id"": ""xxx"",
-        ""email"": ""xxx@example.com"",
-        ""name"": ""なまえ"",
-        ""kana"": ""カナ"",
-        ""certified"": true,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""id"": ""xxx"",
+                        ""email"": ""xxx@example.com"",
+                        ""name"": ""なまえ"",
+                        ""kana"": ""カナ"",
+                        ""certified"": true,
+                    }
+                }",
                 //引数
             },
             //引数最小値全指定、戻り値最小値（１つ）
@@ -265,15 +265,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""id"": """",
-        ""email"": """",
-        ""name"": """",
-        ""kana"": """",
-        ""certified"": false,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""id"": """",
+                        ""email"": """",
+                        ""name"": """",
+                        ""kana"": """",
+                        ""certified"": false,
+                    }
+                }",
                 //引数
             },
             //引数なるべく最大値で全指定、戻り値なるべく最大値で全指定（複数）
@@ -281,15 +281,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""id"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"",
-        ""email"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com"",
-        ""name"": ""なまえ０１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７"",
-        ""kana"": ""カナ０１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８"",
-        ""certified"": true,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""id"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"",
+                        ""email"": ""xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.com"",
+                        ""name"": ""なまえ０１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７"",
+                        ""kana"": ""カナ０１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８９００１２３４５６７８"",
+                        ""certified"": true,
+                    }
+                }",
                 //引数
             },
         };
@@ -301,21 +301,21 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""182"": {
-            ""currency_pair"": ""btc_jpy"",
-            ""action"": ""bid"",
-            ""amount"": 0.03,
-            ""price"": 56000,
-            ""fee"": 0,
-            ""your_action"": ""ask"",
-            ""bonus"": 1.6,
-            ""timestamp"": 1402018713,
-            ""comment"" : ""demo""
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""182"": {
+                            ""currency_pair"": ""btc_jpy"",
+                            ""action"": ""bid"",
+                            ""amount"": 0.03,
+                            ""price"": 56000,
+                            ""fee"": 0,
+                            ""your_action"": ""ask"",
+                            ""bonus"": 1.6,
+                            ""timestamp"": 1402018713,
+                            ""comment"" : ""demo""
+                        }
+                    }
+                }",
                 //引数
                 null,
                 null,
@@ -332,21 +332,21 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""0"": {
-            ""currency_pair"": """",
-            ""action"": """",
-            ""amount"": 0,
-            ""price"": 0,
-            ""fee"": 0,
-            ""your_action"": """",
-            ""bonus"": null,
-            ""timestamp"": 0,
-            ""comment"" : """"
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""0"": {
+                            ""currency_pair"": """",
+                            ""action"": """",
+                            ""amount"": 0,
+                            ""price"": 0,
+                            ""fee"": 0,
+                            ""your_action"": """",
+                            ""bonus"": null,
+                            ""timestamp"": 0,
+                            ""comment"" : """"
+                        }
+                    }
+                }",
                 //引数
                 null,
                 null,
@@ -363,32 +363,32 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""2147483647"": {
-            ""currency_pair"": ""XXXXXXXXXXX"",
-            ""action"": ""bid"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""fee"": 9999999999.99999999,
-            ""your_action"": ""ask"",
-            ""bonus"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
-        },
-        ""0"": {
-            ""currency_pair"": ""XXXXXXXXXXX"",
-            ""action"": ""ask"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""fee"": 9999999999.99999999,
-            ""your_action"": ""bid"",
-            ""bonus"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
-        },
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""2147483647"": {
+                            ""currency_pair"": ""XXXXXXXXXXX"",
+                            ""action"": ""bid"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""fee"": 9999999999.99999999,
+                            ""your_action"": ""ask"",
+                            ""bonus"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
+                        },
+                        ""0"": {
+                            ""currency_pair"": ""XXXXXXXXXXX"",
+                            ""action"": ""ask"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""fee"": 9999999999.99999999,
+                            ""your_action"": ""bid"",
+                            ""bonus"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
+                        },
+                    }
+                }",
                 //引数
                 int.MaxValue,
                 int.MaxValue,
@@ -409,18 +409,18 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""184"": {
-            ""currency_pair"": ""btc_jpy"",
-            ""action"": ""ask"",
-            ""amount"": 0.03,
-            ""price"": 56000,
-            ""timestamp"": 1402021125,
-            ""comment"" : ""demo""
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""184"": {
+                            ""currency_pair"": ""btc_jpy"",
+                            ""action"": ""ask"",
+                            ""amount"": 0.03,
+                            ""price"": 56000,
+                            ""timestamp"": 1402021125,
+                            ""comment"" : ""demo""
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 null,
@@ -430,18 +430,18 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""0"": {
-            ""currency_pair"": """",
-            ""action"": """",
-            ""amount"": 0,
-            ""price"": 0,
-            ""timestamp"": 0,
-            ""comment"" : """"
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""0"": {
+                            ""currency_pair"": """",
+                            ""action"": """",
+                            ""amount"": 0,
+                            ""price"": 0,
+                            ""timestamp"": 0,
+                            ""comment"" : """"
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 false,
@@ -451,26 +451,26 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""2147483647"": {
-            ""currency_pair"": ""XXXXXXXXXXX"",
-            ""action"": ""bid"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
-        },
-        ""0"": {
-            ""currency_pair"": ""XXXXXXXXXXX"",
-            ""action"": ""ask"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
-        },
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""2147483647"": {
+                            ""currency_pair"": ""XXXXXXXXXXX"",
+                            ""action"": ""bid"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
+                        },
+                        ""0"": {
+                            ""currency_pair"": ""XXXXXXXXXXX"",
+                            ""action"": ""ask"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""comment"" : ""XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX""
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 true,
@@ -484,18 +484,18 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""received"": 0.1,
-        ""remains"": 0,
-        ""order_id"": 0,
-        ""funds"": {
-            ""jpy"": 325,
-            ""btc"": 1.392,
-            ""mona"": 2600
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""received"": 0.1,
+                        ""remains"": 0,
+                        ""order_id"": 0,
+                        ""funds"": {
+                            ""jpy"": 325,
+                            ""btc"": 1.392,
+                            ""mona"": 2600
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 "ask",
@@ -509,15 +509,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""received"": 0,
-        ""remains"": 0,
-        ""order_id"": 0,
-        ""funds"": {
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""received"": 0,
+                        ""remains"": 0,
+                        ""order_id"": 0,
+                        ""funds"": {
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 "bid",
@@ -531,18 +531,18 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""received"": 9999999999.99999999,
-        ""remains"": 9999999999.99999999,
-        ""order_id"": 2147483647,
-        ""funds"": {
-            ""jpy"": 9999999999.99999999,
-            ""btc"": 9999999999.99999999,
-            ""mona"": 9999999999.99999999
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""received"": 9999999999.99999999,
+                        ""remains"": 9999999999.99999999,
+                        ""order_id"": 2147483647,
+                        ""funds"": {
+                            ""jpy"": 9999999999.99999999,
+                            ""btc"": 9999999999.99999999,
+                            ""mona"": 9999999999.99999999
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 "ask",
@@ -560,17 +560,17 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""order_id"": 184,
-        ""funds"": {
-            ""jpy"": 15320,
-            ""btc"": 1.392,
-            ""mona"": 2600,
-            ""kaori"": 0.1
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""order_id"": 184,
+                        ""funds"": {
+                            ""jpy"": 15320,
+                            ""btc"": 1.392,
+                            ""mona"": 2600,
+                            ""kaori"": 0.1
+                        }
+                    }
+                }",
                 //引数
                 0,
                 null,
@@ -581,13 +581,13 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""order_id"": 0,
-        ""funds"": {
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""order_id"": 0,
+                        ""funds"": {
+                        }
+                    }
+                }",
                 //引数
                 0,
                 null,
@@ -598,17 +598,17 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""order_id"": 2147483647,
-        ""funds"": {
-            ""jpy"": 9999999999.99999999,
-            ""btc"": 9999999999.99999999,
-            ""mona"": 9999999999.99999999,
-            ""kaori"": 9999999999.99999999
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""order_id"": 2147483647,
+                        ""funds"": {
+                            ""jpy"": 9999999999.99999999,
+                            ""btc"": 9999999999.99999999,
+                            ""mona"": 9999999999.99999999,
+                            ""kaori"": 9999999999.99999999
+                        }
+                    }
+                }",
                 //引数
                 int.MaxValue,
                 "_",
@@ -623,19 +623,19 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""id"": 23634,
-        ""fee"": 0.001,
-        ""txid"":,
-        ""funds"": {
-            ""jpy"": 15320,
-            ""btc"": 1.392,
-            ""xem"": 100.2,
-            ""mona"": 2600
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""id"": 23634,
+                        ""fee"": 0.001,
+                        ""txid"":,
+                        ""funds"": {
+                            ""jpy"": 15320,
+                            ""btc"": 1.392,
+                            ""xem"": 100.2,
+                            ""mona"": 2600
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 "_",
@@ -649,15 +649,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""id"": 0,
-        ""fee"": 0,
-        ""txid"":,
-        ""funds"": {
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""id"": 0,
+                        ""fee"": 0,
+                        ""txid"":,
+                        ""funds"": {
+                        }
+                    }
+                }",
                 //引数
                 "_",
                 "_",
@@ -670,19 +670,19 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-         ""id"": 2147483647,
-         ""fee"": 9999999999.99999999,
-         ""txid"": ""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
-         ""funds"": {
-             ""jpy"": 9999999999.99999999,
-             ""btc"": 9999999999.99999999,
-             ""xem"": 9999999999.99999999,
-             ""mona"": 9999999999.99999999
-         }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                         ""id"": 2147483647,
+                         ""fee"": 9999999999.99999999,
+                         ""txid"": ""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
+                         ""funds"": {
+                             ""jpy"": 9999999999.99999999,
+                             ""btc"": 9999999999.99999999,
+                             ""xem"": 9999999999.99999999,
+                             ""mona"": 9999999999.99999999
+                         }
+                    }
+                }",
                 //引数
                 "mona",
                 "00000000000000000000000000000000000000000000000000000000000000000",
@@ -699,22 +699,22 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""3816"":{
-            ""timestamp"":1435745065,
-            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
-            ""amount"":0.001,
-            ""txid"":""64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"",
-        },
-        ""3814"":{
-            ""timestamp"":1435548083,
-            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
-            ""amount"":0.001,
-            ""txid"":""7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819""
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""3816"":{
+                            ""timestamp"":1435745065,
+                            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
+                            ""amount"":0.001,
+                            ""txid"":""64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"",
+                        },
+                        ""3814"":{
+                            ""timestamp"":1435548083,
+                            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
+                            ""amount"":0.001,
+                            ""txid"":""7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819""
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 null,
@@ -730,16 +730,16 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""0"":{
-            ""timestamp"":0,
-            ""address"":"""",
-            ""amount"":0,
-            ""txid"":"""",
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""0"":{
+                            ""timestamp"":0,
+                            ""address"":"""",
+                            ""amount"":0,
+                            ""txid"":"""",
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 null,
@@ -755,22 +755,22 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""2147483647"":{
-            ""timestamp"":9223372036854775807,
-            ""address"":""ffffffffffffffffffffffffffffffffff"",
-            ""amount"":9999999999.99999999,
-            ""txid"":""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
-        },
-        ""0"":{
-            ""timestamp"":9223372036854775807,
-            ""address"":""0000000000000000000000000000000000"",
-            ""amount"":9999999999.99999999,
-            ""txid"":""0000000000000000000000000000000000000000000000000000000000000000""
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""2147483647"":{
+                            ""timestamp"":9223372036854775807,
+                            ""address"":""ffffffffffffffffffffffffffffffffff"",
+                            ""amount"":9999999999.99999999,
+                            ""txid"":""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
+                        },
+                        ""0"":{
+                            ""timestamp"":9223372036854775807,
+                            ""address"":""0000000000000000000000000000000000"",
+                            ""amount"":9999999999.99999999,
+                            ""txid"":""0000000000000000000000000000000000000000000000000000000000000000""
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 int.MaxValue,
@@ -790,22 +790,22 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""3816"":{
-            ""timestamp"":1435745065,
-            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
-            ""amount"":0.001,
-            ""txid"":""64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"",
-        },
-        ""3814"":{
-            ""timestamp"":1435548083,
-            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
-            ""amount"":0.001,
-            ""txid"":""7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819""
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""3816"":{
+                            ""timestamp"":1435745065,
+                            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
+                            ""amount"":0.001,
+                            ""txid"":""64dcf59523379ba282ae8cd61d2e9382c7849afe3a3802c0abb08a60067a159f"",
+                        },
+                        ""3814"":{
+                            ""timestamp"":1435548083,
+                            ""address"":""12qwQ3sPJJAosodSUhSpMds4WfUPBeFEM2"",
+                            ""amount"":0.001,
+                            ""txid"":""7d012cfff6e67a8938f93215367eef4177604459631ea62c85550980dca71819""
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 null,
@@ -821,16 +821,16 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""0"":{
-            ""timestamp"":0,
-            ""address"":"""",
-            ""amount"":0,
-            ""txid"":"""",
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""0"":{
+                            ""timestamp"":0,
+                            ""address"":"""",
+                            ""amount"":0,
+                            ""txid"":"""",
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 null,
@@ -846,22 +846,22 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""2147483647"":{
-            ""timestamp"":9223372036854775807,
-            ""address"":""ffffffffffffffffffffffffffffffffff"",
-            ""amount"":9999999999.99999999,
-            ""txid"":""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
-        },
-        ""0"":{
-            ""timestamp"":9223372036854775807,
-            ""address"":""0000000000000000000000000000000000"",
-            ""amount"":9999999999.99999999,
-            ""txid"":""0000000000000000000000000000000000000000000000000000000000000000""
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""2147483647"":{
+                            ""timestamp"":9223372036854775807,
+                            ""address"":""ffffffffffffffffffffffffffffffffff"",
+                            ""amount"":9999999999.99999999,
+                            ""txid"":""ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"",
+                        },
+                        ""0"":{
+                            ""timestamp"":9223372036854775807,
+                            ""address"":""0000000000000000000000000000000000"",
+                            ""amount"":9999999999.99999999,
+                            ""txid"":""0000000000000000000000000000000000000000000000000000000000000000""
+                        },
+                    }
+                }",
                 //引数
                 "_",
                 int.MaxValue,

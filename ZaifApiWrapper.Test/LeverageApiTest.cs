@@ -21,29 +21,29 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""182"":{
-            ""group_id"":1,
-            ""currency_pair"":""btc_jpy"",
-            ""action"":""bid"",
-            ""leverage"":2.5,
-            ""price"":110005,
-            ""limit"":130000,
-            ""stop"":90000,
-            ""amount"":0.03,
-            ""fee_spent"":0,
-            ""timestamp"":1402018713,
-            ""term_end"":1404610713,
-            ""timestamp_closed"":1402019000,
-            ""deposit"":35.76,
-            ""deposit_jpy"":35.76,
-            ""refunded"":35.76,
-            ""refunded_jpy"":35.76,
-            ""swap"":0,
-        }
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""182"":{
+                            ""group_id"":1,
+                            ""currency_pair"":""btc_jpy"",
+                            ""action"":""bid"",
+                            ""leverage"":2.5,
+                            ""price"":110005,
+                            ""limit"":130000,
+                            ""stop"":90000,
+                            ""amount"":0.03,
+                            ""fee_spent"":0,
+                            ""timestamp"":1402018713,
+                            ""term_end"":1404610713,
+                            ""timestamp_closed"":1402019000,
+                            ""deposit"":35.76,
+                            ""deposit_jpy"":35.76,
+                            ""refunded"":35.76,
+                            ""refunded_jpy"":35.76,
+                            ""swap"":0,
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 null,
@@ -61,27 +61,27 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""0"":{
-            ""group_id"":0,
-            ""currency_pair"":"""",
-            ""action"":"""",
-            ""leverage"":0,
-            ""price"":0,
-            ""limit"":0,
-            ""stop"":0,
-            ""amount"":0,
-            ""fee_spent"":0,
-            ""timestamp"":0,
-            ""term_end"":0,
-            ""timestamp_closed"":0,
-            ""deposit"":0,
-            ""refunded"":0,
-            ""swap"":0,
-        }
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""0"":{
+                            ""group_id"":0,
+                            ""currency_pair"":"""",
+                            ""action"":"""",
+                            ""leverage"":0,
+                            ""price"":0,
+                            ""limit"":0,
+                            ""stop"":0,
+                            ""amount"":0,
+                            ""fee_spent"":0,
+                            ""timestamp"":0,
+                            ""term_end"":0,
+                            ""timestamp_closed"":0,
+                            ""deposit"":0,
+                            ""refunded"":0,
+                            ""swap"":0,
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -99,86 +99,86 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""2147483647"":{
-            ""group_id"":2147483647,
-            ""currency_pair"":""ZZZZZZZZZZ"",
-            ""action"":""ask"",
-            ""leverage"":999.9999,
-            ""price"":9999999999.99999999,
-            ""limit"":9999999999.99999999,
-            ""stop"":9999999999.99999999,
-            ""amount"":9999999999.99999999,
-            ""fee_spent"":9999999999.99999999,
-            ""timestamp"":9223372036854775807,
-            ""term_end"":9223372036854775807,
-            ""timestamp_closed"":9223372036854775807,
-            ""price_avg"":9999999999.99999999,
-            ""amount_done"":9999999999.99999999,
-            ""close_avg"":9999999999.99999999,
-            ""close_done"":9999999999.99999999,
-            ""deposit"":9999999999.99999999,
-            ""deposit_jpy"":9999999999.99999999,
-            ""deposit_btc"":9999999999.99999999,
-            ""deposit_xem"":9999999999.99999999,
-            ""deposit_mona"":9999999999.99999999,
-            ""deposit_price_jpy"":9999999999.99999999,
-            ""deposit_price_btc"":9999999999.99999999,
-            ""deposit_price_xem"":9999999999.99999999,
-            ""deposit_price_mona"":9999999999.99999999,
-            ""refunded"":9999999999.99999999,
-            ""refunded_jpy"":9999999999.99999999,
-            ""refunded_btc"":9999999999.99999999,
-            ""refunded_xem"":9999999999.99999999,
-            ""refunded_mona"":9999999999.99999999,
-            ""refunded_price_jpy"":9999999999.99999999,
-            ""refunded_price_btc"":9999999999.99999999,
-            ""refunded_price_xem"":9999999999.99999999,
-            ""refunded_price_mona"":9999999999.99999999,
-            ""swap"":9999999999.99999999,
-            ""guard_fee"":9999999999.99999999,
-        },
-        ""0"":{
-            ""group_id"":2147483647,
-            ""currency_pair"":""ZZZZZZZZZZ"",
-            ""action"":""bid"",
-            ""leverage"":999.9999,
-            ""price"":9999999999.99999999,
-            ""limit"":9999999999.99999999,
-            ""stop"":9999999999.99999999,
-            ""amount"":9999999999.99999999,
-            ""fee_spent"":9999999999.99999999,
-            ""timestamp"":9223372036854775807,
-            ""term_end"":9223372036854775807,
-            ""timestamp_closed"":9223372036854775807,
-            ""price_avg"":9999999999.99999999,
-            ""amount_done"":9999999999.99999999,
-            ""close_avg"":9999999999.99999999,
-            ""close_done"":9999999999.99999999,     
-            ""deposit"":9999999999.99999999,
-            ""deposit_jpy"":9999999999.99999999,
-            ""deposit_btc"":9999999999.99999999,
-            ""deposit_xem"":9999999999.99999999,
-            ""deposit_mona"":9999999999.99999999,
-            ""deposit_price_jpy"":9999999999.99999999,
-            ""deposit_price_btc"":9999999999.99999999,
-            ""deposit_price_xem"":9999999999.99999999,
-            ""deposit_price_mona"":9999999999.99999999,
-            ""refunded"":9999999999.99999999,
-            ""refunded_jpy"":9999999999.99999999,
-            ""refunded_btc"":9999999999.99999999,
-            ""refunded_xem"":9999999999.99999999,
-            ""refunded_mona"":9999999999.99999999,
-            ""refunded_price_jpy"":9999999999.99999999,
-            ""refunded_price_btc"":9999999999.99999999,
-            ""refunded_price_xem"":9999999999.99999999,
-            ""refunded_price_mona"":9999999999.99999999,
-            ""swap"":9999999999.99999999,
-            ""guard_fee"":9999999999.99999999,
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""2147483647"":{
+                            ""group_id"":2147483647,
+                            ""currency_pair"":""ZZZZZZZZZZ"",
+                            ""action"":""ask"",
+                            ""leverage"":999.9999,
+                            ""price"":9999999999.99999999,
+                            ""limit"":9999999999.99999999,
+                            ""stop"":9999999999.99999999,
+                            ""amount"":9999999999.99999999,
+                            ""fee_spent"":9999999999.99999999,
+                            ""timestamp"":9223372036854775807,
+                            ""term_end"":9223372036854775807,
+                            ""timestamp_closed"":9223372036854775807,
+                            ""price_avg"":9999999999.99999999,
+                            ""amount_done"":9999999999.99999999,
+                            ""close_avg"":9999999999.99999999,
+                            ""close_done"":9999999999.99999999,
+                            ""deposit"":9999999999.99999999,
+                            ""deposit_jpy"":9999999999.99999999,
+                            ""deposit_btc"":9999999999.99999999,
+                            ""deposit_xem"":9999999999.99999999,
+                            ""deposit_mona"":9999999999.99999999,
+                            ""deposit_price_jpy"":9999999999.99999999,
+                            ""deposit_price_btc"":9999999999.99999999,
+                            ""deposit_price_xem"":9999999999.99999999,
+                            ""deposit_price_mona"":9999999999.99999999,
+                            ""refunded"":9999999999.99999999,
+                            ""refunded_jpy"":9999999999.99999999,
+                            ""refunded_btc"":9999999999.99999999,
+                            ""refunded_xem"":9999999999.99999999,
+                            ""refunded_mona"":9999999999.99999999,
+                            ""refunded_price_jpy"":9999999999.99999999,
+                            ""refunded_price_btc"":9999999999.99999999,
+                            ""refunded_price_xem"":9999999999.99999999,
+                            ""refunded_price_mona"":9999999999.99999999,
+                            ""swap"":9999999999.99999999,
+                            ""guard_fee"":9999999999.99999999,
+                        },
+                        ""0"":{
+                            ""group_id"":2147483647,
+                            ""currency_pair"":""ZZZZZZZZZZ"",
+                            ""action"":""bid"",
+                            ""leverage"":999.9999,
+                            ""price"":9999999999.99999999,
+                            ""limit"":9999999999.99999999,
+                            ""stop"":9999999999.99999999,
+                            ""amount"":9999999999.99999999,
+                            ""fee_spent"":9999999999.99999999,
+                            ""timestamp"":9223372036854775807,
+                            ""term_end"":9223372036854775807,
+                            ""timestamp_closed"":9223372036854775807,
+                            ""price_avg"":9999999999.99999999,
+                            ""amount_done"":9999999999.99999999,
+                            ""close_avg"":9999999999.99999999,
+                            ""close_done"":9999999999.99999999,     
+                            ""deposit"":9999999999.99999999,
+                            ""deposit_jpy"":9999999999.99999999,
+                            ""deposit_btc"":9999999999.99999999,
+                            ""deposit_xem"":9999999999.99999999,
+                            ""deposit_mona"":9999999999.99999999,
+                            ""deposit_price_jpy"":9999999999.99999999,
+                            ""deposit_price_btc"":9999999999.99999999,
+                            ""deposit_price_xem"":9999999999.99999999,
+                            ""deposit_price_mona"":9999999999.99999999,
+                            ""refunded"":9999999999.99999999,
+                            ""refunded_jpy"":9999999999.99999999,
+                            ""refunded_btc"":9999999999.99999999,
+                            ""refunded_xem"":9999999999.99999999,
+                            ""refunded_mona"":9999999999.99999999,
+                            ""refunded_price_jpy"":9999999999.99999999,
+                            ""refunded_price_btc"":9999999999.99999999,
+                            ""refunded_price_xem"":9999999999.99999999,
+                            ""refunded_price_mona"":9999999999.99999999,
+                            ""swap"":9999999999.99999999,
+                            ""guard_fee"":9999999999.99999999,
+                        },
+                    }
+                }",
                 //引数
                 "futures",
                 int.MaxValue,
@@ -200,30 +200,30 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""182"": {
-            ""group_id"": 1,
-            ""currency_pair"": ""btc_jpy"",
-            ""action"": ""bid"",
-            ""amount"": 0.0001,
-            ""price"": 499000,
-            ""timestamp"": 1504251232,
-            ""your_action"": ""bid"",
-            ""bid_leverage_id"": 182,
-        },
-        ""183"": {
-            ""group_id"": 1,
-            ""currency_pair"": ""btc_jpy"",
-            ""action"": ""ask"",
-            ""amount"": 0.0001,
-            ""price"": 450000,
-            ""timestamp"": 1504251267,
-            ""your_action"": ""ask"",
-            ""ask_leverage_id"": 182,
-        },
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""182"": {
+                            ""group_id"": 1,
+                            ""currency_pair"": ""btc_jpy"",
+                            ""action"": ""bid"",
+                            ""amount"": 0.0001,
+                            ""price"": 499000,
+                            ""timestamp"": 1504251232,
+                            ""your_action"": ""bid"",
+                            ""bid_leverage_id"": 182,
+                        },
+                        ""183"": {
+                            ""group_id"": 1,
+                            ""currency_pair"": ""btc_jpy"",
+                            ""action"": ""ask"",
+                            ""amount"": 0.0001,
+                            ""price"": 450000,
+                            ""timestamp"": 1504251267,
+                            ""your_action"": ""ask"",
+                            ""ask_leverage_id"": 182,
+                        },
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -234,19 +234,19 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""0"": {
-            ""group_id"": 0,
-            ""currency_pair"": """",
-            ""action"": """",
-            ""amount"": 0,
-            ""price"": 0,
-            ""timestamp"": 0,
-            ""your_action"": """",
-        },
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""0"": {
+                            ""group_id"": 0,
+                            ""currency_pair"": """",
+                            ""action"": """",
+                            ""amount"": 0,
+                            ""price"": 0,
+                            ""timestamp"": 0,
+                            ""your_action"": """",
+                        },
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -257,32 +257,32 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""2147483647"": {
-            ""group_id"": 2147483647,
-            ""currency_pair"": ""XXXXXXXXXX"",
-            ""action"": ""ask"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""your_action"": ""ask"",
-            ""bid_leverage_id"": 2147483647,
-            ""ask_leverage_id"": 2147483647,
-        },
-        ""0"": {
-            ""group_id"": 2147483647,
-            ""currency_pair"": ""XXXXXXXXXX"",
-            ""action"": ""bid"",
-            ""amount"": 9999999999.99999999,
-            ""price"": 9999999999.99999999,
-            ""timestamp"": 9223372036854775807,
-            ""your_action"": ""bid"",
-            ""bid_leverage_id"": 2147483647,
-            ""ask_leverage_id"": 2147483647,
-        },
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""2147483647"": {
+                            ""group_id"": 2147483647,
+                            ""currency_pair"": ""XXXXXXXXXX"",
+                            ""action"": ""ask"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""your_action"": ""ask"",
+                            ""bid_leverage_id"": 2147483647,
+                            ""ask_leverage_id"": 2147483647,
+                        },
+                        ""0"": {
+                            ""group_id"": 2147483647,
+                            ""currency_pair"": ""XXXXXXXXXX"",
+                            ""action"": ""bid"",
+                            ""amount"": 9999999999.99999999,
+                            ""price"": 9999999999.99999999,
+                            ""timestamp"": 9223372036854775807,
+                            ""your_action"": ""bid"",
+                            ""bid_leverage_id"": 2147483647,
+                            ""ask_leverage_id"": 2147483647,
+                        },
+                    }
+                }",
                 //引数
                 "futures",
                 int.MaxValue,
@@ -297,24 +297,24 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""184"":{
-            ""group_id"":""1"",
-            ""currency_pair"":""btc_jpy"",
-            ""action"":""ask"",
-            ""amount"":0.0001,
-            ""price"":450000,
-            ""timestamp"":1402021125,
-            ""term_end"":1404613125,
-            ""leverage"":1,
-            ""fee_spent"":0.0015,
-            ""price_avg"":450000,
-            ""amount_done"":0.0001,
-            ""deposit_jpy"":48.72
-        }
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""184"":{
+                            ""group_id"":""1"",
+                            ""currency_pair"":""btc_jpy"",
+                            ""action"":""ask"",
+                            ""amount"":0.0001,
+                            ""price"":450000,
+                            ""timestamp"":1402021125,
+                            ""term_end"":1404613125,
+                            ""leverage"":1,
+                            ""fee_spent"":0.0015,
+                            ""price_avg"":450000,
+                            ""amount_done"":0.0001,
+                            ""deposit_jpy"":48.72
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -325,23 +325,23 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""0"":{
-            ""group_id"":""0"",
-            ""currency_pair"":"""",
-            ""action"":"""",
-            ""amount"":0,
-            ""price"":0,
-            ""timestamp"":0,
-            ""term_end"":0,
-            ""leverage"":0,
-            ""fee_spent"":0,
-            ""price_avg"":0,
-            ""amount_done"":0,
-        }
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""0"":{
+                            ""group_id"":""0"",
+                            ""currency_pair"":"""",
+                            ""action"":"""",
+                            ""amount"":0,
+                            ""price"":0,
+                            ""timestamp"":0,
+                            ""term_end"":0,
+                            ""leverage"":0,
+                            ""fee_spent"":0,
+                            ""price_avg"":0,
+                            ""amount_done"":0,
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -352,62 +352,62 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"":1,
-    ""return"":{
-        ""2147483647"":{
-            ""group_id"":""2147483647"",
-            ""currency_pair"":""XXXXXXXXXX"",
-            ""action"":""ask"",
-            ""amount"":9999999999.99999999,
-            ""price"":9999999999.99999999,
-            ""limit"":9999999999.99999999,
-            ""stop"":9999999999.99999999,
-            ""timestamp"":9223372036854775807,
-            ""term_end"":9223372036854775807,
-            ""leverage"":9999.999,
-            ""fee_spent"":9999999999.99999999,
-            ""price_avg"":9999999999.99999999,
-            ""amount_done"":9999999999.99999999,
-            ""close_avg"":9999999999.99999999,
-            ""close_done"":9999999999.99999999,
-            ""deposit_jpy"":9999999999.99999999,
-            ""deposit_btc"":9999999999.99999999,
-            ""deposit_xem"":9999999999.99999999,
-            ""deposit_mona"":9999999999.99999999,
-            ""deposit_price_jpy"":9999999999.99999999,
-            ""deposit_price_btc"":9999999999.99999999,
-            ""deposit_price_xem"":9999999999.99999999,
-            ""deposit_price_mona"":9999999999.99999999,
-            ""swap"":9999999999.99999999,
-        },
-        ""0"":{
-            ""group_id"":""2147483647"",
-            ""currency_pair"":""XXXXXXXXXX"",
-            ""action"":""bid"",
-            ""amount"":9999999999.99999999,
-            ""price"":9999999999.99999999,
-            ""limit"":9999999999.99999999,
-            ""stop"":9999999999.99999999,
-            ""timestamp"":9223372036854775807,
-            ""term_end"":9223372036854775807,
-            ""leverage"":9999.999,
-            ""fee_spent"":9999999999.99999999,
-            ""price_avg"":9999999999.99999999,
-            ""amount_done"":9999999999.99999999,
-            ""close_avg"":9999999999.99999999,
-            ""close_done"":9999999999.99999999,
-            ""deposit_jpy"":9999999999.99999999,
-            ""deposit_btc"":9999999999.99999999,
-            ""deposit_xem"":9999999999.99999999,
-            ""deposit_mona"":9999999999.99999999,
-            ""deposit_price_jpy"":9999999999.99999999,
-            ""deposit_price_btc"":9999999999.99999999,
-            ""deposit_price_xem"":9999999999.99999999,
-            ""deposit_price_mona"":9999999999.99999999,
-            ""swap"":9999999999.99999999,
-        },
-    }
-}",
+                    ""success"":1,
+                    ""return"":{
+                        ""2147483647"":{
+                            ""group_id"":""2147483647"",
+                            ""currency_pair"":""XXXXXXXXXX"",
+                            ""action"":""ask"",
+                            ""amount"":9999999999.99999999,
+                            ""price"":9999999999.99999999,
+                            ""limit"":9999999999.99999999,
+                            ""stop"":9999999999.99999999,
+                            ""timestamp"":9223372036854775807,
+                            ""term_end"":9223372036854775807,
+                            ""leverage"":9999.999,
+                            ""fee_spent"":9999999999.99999999,
+                            ""price_avg"":9999999999.99999999,
+                            ""amount_done"":9999999999.99999999,
+                            ""close_avg"":9999999999.99999999,
+                            ""close_done"":9999999999.99999999,
+                            ""deposit_jpy"":9999999999.99999999,
+                            ""deposit_btc"":9999999999.99999999,
+                            ""deposit_xem"":9999999999.99999999,
+                            ""deposit_mona"":9999999999.99999999,
+                            ""deposit_price_jpy"":9999999999.99999999,
+                            ""deposit_price_btc"":9999999999.99999999,
+                            ""deposit_price_xem"":9999999999.99999999,
+                            ""deposit_price_mona"":9999999999.99999999,
+                            ""swap"":9999999999.99999999,
+                        },
+                        ""0"":{
+                            ""group_id"":""2147483647"",
+                            ""currency_pair"":""XXXXXXXXXX"",
+                            ""action"":""bid"",
+                            ""amount"":9999999999.99999999,
+                            ""price"":9999999999.99999999,
+                            ""limit"":9999999999.99999999,
+                            ""stop"":9999999999.99999999,
+                            ""timestamp"":9223372036854775807,
+                            ""term_end"":9223372036854775807,
+                            ""leverage"":9999.999,
+                            ""fee_spent"":9999999999.99999999,
+                            ""price_avg"":9999999999.99999999,
+                            ""amount_done"":9999999999.99999999,
+                            ""close_avg"":9999999999.99999999,
+                            ""close_done"":9999999999.99999999,
+                            ""deposit_jpy"":9999999999.99999999,
+                            ""deposit_btc"":9999999999.99999999,
+                            ""deposit_xem"":9999999999.99999999,
+                            ""deposit_mona"":9999999999.99999999,
+                            ""deposit_price_jpy"":9999999999.99999999,
+                            ""deposit_price_btc"":9999999999.99999999,
+                            ""deposit_price_xem"":9999999999.99999999,
+                            ""deposit_price_mona"":9999999999.99999999,
+                            ""swap"":9999999999.99999999,
+                        },
+                    }
+                }",
                 //引数
                 "futures",
                 int.MaxValue,
@@ -422,21 +422,21 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 22258,
-        ""timestamp"": 1504253833,
-        ""term_end"": 1506845833,
-        ""price_avg"": 118000,
-        ""amount_done"": 0.0001,
-        ""deposit_jpy"": 11.92,
-        ""funds"": {
-            ""jpy"": 325,
-            ""btc"": 1.392,
-            ""mona"": 2600
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 22258,
+                        ""timestamp"": 1504253833,
+                        ""term_end"": 1506845833,
+                        ""price_avg"": 118000,
+                        ""amount_done"": 0.0001,
+                        ""deposit_jpy"": 11.92,
+                        ""funds"": {
+                            ""jpy"": 325,
+                            ""btc"": 1.392,
+                            ""mona"": 2600
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 "_",
@@ -453,17 +453,17 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 0,
-        ""timestamp"": 0,
-        ""term_end"": 0,
-        ""price_avg"": 0,
-        ""amount_done"": 0,
-        ""funds"": {
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 0,
+                        ""timestamp"": 0,
+                        ""term_end"": 0,
+                        ""price_avg"": 0,
+                        ""amount_done"": 0,
+                        ""funds"": {
+                        }
+                    }
+                }",
                 //引数
                 "margin",
                 "_",
@@ -480,29 +480,29 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 2147483647,
-        ""timestamp"": 9223372036854775807,
-        ""term_end"": 9223372036854775807,
-        ""price_avg"": 9999999999.99999999,
-        ""amount_done"": 9999999999.99999999,
-        ""deposit_jpy"":9999999999.99999999,
-        ""deposit_btc"":9999999999.99999999,
-        ""deposit_xem"":9999999999.99999999,
-        ""deposit_mona"":9999999999.99999999,
-        ""deposit_price_jpy"":9999999999.99999999,
-        ""deposit_price_btc"":9999999999.99999999,
-        ""deposit_price_xem"":9999999999.99999999,
-        ""deposit_price_mona"":9999999999.99999999,
-        ""funds"": {
-            ""jpy"": 9999999999.99999999,
-            ""btc"": 9999999999.99999999,
-            ""xem"": 9999999999.99999999,
-            ""mona"": 9999999999.99999999,
-        }
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 2147483647,
+                        ""timestamp"": 9223372036854775807,
+                        ""term_end"": 9223372036854775807,
+                        ""price_avg"": 9999999999.99999999,
+                        ""amount_done"": 9999999999.99999999,
+                        ""deposit_jpy"":9999999999.99999999,
+                        ""deposit_btc"":9999999999.99999999,
+                        ""deposit_xem"":9999999999.99999999,
+                        ""deposit_mona"":9999999999.99999999,
+                        ""deposit_price_jpy"":9999999999.99999999,
+                        ""deposit_price_btc"":9999999999.99999999,
+                        ""deposit_price_xem"":9999999999.99999999,
+                        ""deposit_price_mona"":9999999999.99999999,
+                        ""funds"": {
+                            ""jpy"": 9999999999.99999999,
+                            ""btc"": 9999999999.99999999,
+                            ""xem"": 9999999999.99999999,
+                            ""mona"": 9999999999.99999999,
+                        }
+                    }
+                }",
                 //引数
                 "futures",
                 "XXXXXXXXXX",
@@ -523,13 +523,13 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 22258,
-        ""price_avg"": 118000,
-        ""amount_done"": 0.0001,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 22258,
+                        ""price_avg"": 118000,
+                        ""amount_done"": 0.0001,
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -543,13 +543,13 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 0,
-        ""price_avg"": 0,
-        ""amount_done"": 0,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 0,
+                        ""price_avg"": 0,
+                        ""amount_done"": 0,
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -563,26 +563,26 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 2147483647,
-        ""timestamp_closed"": 9223372036854775807,
-        ""price_avg"": 9999999999.99999999,
-        ""amount_done"": 9999999999.99999999,
-        ""close_avg"": 9999999999.99999999,
-        ""close_done"": 9999999999.99999999,
-        ""refunded_jpy"": 9999999999.99999999,
-        ""refunded_btc"": 9999999999.99999999,
-        ""refunded_xem"": 9999999999.99999999,
-        ""refunded_mona"": 9999999999.99999999,
-        ""refunded_price_jpy"": 9999999999.99999999,
-        ""refunded_price_btc"": 9999999999.99999999,
-        ""refunded_price_xem"": 9999999999.99999999,
-        ""refunded_price_mona"": 9999999999.99999999,
-        ""swap"": 9999999999.99999999,
-        ""guard_fee"": 9999999999.99999999,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 2147483647,
+                        ""timestamp_closed"": 9223372036854775807,
+                        ""price_avg"": 9999999999.99999999,
+                        ""amount_done"": 9999999999.99999999,
+                        ""close_avg"": 9999999999.99999999,
+                        ""close_done"": 9999999999.99999999,
+                        ""refunded_jpy"": 9999999999.99999999,
+                        ""refunded_btc"": 9999999999.99999999,
+                        ""refunded_xem"": 9999999999.99999999,
+                        ""refunded_mona"": 9999999999.99999999,
+                        ""refunded_price_jpy"": 9999999999.99999999,
+                        ""refunded_price_btc"": 9999999999.99999999,
+                        ""refunded_price_xem"": 9999999999.99999999,
+                        ""refunded_price_mona"": 9999999999.99999999,
+                        ""swap"": 9999999999.99999999,
+                        ""guard_fee"": 9999999999.99999999,
+                    }
+                }",
                 //引数
                 "futures",
                 int.MaxValue,
@@ -600,21 +600,21 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 2072,
-        ""refunded_jpy"": 645.96,
-        ""funds"": {
-            ""btc"": 0.496,
-            ""jpy"": 1564.96,
-            ""xem"": 0.0,
-            ""mona"": 10.0
-        },
-        ""fee_spent"": 0.0,
-        ""timestamp_closed"": 1508384951,
-        ""swap"": 0.0
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 2072,
+                        ""refunded_jpy"": 645.96,
+                        ""funds"": {
+                            ""btc"": 0.496,
+                            ""jpy"": 1564.96,
+                            ""xem"": 0.0,
+                            ""mona"": 10.0
+                        },
+                        ""fee_spent"": 0.0,
+                        ""timestamp_closed"": 1508384951,
+                        ""swap"": 0.0
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -625,15 +625,15 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 0,
-        ""funds"": {
-        },
-        ""fee_spent"": 0,
-        ""timestamp_closed"": 0,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 0,
+                        ""funds"": {
+                        },
+                        ""fee_spent"": 0,
+                        ""timestamp_closed"": 0,
+                    }
+                }",
                 //引数
                 "margin",
                 0,
@@ -645,33 +645,33 @@ namespace ZaifApiWrapper.Test
             {
                 //戻り値
                 @"{
-    ""success"": 1,
-    ""return"": {
-        ""leverage_id"": 2147483647,
-        ""refunded_jpy"": 9999999999.99999999,
-        ""refunded_btc"": 9999999999.99999999,
-        ""refunded_xem"": 9999999999.99999999,
-        ""refunded_mona"": 9999999999.99999999,
-        ""refunded_price_jpy"": 9999999999.99999999,
-        ""refunded_price_btc"": 9999999999.99999999,
-        ""refunded_price_xem"": 9999999999.99999999,
-        ""refunded_price_mona"": 9999999999.99999999,
-        ""funds"": {
-            ""jpy"": 9999999999.99999999,
-            ""btc"": 9999999999.99999999,
-            ""xem"": 9999999999.99999999,
-            ""mona"": 9999999999.99999999,
-        },
-        ""fee_spent"": 9999999999.99999999,
-        ""timestamp_closed"": 9223372036854775807,
-        ""price_avg"": 9999999999.99999999,
-        ""amount_done"": 9999999999.99999999,
-        ""close_avg"": 9999999999.99999999,
-        ""close_done"": 9999999999.99999999,
-        ""swap"": 9999999999.99999999,
-        ""guard_fee"": 9999999999.99999999,
-    }
-}",
+                    ""success"": 1,
+                    ""return"": {
+                        ""leverage_id"": 2147483647,
+                        ""refunded_jpy"": 9999999999.99999999,
+                        ""refunded_btc"": 9999999999.99999999,
+                        ""refunded_xem"": 9999999999.99999999,
+                        ""refunded_mona"": 9999999999.99999999,
+                        ""refunded_price_jpy"": 9999999999.99999999,
+                        ""refunded_price_btc"": 9999999999.99999999,
+                        ""refunded_price_xem"": 9999999999.99999999,
+                        ""refunded_price_mona"": 9999999999.99999999,
+                        ""funds"": {
+                            ""jpy"": 9999999999.99999999,
+                            ""btc"": 9999999999.99999999,
+                            ""xem"": 9999999999.99999999,
+                            ""mona"": 9999999999.99999999,
+                        },
+                        ""fee_spent"": 9999999999.99999999,
+                        ""timestamp_closed"": 9223372036854775807,
+                        ""price_avg"": 9999999999.99999999,
+                        ""amount_done"": 9999999999.99999999,
+                        ""close_avg"": 9999999999.99999999,
+                        ""close_done"": 9999999999.99999999,
+                        ""swap"": 9999999999.99999999,
+                        ""guard_fee"": 9999999999.99999999,
+                    }
+                }",
                 //引数
                 "futures",
                 int.MaxValue,
