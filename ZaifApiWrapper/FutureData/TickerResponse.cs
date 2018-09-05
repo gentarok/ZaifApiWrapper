@@ -51,5 +51,15 @@ namespace ZaifApiWrapper.FutureData
         /// </summary>
         [JsonProperty("ask")]
         public decimal Ask { get; set; }
+        /// <summary>
+        /// 買いスワップレート
+        /// </summary>
+        [JsonProperty("swap_rate_bid")]
+        public decimal SwapRateBid { get; set; }
+        /// <summary>
+        /// 売りスワップレート
+        /// </summary>
+        [JsonProperty("swap_rate_ask")]
+        public decimal SwapRateAsk { get; set; }
     }
 }
