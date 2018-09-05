@@ -6,7 +6,7 @@ namespace ZaifApiWrapper
     /// <summary>
     /// Dictionary型の拡張メソッド
     /// </summary>
-    internal static class DictionaryExtention
+    internal static class DictionaryExtension
     {
         // 引数チェック用
 

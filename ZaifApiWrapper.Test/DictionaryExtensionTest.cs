@@ -4,7 +4,7 @@ using Xunit;
 
 namespace ZaifApiWrapper.Test
 {
-    public class DictionaryExtentionTest
+    public class DictionaryExtensionTest
     {
         [Fact]
         public void ThrowIfNotContainsKey_throw_ArgumentException_if_not_contains_key()
