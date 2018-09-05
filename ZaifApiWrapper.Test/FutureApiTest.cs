@@ -360,6 +360,173 @@ namespace ZaifApiWrapper.Test
             },
         };
 
+        public static object[][] SwapHistoryAsyncSuccessData = new object[][]
+        {
+        //
+            //APIドキュメントに記載されているデータを返すパターン（引数は最小限）
+            new object[]
+            {
+                //戻り値
+                @"[
+                    {
+                        ""timestamp"": 1504008000,
+                        ""swap_rate_bid"": 0.1,
+                        ""swap_rate_ask"": -0.1
+                    },
+                    {
+                        ""timestamp"": 1504008000,
+                        ""swap_rate_bid"": 0.375,
+                        ""swap_rate_ask"": -0.375
+                    }
+                ]",
+                //引数
+                0,
+                "_",
+                1,
+            },
+            //引数最小値全指定、戻り値最小値（ゼロ）
+            new object[]
+            {
+                //戻り値
+                @"[]",
+                //引数
+                0,
+                "_",
+                null,
+            },
+            //引数なるべく最大値で全指定、戻り値なるべく最大値で全指定（複数）
+            new object[]
+            {
+                //戻り値
+                @"[
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": -9223372036854775808,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": -9223372036854775808,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                    {
+                        ""timestamp"": 9223372036854775807,
+                        ""swap_rate_bid"": 9223372036854775807,
+                        ""swap_rate_ask"": 9223372036854775807,
+                    },
+                ]",
+                //引数
+                int.MaxValue,
+                "XXXXXXXXXX",
+                100,
+            },
+        };
+
         #endregion
 
         [Fact]
@@ -489,6 +656,23 @@ namespace ZaifApiWrapper.Test
             //assert
             Assert.NotNull(actual);
             Assert.IsAssignableFrom<DepthResponse>(actual);
+        }
+
+        [Theory]
+        [MemberData(nameof(SwapHistoryAsyncSuccessData))]
+        public async void SwapHistoryAsync_should_success(string jsonString, int groupId, string currencyPair, int? page)
+        {
+            //arrange
+            var response = TestHelper.CreateJsonResponse(jsonString);
+
+            var obj = new FutureApi(TestHelper.CreateApiClientWithMockHttpAccessor(response));
+
+            //act
+            var actual = await obj.SwapHistoryAsync(groupId, currencyPair, page);
+
+            //assert
+            Assert.NotNull(actual);
+            Assert.IsAssignableFrom<IEnumerable<SwapHistoryResponse>>(actual);
         }
     }
 }

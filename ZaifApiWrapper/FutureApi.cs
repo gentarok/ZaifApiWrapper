@@ -140,5 +140,23 @@ namespace ZaifApiWrapper
             return _client.GetAsync<DepthResponse>(
                 nameof(DepthAsync).ToApiMethodName(), new[] { groupId.ToString(), currencyPair }, token, progress);
         }
+
+        /// <summary>
+        /// 確定したスワップポイントの履歴を取得します。
+        /// </summary>
+        /// <param name="groupId">group_id</param>
+        /// <param name="currencyPair">currency_pair</param>
+        /// <param name="page">1～100までの値。</param>
+        /// <param name="token"><see cref="CancellationToken"/>構造体。</param>
+        /// <param name="progress"><see cref="IProgress{T}"/>オブジェクト。</param>
+        /// <returns><see cref="SwapHistoryResponse"/>オブジェクト。</returns>
+        public Task<IEnumerable<SwapHistoryResponse>> SwapHistoryAsync(int groupId, string currencyPair, int? page,
+            CancellationToken token = default, IProgress<RetryReport> progress = null)
+        {
+            currencyPair.ThrowIfIsNullOrWhiteSpace(nameof(currencyPair));
+
+            return _client.GetAsync<IEnumerable<SwapHistoryResponse>>(
+                nameof(SwapHistoryResponse).ToApiMethodName(), new[] { groupId.ToString(), currencyPair, page.ToString() }, token, progress);
+        }
     }
 }
